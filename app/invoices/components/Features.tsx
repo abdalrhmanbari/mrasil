@@ -29,11 +29,11 @@ export function Features() {
               key={idx}
               className="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-md border border-gray-100 p-8 flex flex-col items-center text-center transition-transform duration-200 hover:shadow-2xl hover:-translate-y-2 hover:border-blue-400 cursor-pointer group"
             >
-              <div className="w-32 h-32 mb-6 rounded-lg border-2 border-gray-300 shadow-lg flex items-center justify-center bg-white overflow-hidden group-hover:border-gray-500 transition-all">
+              <div className="w-32 h-32 mb-6 flex items-center justify-center">
                 <Image
                   src={feature.img}
                   alt={feature.title}
-                  className="object-cover w-full h-full rounded-lg"
+                  className="object-contain w-full h-full"
                   width={128}
                   height={128}
                 />

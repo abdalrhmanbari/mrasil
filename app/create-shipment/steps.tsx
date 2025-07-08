@@ -8,6 +8,7 @@ import { Package, CheckCircle2, FileText, Trash2, Phone, Mail, MapPin, UserPlus,
 import ResponseModal from "../components/ResponseModal"
 import { useCreateShipmentMutation, useGetMyShipmentsQuery } from "../api/shipmentApi"
 import { useGetAllClientAddressesQuery, useCreateClientAddressMutation, useDeleteClientAddressMutation, useUpdateClientAddressMutation } from "../api/clientAdressApi"
+import { useCreateAddressMutation } from "../api/adressesApi"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,6 +23,8 @@ import { useGetAllParcelsQuery, useCreateParcelMutation } from "../api/parcelsAp
 import { useGetAllShipmentCompaniesQuery } from "../api/shipmentCompanyApi"
 import { motion } from "framer-motion"
 import { Building, Plus } from "lucide-react"
+import { AddSenderAddressForm } from "./AddSenderAddressForm"
+import { AddRecipientForm } from "./AddRecipientForm"
 
 const cities = [
   "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",
@@ -45,11 +48,11 @@ const providerOptions = [
 
 const schema = yup.object({
   shipper_full_name: yup.string(),
-  shipper_mobile: yup.string(),
+  shipper_mobile: yup.string(), // no validation
   shipper_city: yup.string(),
   shipper_address: yup.string(),
   recipient_full_name: yup.string(),
-  recipient_mobile: yup.string(),
+  recipient_mobile: yup.string(), // no validation
   recipient_city: yup.string(),
   recipient_address: yup.string(),
   recipient_email: yup.string(),
@@ -169,7 +172,7 @@ export function CreateShipmentSteps() {
           paymentMethod: data.paymentMethod === "الدفع المسبق" ? "Prepaid" : data.paymentMethod === "الدفع عند الاستلام" ? "COD" : data.paymentMethod,
           customer: {
             full_name: data.recipient_full_name,
-            mobile: data.recipient_mobile.startsWith('966') ? data.recipient_mobile : `966${data.recipient_mobile.replace(/^0+/, '')}`,
+            mobile: data.recipient_mobile, // send as entered
             city: data.recipient_city,
             country: "sa",
             address: data.recipient_address,
@@ -182,7 +185,7 @@ export function CreateShipmentSteps() {
         },
         shipperAddress: {
           full_name: data.shipper_full_name,
-          mobile: data.shipper_mobile,
+          mobile: data.shipper_mobile, // send as entered
           city: data.shipper_city,
           country: "sa",
           address: data.shipper_address,
@@ -323,7 +326,7 @@ export function CreateShipmentSteps() {
 
 // Step 1 Content
 function Step1Content({ nextStep }: { nextStep: () => void }) {
-  const { setValue, trigger, formState: { errors } } = useFormContext()
+  const { setValue, trigger, formState: { errors }, watch } = useFormContext()
   
   // Fetch client addresses from API
   const { data: clientAddressesData, isLoading, error } = useGetAllClientAddressesQuery()
@@ -331,6 +334,8 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
   const { data: customerMeData, isLoading: isLoadingCustomerMe } = useGetCustomerMeQuery();
   // Mutation for creating a new client address
   const [createClientAddress, { isLoading: isCreating, error: createError }] = useCreateClientAddressMutation()
+  // Mutation for creating a new sender address
+  const [createAddress, { isLoading: isCreatingAddress }] = useCreateAddressMutation()
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
   const [recipientToDelete, setRecipientToDelete] = useState<string | null>(null)
   const [deleteClientAddress, { isLoading: isDeleting }] = useDeleteClientAddressMutation()
@@ -353,6 +358,7 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
   const [selectedRecipient, setSelectedRecipient] = useState<string | null>(null)
   const [openSenderModal, setOpenSenderModal] = useState(false)
   const [openRecipientModal, setOpenRecipientModal] = useState(false)
+  const [openAddSenderModal, setOpenAddSenderModal] = useState(false)
   const [newSender, setNewSender] = useState({ name: "", mobile: "", city: "", address: "", email: "" })
   const [newRecipient, setNewRecipient] = useState({
     clientName: "",
@@ -467,6 +473,20 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
       setAlertOpen(true);
     }
   };
+
+  const handleAddSenderAddress = async (data: any) => {
+    try {
+      await createAddress({
+        alias: data.alias,
+        location: data.location,
+        city: data.city,
+        phone: data.phone,
+        country: "sa",
+      }).unwrap();
+    } catch (error: any) {
+      throw error;
+    }
+  };
   
   const handleEditRecipient = (card: any) => {
     setRecipientToEdit(card)
@@ -538,16 +558,23 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
           <div className="relative flex-1">
             <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
               <Search className="h-5 w-5 text-[#3498db]" />
-          </span>
-          <Input
+            </span>
+            <Input
               className="pr-10 v7-neu-input" 
               placeholder="ابحث ضمن عناوين الالتقاط الخاصة بك"
-            type="text"
-            value={searchSender}
-            onChange={e => setSearchSender(e.target.value)}
-            style={{ direction: 'rtl', fontFamily: 'inherit' }}
-          />
-        </div>
+              type="text"
+              value={searchSender}
+              onChange={e => setSearchSender(e.target.value)}
+              style={{ direction: 'rtl', fontFamily: 'inherit' }}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => setOpenAddSenderModal(true)}
+            className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-4 py-2 rounded-lg text-white font-bold flex items-center gap-2"
+          >
+            + عنوان جديد
+          </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {displayedSenderCards.map(card => (
@@ -642,7 +669,7 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
           </Button>
         </div>
         
-        <div className="mb-4" style={{ width: '75%' }}>
+        {/* <div className="mb-4" style={{ width: '75%' }}>
           <Label htmlFor="recipient_full_name">اسم العميل <span style={{color: 'red'}}>*</span></Label>
           <Input
             id="recipient_full_name"
@@ -656,7 +683,7 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
             className="pr-10 pl-4 py-2.5 rounded-xl border border-gray-200 bg-white shadow-[0_4px_24px_rgba(52,152,219,0.10)] focus:border-[#3498db33] focus:ring-1 focus:ring-[#3498db33] text-[#1a365d] text-[15px] placeholder:text-[#b0b7c3] placeholder:text-[15px] placeholder:font-normal font-normal"
             style={{ direction: 'rtl', fontFamily: 'inherit' }}
           />
-        </div>
+        </div> */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {displayedRecipientCards.map(card => (
             <motion.div
@@ -745,21 +772,40 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
           <DialogHeader>
             <DialogTitle>إضافة عميل جديد</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleAddRecipient} className="space-y-2">
-            <Input placeholder="الاسم" value={newRecipient.clientName} onChange={e => setNewRecipient({ ...newRecipient, clientName: e.target.value })} required />
-            <Input placeholder="العنوان" value={newRecipient.clientAddress} onChange={e => setNewRecipient({ ...newRecipient, clientAddress: e.target.value })} required />
-            <Input placeholder="طريقة الدفع " value={newRecipient.district} onChange={e => setNewRecipient({ ...newRecipient, district: e.target.value })} />
-            <Input placeholder="المدينة" value={newRecipient.city} onChange={e => setNewRecipient({ ...newRecipient, city: e.target.value })} required />
-            <Input placeholder="الدولة" value={newRecipient.country} onChange={e => setNewRecipient({ ...newRecipient, country: e.target.value })} required />
-            <Input placeholder="البريد الإلكتروني" value={newRecipient.clientEmail} onChange={e => setNewRecipient({ ...newRecipient, clientEmail: e.target.value })} required />
-            <Input placeholder="رقم الجوال" value={newRecipient.clientPhone} onChange={e => setNewRecipient({ ...newRecipient, clientPhone: e.target.value })} required />
-            {createError && <div className="text-red-500 text-sm">{typeof createError === 'string' ? createError : 'حدث خطأ أثناء إضافة العميل'}</div>}
-            <DialogFooter>
-              <Button type="submit" className="bg-blue-500 text-white" disabled={isCreating}>
-                {isCreating ? 'جاري الإضافة...' : 'إضافة'}
-              </Button>
-            </DialogFooter>
-          </form>
+          <AddRecipientForm
+            isOpen={openRecipientModal}
+            onClose={() => setOpenRecipientModal(false)}
+            onSubmit={async (data) => {
+              try {
+                const payload = { ...data };
+                if ('customer' in payload && !payload.customer) {
+                  delete (payload as any).customer;
+                }
+                await createClientAddress(payload).unwrap();
+                setAlertStatus("success");
+                setAlertMessage("تمت إضافة العميل بنجاح");
+                setAlertOpen(true);
+                setOpenRecipientModal(false);
+                setNewRecipient({
+                  clientName: "",
+                  clientAddress: "",
+                  district: "",
+                  city: "",
+                  country: "",
+                  clientEmail: "",
+                  clientPhone: "",
+                  customer: "",
+                });
+              } catch (err: any) {
+                setAlertStatus("fail");
+                setAlertMessage(err?.data?.message || "حدث خطأ أثناء إضافة العميل");
+                setAlertOpen(true);
+              }
+            }}
+            isLoading={isCreating}
+            error={createError}
+            initialValues={newRecipient}
+          />
         </DialogContent>
       </Dialog>
       <ResponseModal
@@ -800,6 +846,14 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Add Sender Address Form */}
+      <AddSenderAddressForm
+        isOpen={openAddSenderModal}
+        onClose={() => setOpenAddSenderModal(false)}
+        onSubmit={handleAddSenderAddress}
+        isLoading={isCreatingAddress}
+      />
     </form>
   )
 }
@@ -819,7 +873,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
 
   // Map API data to card format with unique key
   const sizeCards = (parcelsData?.data || []).map((parcel, idx) => ({
-    key: parcel.id ? `${parcel.id}_${idx}` : `parcel_${idx}`,
+    key: parcel._id ? `${parcel._id}_${idx}` : `parcel_${idx}`,
     label: parcel.title,
     dims: {
       length: parcel.dimensions.length,
@@ -1314,11 +1368,12 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
               return uniqueCompanies.map((company) => {
                 const firstType = company.shippingTypes && company.shippingTypes[0];
                 const logoSrc = getCompanyLogo(company.company);
+                const isSelected = selectedCompany === company.company;
                 return (
                   <motion.div
                     key={company._id}
                     className={`flex items-center justify-between v7-neu-card-inner px-6 py-6 transition-all duration-300 relative overflow-hidden w-full ${
-                      selectedCompany === company.company
+                      isSelected
                         ? "border-2 border-[#3498db]/70 bg-[#f8fafc] shadow-sm"
                         : "border border-gray-200 hover:border-[#3498db]/40 bg-white"
                     }`}
@@ -1326,6 +1381,8 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
                     whileTap={{ scale: 0.995 }}
                     initial={{ opacity: 0.9, y: 5 }}
                     animate={{ opacity: 1, y: 0, transition: { duration: 0.3 } }}
+                    onClick={() => handleCompanySelect(company.company)}
+                    style={{ cursor: 'pointer' }}
                   >
                     {/* Right group: radio, price, delivery time */}
                     <div className="flex flex-col items-start min-w-[120px] gap-1">
@@ -1333,6 +1390,8 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
                         value={company.company}
                         id={company.company}
                         className="text-[#3498db] mb-1"
+                        checked={isSelected}
+                        onChange={() => handleCompanySelect(company.company)}
                       />
                       <span className="text-[#3498db] font-bold text-lg">{firstType?.basePrice ? `${firstType.basePrice} ريال` : '-'}</span>
                       <span className="text-sm text-gray-500">{company.deliveryTime ? `توصيل خلال ${company.deliveryTime}` : '-'}</span>

@@ -70,6 +70,12 @@ export interface RechargeWalletResponse {
   };
 }
 
+export interface GetPaymentStatusResponse {
+  success: boolean;
+  status: string;
+  payment: RechargeWalletResponse['payment'];
+}
+
 export const walletApi = createApi({
   reducerPath: 'walletApi',
   baseQuery: baseQueryWithTokenErrorHandling,
@@ -89,8 +95,15 @@ export const walletApi = createApi({
         credentials: 'include',
       }),
     }),
+    getPaymentStatus: builder.query<GetPaymentStatusResponse, string>({
+      query: (id) => ({
+        url: `/wallet/paymentstatus/${id}`,
+        method: 'GET',
+        credentials: 'include',
+      }),
+    }),
   }),
   tagTypes: ['Wallet'],
 })
 
-export const { useGetMyWalletQuery, useRechargeWalletMutation } = walletApi 
+export const { useGetMyWalletQuery, useRechargeWalletMutation, useGetPaymentStatusQuery } = walletApi 

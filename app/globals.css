@@ -1542,3 +1542,16 @@ textarea {
 html {
   font-size: var(--font-size);
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background: #f1f1f1;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #b3c6e0;
+  border-radius: 4px;
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #b3c6e0 #f1f1f1;
+}

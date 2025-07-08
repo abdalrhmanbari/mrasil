@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, Suspense, useEffect, useMemo } from "react"
-import { Box, Package, Check, Info, Scale, Ruler, Settings } from "lucide-react"
+import { Box, Package, Check, Info, Scale, Ruler, Settings, Edit, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
@@ -19,8 +19,10 @@ import {
 } from "@/components/ui/dialog"
 import { keyframes } from "@emotion/react"
 import { css } from "@emotion/css"
-import { useGetAllParcelsQuery } from "@/app/api/parcelsApi"
+import { useGetAllParcelsQuery, useDeleteParcelMutation, ParcelData } from "@/app/api/parcelsApi"
 import CustomParcelDialog from "./CustomParcelDialog"
+import EditParcelDialog from "./EditParcelDialog"
+import { toast } from "sonner"
 
 const spinSlow = keyframes`
   from {
@@ -63,6 +65,12 @@ type TranslationType = {
   examples: string;
   upTo: string;
   examplesLabel: string;
+  editParcelTitle: string;
+  editParcelDesc: string;
+  deleteConfirmTitle: string;
+  deleteConfirmDesc: string;
+  delete: string;
+  edit: string;
 };
 
 type Translations = {
@@ -90,6 +98,12 @@ const translations: Translations = {
     examples: "أمثلة",
     upTo: "حتى",
     examplesLabel: "أمثلة:",
+    editParcelTitle: "تعديل حجم الطرد",
+    editParcelDesc: "قم بتعديل أبعاد ووزن الطرد",
+    deleteConfirmTitle: "تأكيد الحذف",
+    deleteConfirmDesc: "هل أنت متأكد من حذف هذا الطرد؟ لا يمكن التراجع عن هذا الإجراء.",
+    delete: "حذف",
+    edit: "تعديل",
   },
   en: {
     pageTitle: "Parcel Sizes",
@@ -110,6 +124,12 @@ const translations: Translations = {
     examples: "Examples",
     upTo: "Up to",
     examplesLabel: "Examples:",
+    editParcelTitle: "Edit Parcel Size",
+    editParcelDesc: "Modify the parcel dimensions and weight",
+    deleteConfirmTitle: "Confirm Delete",
+    deleteConfirmDesc: "Are you sure you want to delete this parcel? This action cannot be undone.",
+    delete: "Delete",
+    edit: "Edit",
   },
 };
 
@@ -118,12 +138,17 @@ export default function ParcelsContent() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const router = useRouter()
   const [isCustomDialogOpen, setIsCustomDialogOpen] = useState(false)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [selectedParcel, setSelectedParcel] = useState<ParcelData | null>(null)
   const [language, setLanguage] = useState<Language>('ar')
   
   // Skip API call until component is mounted
   const { data: parcelsData, isLoading, error } = useGetAllParcelsQuery(undefined, {
     skip: !mounted
   })
+  
+  const [deleteParcel, { isLoading: isDeleting }] = useDeleteParcelMutation()
 
   const [customParcel, setCustomParcel] = useState({
     length: "",
@@ -199,13 +224,14 @@ export default function ParcelsContent() {
   // Map API data to UI format
   const parcelSizes = parcelsData?.data?.length 
     ? parcelsData.data.map((parcel, idx) => ({
-        id: parcel.id ? String(parcel.id) + '-' + idx : `parcel-${idx}`,
+        id: parcel._id ? String(parcel._id) + '-' + idx : `parcel-${idx}`,
+        originalParcel: parcel,
         name: parcel.title,
         dimensions: `${parcel.dimensions.length} × ${parcel.dimensions.width} × ${parcel.dimensions.height} cm`,
         maxWeight: `${parcel.maxWeight} kg`,
         price: `${parcel.price} SAR`,
         description: parcel.description,
-        icon: `${parcel.id}-package.png`,
+        icon: `${parcel._id}-package.png`,
         isPublic: parcel.isPublic,
         createdAt: parcel.createdAt,
         color: {
@@ -215,7 +241,7 @@ export default function ParcelsContent() {
           'l': 'from-orange-400 to-orange-500',
           'xl': 'from-red-400 to-red-500',
           'custom': 'from-purple-400 to-purple-500'
-        }[parcel.id] || 'from-gray-400 to-gray-500'
+        }[parcel._id] || 'from-gray-400 to-gray-500'
       }))
     : [];
 
@@ -264,6 +290,36 @@ export default function ParcelsContent() {
 
   const openCustomDialog = () => {
     setIsCustomDialogOpen(true)
+  }
+
+  const handleEditParcel = (parcel: ParcelData) => {
+    console.log('Edit parcel clicked:', parcel)
+    setSelectedParcel(parcel)
+    setIsEditDialogOpen(true)
+  }
+
+  const handleDeleteParcel = (parcel: ParcelData) => {
+    console.log('Delete parcel clicked:', parcel)
+    setSelectedParcel(parcel)
+    setIsDeleteDialogOpen(true)
+  }
+
+  const confirmDelete = async () => {
+    if (!selectedParcel || !selectedParcel._id) {
+      console.error('No valid parcel _id for delete!');
+      toast.error('No valid parcel _id for delete!');
+      return;
+    }
+
+    try {
+      await deleteParcel(selectedParcel._id).unwrap()
+      toast.success("Package deleted successfully")
+      setIsDeleteDialogOpen(false)
+      setSelectedParcel(null)
+    } catch (error) {
+      console.error('Error deleting package:', error)
+      toast.error("Failed to delete package")
+    }
   }
 
   return (
@@ -368,11 +424,35 @@ export default function ParcelsContent() {
                       </div>
                     </div>
                   </div>
-                  {selectedSize === size.id && (
-                    <div className="w-8 h-8 rounded-full bg-[#3498db] flex items-center justify-center">
-                      <Check className="h-5 w-5 text-white" />
+                  <div className="flex items-center gap-2">
+                    {selectedSize === size.id && (
+                      <div className="w-8 h-8 rounded-full bg-[#3498db] flex items-center justify-center">
+                        <Check className="h-5 w-5 text-white" />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleEditParcel(size.originalParcel)
+                        }}
+                        className="w-8 h-8 rounded-full bg-[#f39c12] hover:bg-[#e67e22] flex items-center justify-center transition-colors duration-200"
+                        title={currentTranslations.edit}
+                      >
+                        <Edit className="h-4 w-4 text-white" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDeleteParcel(size.originalParcel)
+                        }}
+                        className="w-8 h-8 rounded-full bg-[#e74c3c] hover:bg-[#c0392b] flex items-center justify-center transition-colors duration-200"
+                        title={currentTranslations.delete}
+                      >
+                        <Trash2 className="h-4 w-4 text-white" />
+                      </button>
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -398,6 +478,56 @@ export default function ParcelsContent() {
           confirm: currentTranslations.confirm,
         }}
       />
+
+      <EditParcelDialog
+        isOpen={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        parcel={selectedParcel}
+        translations={{
+          editParcelTitle: currentTranslations.editParcelTitle,
+          editParcelDesc: currentTranslations.editParcelDesc,
+          length: currentTranslations.length,
+          width: currentTranslations.width,
+          height: currentTranslations.height,
+          weight: currentTranslations.weight,
+          description: currentTranslations.description,
+          cancel: currentTranslations.cancel,
+          confirm: currentTranslations.confirm,
+          title: "Package Name",
+        }}
+      />
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-[425px] rtl">
+          <DialogHeader>
+            <DialogTitle className="text-right text-xl font-bold text-[#1a365d]">
+              {currentTranslations.deleteConfirmTitle}
+            </DialogTitle>
+            <DialogDescription className="text-right text-gray-600">
+              {currentTranslations.deleteConfirmDesc}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex justify-between sm:justify-between">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+              className="v7-neu-button-flat"
+              disabled={isDeleting}
+            >
+              {currentTranslations.cancel}
+            </Button>
+            <Button
+              type="button"
+              onClick={confirmDelete}
+              className="v7-neu-button-accent bg-gradient-to-r from-[#e74c3c] to-[#c0392b] hover:from-[#c0392b] hover:to-[#e74c3c]"
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : currentTranslations.delete}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 } 

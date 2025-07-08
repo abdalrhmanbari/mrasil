@@ -11,7 +11,7 @@ import { PaymentLineChart } from "@/components/v7/charts/payment-line-chart"
 import { monthlyPaymentData } from "@/lib/chart-data"
 import { useRouter } from "next/navigation"
 import { TransactionsTable } from "./transactions-table"
-import { useGetMyWalletQuery } from "@/app/api/walletApi"
+import { useGetMyWalletQuery, useGetPaymentStatusQuery } from "@/app/api/walletApi"
 import { useGetMyTransactionsQuery } from "@/app/api/transicationApi"
 import RechargeWalletDialog from "./RechargeWalletDialog"
 
@@ -101,6 +101,17 @@ export function PaymentsContent() {
   const [openRecharge, setOpenRecharge] = useState(false);
   const handleWalletRecharge = () => setOpenRecharge(true);
 
+  // --- Payment Status Search ---
+  const [searchId, setSearchId] = useState("");
+  const [submittedId, setSubmittedId] = useState("");
+  const { data: paymentStatusData, isLoading: isPaymentStatusLoading, isError: isPaymentStatusError, error: paymentStatusError } = useGetPaymentStatusQuery(submittedId, { skip: !submittedId });
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmittedId(searchId.trim());
+  };
+  // --- End Payment Status Search ---
+
   return (
     <div className="space-y-6">
       <RechargeWalletDialog open={openRecharge} onClose={() => setOpenRecharge(false)} />
@@ -163,6 +174,57 @@ export function PaymentsContent() {
             <PaymentLineChart totalDeposits={totalDeposits} totalPayments={totalPayments} height={350} />
           </CardContent>
         </Card>
+
+        {/* Payment Status Search Card */}
+        <Card className="mb-6 w-full">
+          <CardHeader>
+            <CardTitle>بحث عن حالة الدفع</CardTitle>
+            <CardDescription>أدخل رقم العملية (ID) لعرض حالة الدفع</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3 items-start md:items-end w-full">
+              <Input
+                value={searchId}
+                onChange={e => setSearchId(e.target.value)}
+                placeholder="أدخل رقم العملية (ID)"
+                className="w-full md:w-1/2"
+              />
+              <Button
+                type="submit"
+                className="w-full md:w-auto bg-[#294D8B] hover:bg-[#1e3766] text-white font-bold rounded-lg px-6 py-2 transition-colors duration-200"
+              >
+                بحث
+              </Button>
+            </form>
+            {/* Result Card */}
+            {isPaymentStatusLoading && <div className="mt-4 text-blue-500">جاري التحميل...</div>}
+            {isPaymentStatusError && (
+              <div className="mt-4 text-red-500">{(paymentStatusError as any)?.data?.message || "تعذر جلب حالة الدفع"}</div>
+            )}
+            {paymentStatusData && (
+              <Card className="mt-4 w-full border border-gray-200 dark:border-gray-700">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    حالة الدفع:
+                    <span className={`px-2 py-1 rounded text-sm font-bold ${getStatusBadgeClass(paymentStatusData.status)}`}>{paymentStatusData.status}</span>
+                  </CardTitle>
+                  <CardDescription>تفاصيل العملية</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><span className="font-semibold">رقم العملية (ID):</span> {paymentStatusData.payment.id}</div>
+                    <div><span className="font-semibold">المبلغ:</span> {paymentStatusData.payment.amount_format}</div>
+                    <div><span className="font-semibold">العملة:</span> {paymentStatusData.payment.currency}</div>
+                    <div><span className="font-semibold">تاريخ الإنشاء:</span> {new Date(paymentStatusData.payment.created_at).toLocaleString('ar-EG')}</div>
+                    <div><span className="font-semibold">الوصف:</span> {paymentStatusData.payment.description}</div>
+                    <div><span className="font-semibold">اسم صاحب البطاقة:</span> {paymentStatusData.payment.source.name}</div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </CardContent>
+        </Card>
+        {/* End Payment Status Search Card */}
 
         <div className="bg-[#F0F2F5] dark:bg-gray-800 p-3 mb-6 rounded-2xl">
           <Tabs defaultValue="transactions" className="mb-6">

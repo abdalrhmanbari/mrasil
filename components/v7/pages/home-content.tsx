@@ -27,6 +27,7 @@ import { useGetAllOrdersQuery } from "@/app/api/ordersApi"
 import { useGetMyShipmentsQuery } from "@/app/api/shipmentApi"
 import { useGetHomePageStatisticsQuery, useGetShipmentStatsQuery } from "@/app/api/homePageApi"
 import { useGetShipmentCompanyInfoQuery } from "@/app/api/shipmentCompanyApi"
+import RechargeWalletDialog from "@/app/payments/RechargeWalletDialog"
 
 // بيانات وهمية للإحصائيات
 const statsData = {
@@ -179,6 +180,8 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
   const { data: shipmentStats, isLoading: shipmentStatsLoading } = useGetShipmentStatsQuery();
   const { data: shipmentCompanyInfo, isLoading: shipmentCompanyInfoLoading } = useGetShipmentCompanyInfoQuery();
 
+  const [openRecharge, setOpenRecharge] = useState(false);
+
   // محاكاة تحميل البيانات
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -217,7 +220,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           ]}
           action={{
             label: "شحن المحفظة الآن",
-            onClick: () => router.push("/wallet/recharge"),
+            onClick: () => setOpenRecharge(true),
           }}
         />
 
@@ -404,6 +407,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           </Button>
         </div>
       </div>
+      <RechargeWalletDialog open={openRecharge} onClose={() => setOpenRecharge(false)} />
     </V7Content>
   )
 }

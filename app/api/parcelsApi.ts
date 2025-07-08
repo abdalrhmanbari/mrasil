@@ -9,7 +9,7 @@ export type ParcelDimensions = {
 };
 
 export type ParcelData = {
-  id: string;
+  _id: string;
   title: string;
   dimensions: ParcelDimensions;
   maxWeight: number;

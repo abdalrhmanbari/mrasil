@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Search,
   Filter,
@@ -71,7 +72,7 @@ interface Order {
 
 export default function OrdersContent() {
   const router = useRouter()
-  const [selectedOrders, setSelectedOrders] = useState<string[]>([])
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null)
   const { data, isLoading, refetch } = useGetAllOrdersQuery()
   const [deleteOrder] = useDeleteOrderMutation()
   const { toast } = useToast();
@@ -110,43 +111,30 @@ export default function OrdersContent() {
     )
   }
 
-  // وظيفة تحديد/إلغاء تحديد كل الطلبات
-  const toggleSelectAll = () => {
-    if (selectedOrders.length === orders.length) {
-      setSelectedOrders([])
-    } else {
-      setSelectedOrders(orders.map((order) => order._id))
-    }
-  }
-
-  // وظيفة تحديد/إلغاء تحديد طلب واحد
-  const toggleSelectOrder = (orderId: string) => {
-    if (selectedOrders.includes(orderId)) {
-      setSelectedOrders(selectedOrders.filter((id) => id !== orderId))
-    } else {
-      setSelectedOrders([...selectedOrders, orderId])
-    }
+  // وظيفة تحديد طلب واحد فقط
+  const handleSelectOrder = (orderId: string) => {
+    setSelectedOrder(orderId)
   }
 
   // Función para manejar acciones en grupo
   const handleBulkAction = (action: string) => {
     switch (action) {
       case "process":
-        alert(`تمت معالجة ${selectedOrders.length} طلب`)
+        alert(`تمت معالجة ${selectedOrder ? 1 : 0} طلب`)
         break
       case "ship":
-        alert(`تم شحن ${selectedOrders.length} طلب`)
+        alert(`تم شحن ${selectedOrder ? 1 : 0} طلب`)
         break
       case "print":
-        alert(`تم طباعة فواتير ${selectedOrders.length} طلب`)
+        alert(`تم طباعة فواتير ${selectedOrder ? 1 : 0} طلب`)
         break
       case "export":
-        alert(`تم تصدير بيانات ${selectedOrders.length} طلب`)
+        alert(`تم تصدير بيانات ${selectedOrder ? 1 : 0} طلب`)
         break
       case "cancel":
-        alert(`تم إلغاء ${selectedOrders.length} طلب`)
+        alert(`تم إلغاء ${selectedOrder ? 1 : 0} طلب`)
         // Aquí puedes implementar la lógica real para cancelar los pedidos
-        // setSelectedOrders([]);
+        // setSelectedOrder(null);
         break
       default:
         break
@@ -280,55 +268,6 @@ export default function OrdersContent() {
                   />
                 </div>
 
-                {selectedOrders.length > 0 && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="v7-neu-button-sm" disabled={selectedOrders.length === 0}>
-                        <span className="text-xs ml-1">({selectedOrders.length})</span>
-                        إجراءات جماعية <ChevronDown className="mr-1 h-3 w-3" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 bg-[#EFF2F7] border-[#E4E9F2] shadow-sm">
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("process")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <CheckCircle className="h-4 w-4 ml-2 text-green-600" />
-                        <span>معالجة المحدد</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("ship")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <Truck className="h-4 w-4 ml-2 text-blue-600" />
-                        <span>شحن المحدد</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("print")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <Printer className="h-4 w-4 ml-2 text-purple-600" />
-                        <span>طباعة الفواتير</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("export")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <Download className="h-4 w-4 ml-2 text-blue-600" />
-                        <span>تصدير المحدد</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("cancel")}
-                        className="text-red-600 hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <XCircle className="h-4 w-4 ml-2 text-red-600" />
-                        <span>إلغاء المحدد</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
@@ -366,14 +305,7 @@ export default function OrdersContent() {
                 <table className="w-full text-sm border-separate border-spacing-0">
                   <thead>
                     <tr className="v7-neu-table-header">
-                      <th className="p-2 sticky left-0 bg-[#f8fafc] z-10">
-                        <Checkbox
-                          checked={selectedOrders.length === orders.length && orders.length > 0}
-                          onCheckedChange={toggleSelectAll}
-                          aria-label="تحديد الكل"
-                          className="v7-neu-checkbox"
-                        />
-                      </th>
+                      <th className="p-2 sticky left-0 bg-[#f8fafc] z-10 text-center">اختيار</th>
                       <th className="p-2 px-4 whitespace-nowrap">رقم الطلب</th>
                       <th className="p-2 px-4 whitespace-nowrap">العميل</th>
                       <th className="p-2 px-4 whitespace-nowrap">المدينة/الدولة</th>
@@ -388,13 +320,21 @@ export default function OrdersContent() {
                   </thead>
                   <tbody>
                     {filteredOrders.map((order) => (
-                      <tr key={order._id} className="v7-neu-table-row">
-                        <td className="p-2 sticky left-0 bg-white z-10">
-                          <Checkbox
-                            checked={selectedOrders.includes(order._id)}
-                            onCheckedChange={() => toggleSelectOrder(order._id)}
+                      <tr
+                        key={order._id}
+                        className={`v7-neu-table-row cursor-pointer ${selectedOrder === order._id ? 'bg-blue-50' : ''}`}
+                        onClick={() => handleSelectOrder(order._id)}
+                        tabIndex={0}
+                        onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') handleSelectOrder(order._id); }}
+                      >
+                        <td className="p-2 sticky left-0 bg-white z-10 text-center" onClick={e => e.stopPropagation()}>
+                          <input
+                            type="radio"
+                            name="selectedOrder"
+                            checked={selectedOrder === order._id}
+                            onChange={() => handleSelectOrder(order._id)}
                             aria-label={`تحديد الطلب ${order._id}`}
-                            className="v7-neu-checkbox"
+                            className="accent-[#294D8B] w-4 h-4 rounded-full border-2 border-[#294D8B] focus:ring-2 focus:ring-[#294D8B]"
                           />
                         </td>
                         <td className="p-2 px-4 whitespace-nowrap">{order._id}</td>

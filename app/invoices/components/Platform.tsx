@@ -56,7 +56,6 @@ export function Platform() {
                     height={160}
                     className="img-style"
                   />
-                  <span className="company-label mt-2 text-blue-700 text-lg font-bold drop-shadow text-center w-36 truncate" title={company.name}>{company.name}</span>
                 </span>
               ))}
             </div>
@@ -66,7 +65,7 @@ export function Platform() {
                 top: 50%;
                 left: 50%;
                 transform-style: preserve-3d;
-                transform: rotateY(calc(45deg * (var(--i) - 1))) translateZ(270px) translate(-50%, -50%);
+                transform: rotateY(calc(360deg / 5 * (var(--i) - 1))) translateZ(260px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -87,16 +86,12 @@ export function Platform() {
                 0% { transform: rotateY(0deg); }
                 100% { transform: rotateY(360deg); }
               }
-              .company-label {
-                text-shadow: 0 2px 8px rgba(0,0,0,0.25);
-                letter-spacing: 0.5px;
-              }
             `}</style>
           </div>
         </div>
         {/* Stores section as a static row */}
         <div>
-          <h3 className="text-center mb-8 text-2xl font-bold text-blue-800">المنصات والمتاجر</h3>
+          <h3 className="text-center mb-8 text-2xl font-bold text-blue-800">المتاجر الالكترونية</h3>
           <div className="flex gap-8 justify-center flex-wrap">
             {stores.map((store) => (
               <div
