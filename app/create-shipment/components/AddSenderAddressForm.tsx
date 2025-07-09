@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { Phone, Mail, MapPin, User, Building } from "lucide-react"
-import ResponseModal from "../components/ResponseModal"
+import ResponseModal from "../../components/ResponseModal"
 
 const cities = [
   "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",
@@ -81,7 +81,7 @@ export function AddSenderAddressForm({ isOpen, onClose, onSubmit, isLoading = fa
   return (
     <>
       <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold text-[#1a365d] flex items-center gap-2">
               <Building className="w-5 h-5 text-[#3498db]" />
@@ -98,7 +98,7 @@ export function AddSenderAddressForm({ isOpen, onClose, onSubmit, isLoading = fa
             city: data.city,
             district: data.district,
             customer: data.customer || "",
-          }))} className="space-y-4">
+          }))} className="space-y-2">
             {/* اسم العميل */}
             <div className="space-y-2">
               <Label htmlFor="clientName" className="text-sm font-medium flex items-center gap-2">
@@ -139,126 +139,129 @@ export function AddSenderAddressForm({ isOpen, onClose, onSubmit, isLoading = fa
                 <p className="text-sm text-red-500">{errors.clientAddress.message}</p>
               )}
             </div>
-            {/* رقم الجوال */}
-            <div className="space-y-2">
-              <Label htmlFor="clientPhone" className="text-sm font-medium flex items-center gap-2">
-                <Phone className="h-4 w-4 text-[#3498db]" />
-                رقم الجوال
-              </Label>
-              <Input
-                id="clientPhone"
-                {...register("clientPhone")}
-                placeholder="05xxxxxxxx"
-                className={cn(
-                  "v7-neu-input",
-                  errors.clientPhone ? "border-red-500 focus:border-red-500" : ""
+            {/* رقم الجوال والبريد الإلكتروني في صف واحد */}
+            <div className="flex gap-2">
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="clientPhone" className="text-sm font-medium flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-[#3498db]" />
+                  رقم الجوال
+                </Label>
+                <Input
+                  id="clientPhone"
+                  {...register("clientPhone")}
+                  placeholder="05xxxxxxxx"
+                  className={cn(
+                    "v7-neu-input",
+                    errors.clientPhone ? "border-red-500 focus:border-red-500" : ""
+                  )}
+                  style={{ direction: 'rtl', fontFamily: 'inherit' }}
+                />
+                {errors.clientPhone && (
+                  <p className="text-sm text-red-500">{errors.clientPhone.message}</p>
                 )}
-                style={{ direction: 'rtl', fontFamily: 'inherit' }}
-              />
-              {errors.clientPhone && (
-                <p className="text-sm text-red-500">{errors.clientPhone.message}</p>
-              )}
+              </div>
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="clientEmail" className="text-sm font-medium flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-[#3498db]" />
+                  البريد الإلكتروني
+                </Label>
+                <Input
+                  id="clientEmail"
+                  type="email"
+                  {...register("clientEmail")}
+                  placeholder="example@email.com"
+                  className={cn(
+                    "v7-neu-input",
+                    errors.clientEmail ? "border-red-500 focus:border-red-500" : ""
+                  )}
+                  style={{ direction: 'rtl', fontFamily: 'inherit' }}
+                />
+                {errors.clientEmail && (
+                  <p className="text-sm text-red-500">{errors.clientEmail.message}</p>
+                )}
+              </div>
             </div>
-            {/* البريد الإلكتروني */}
-            <div className="space-y-2">
-              <Label htmlFor="clientEmail" className="text-sm font-medium flex items-center gap-2">
-                <Mail className="h-4 w-4 text-[#3498db]" />
-                البريد الإلكتروني
-              </Label>
-              <Input
-                id="clientEmail"
-                type="email"
-                {...register("clientEmail")}
-                placeholder="example@email.com"
-                className={cn(
-                  "v7-neu-input",
-                  errors.clientEmail ? "border-red-500 focus:border-red-500" : ""
+            {/* الدولة والمدينة في صف واحد */}
+            <div className="flex gap-2">
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="country" className="text-sm font-medium flex items-center gap-2">
+                  <MapPin className="h-4 w-4 text-[#3498db]" />
+                  الدولة
+                </Label>
+                <Input
+                  id="country"
+                  {...register("country")}
+                  placeholder="الدولة"
+                  className={cn(
+                    "v7-neu-input",
+                    errors.country ? "border-red-500 focus:border-red-500" : ""
+                  )}
+                  style={{ direction: 'rtl', fontFamily: 'inherit' }}
+                />
+                {errors.country && (
+                  <p className="text-sm text-red-500">{errors.country.message}</p>
                 )}
-                style={{ direction: 'rtl', fontFamily: 'inherit' }}
-              />
-              {errors.clientEmail && (
-                <p className="text-sm text-red-500">{errors.clientEmail.message}</p>
-              )}
+              </div>
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="city" className="text-sm font-medium flex items-center gap-2">
+                  <MapPin className="h-4 w-4 text-[#3498db]" />
+                  المدينة
+                </Label>
+                <Input
+                  id="city"
+                  {...register("city")}
+                  placeholder="المدينة"
+                  className={cn(
+                    "v7-neu-input",
+                    errors.city ? "border-red-500 focus:border-red-500" : ""
+                  )}
+                  style={{ direction: 'rtl', fontFamily: 'inherit' }}
+                />
+                {errors.city && (
+                  <p className="text-sm text-red-500">{errors.city.message}</p>
+                )}
+              </div>
             </div>
-            {/* الدولة */}
-            <div className="space-y-2">
-              <Label htmlFor="country" className="text-sm font-medium flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[#3498db]" />
-                الدولة
-              </Label>
-              <Input
-                id="country"
-                {...register("country")}
-                placeholder="الدولة"
-                className={cn(
-                  "v7-neu-input",
-                  errors.country ? "border-red-500 focus:border-red-500" : ""
+            {/* الحي/المنطقة ومعرف العميل في صف واحد */}
+            <div className="flex gap-2">
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="district" className="text-sm font-medium flex items-center gap-2">
+                  <MapPin className="h-4 w-4 text-[#3498db]" />
+                  الحي/المنطقة
+                </Label>
+                <Input
+                  id="district"
+                  {...register("district")}
+                  placeholder="الحي أو المنطقة"
+                  className={cn(
+                    "v7-neu-input",
+                    errors.district ? "border-red-500 focus:border-red-500" : ""
+                  )}
+                  style={{ direction: 'rtl', fontFamily: 'inherit' }}
+                />
+                {errors.district && (
+                  <p className="text-sm text-red-500">{errors.district.message}</p>
                 )}
-                style={{ direction: 'rtl', fontFamily: 'inherit' }}
-              />
-              {errors.country && (
-                <p className="text-sm text-red-500">{errors.country.message}</p>
-              )}
-            </div>
-            {/* المدينة */}
-            <div className="space-y-2">
-              <Label htmlFor="city" className="text-sm font-medium flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[#3498db]" />
-                المدينة
-              </Label>
-              <Input
-                id="city"
-                {...register("city")}
-                placeholder="المدينة"
-                className={cn(
-                  "v7-neu-input",
-                  errors.city ? "border-red-500 focus:border-red-500" : ""
+              </div>
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="customer" className="text-sm font-medium flex items-center gap-2">
+                  <User className="h-4 w-4 text-[#3498db]" />
+                  معرف العميل (اختياري)
+                </Label>
+                <Input
+                  id="customer"
+                  {...register("customer")}
+                  placeholder="معرف العميل (إن وجد)"
+                  className={cn(
+                    "v7-neu-input",
+                    errors.customer ? "border-red-500 focus:border-red-500" : ""
+                  )}
+                  style={{ direction: 'rtl', fontFamily: 'inherit' }}
+                />
+                {errors.customer && (
+                  <p className="text-sm text-red-500">{errors.customer.message}</p>
                 )}
-                style={{ direction: 'rtl', fontFamily: 'inherit' }}
-              />
-              {errors.city && (
-                <p className="text-sm text-red-500">{errors.city.message}</p>
-              )}
-            </div>
-            {/* الحي/المنطقة */}
-            <div className="space-y-2">
-              <Label htmlFor="district" className="text-sm font-medium flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[#3498db]" />
-                الحي/المنطقة
-              </Label>
-              <Input
-                id="district"
-                {...register("district")}
-                placeholder="الحي أو المنطقة"
-                className={cn(
-                  "v7-neu-input",
-                  errors.district ? "border-red-500 focus:border-red-500" : ""
-                )}
-                style={{ direction: 'rtl', fontFamily: 'inherit' }}
-              />
-              {errors.district && (
-                <p className="text-sm text-red-500">{errors.district.message}</p>
-              )}
-            </div>
-            {/* معرف العميل (اختياري) */}
-            <div className="space-y-2">
-              <Label htmlFor="customer" className="text-sm font-medium flex items-center gap-2">
-                <User className="h-4 w-4 text-[#3498db]" />
-                معرف العميل (اختياري)
-              </Label>
-              <Input
-                id="customer"
-                {...register("customer")}
-                placeholder="معرف العميل (إن وجد)"
-                className={cn(
-                  "v7-neu-input",
-                  errors.customer ? "border-red-500 focus:border-red-500" : ""
-                )}
-                style={{ direction: 'rtl', fontFamily: 'inherit' }}
-              />
-              {errors.customer && (
-                <p className="text-sm text-red-500">{errors.customer.message}</p>
-              )}
+              </div>
             </div>
 
             <DialogFooter className="gap-2">

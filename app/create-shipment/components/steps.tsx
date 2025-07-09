@@ -5,10 +5,10 @@ import { useForm, FormProvider, Controller, useFormContext } from "react-hook-fo
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { Package, CheckCircle2, FileText, Trash2, Phone, Mail, MapPin, UserPlus, Search, Shield, Box, Scale, CreditCard } from "lucide-react"
-import ResponseModal from "../components/ResponseModal"
-import { useCreateShipmentMutation, useGetMyShipmentsQuery } from "../api/shipmentApi"
-import { useGetAllClientAddressesQuery, useCreateClientAddressMutation, useDeleteClientAddressMutation, useUpdateClientAddressMutation } from "../api/clientAdressApi"
-import { useCreateAddressMutation } from "../api/adressesApi"
+import ResponseModal from "../../components/ResponseModal"
+import { useCreateShipmentMutation, useGetMyShipmentsQuery } from "../../api/shipmentApi"
+import { useGetAllClientAddressesQuery, useCreateClientAddressMutation, useDeleteClientAddressMutation, useUpdateClientAddressMutation } from "../../api/clientAdressApi"
+import { useCreateAddressMutation } from "../../api/adressesApi"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,13 +18,16 @@ import { useRouter } from "next/navigation"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { ConfirmModal } from "@/components/ui/confirm-modal"
-import { useGetCustomerMeQuery } from "../api/customerApi"
-import { useGetAllParcelsQuery, useCreateParcelMutation } from "../api/parcelsApi"
-import { useGetAllShipmentCompaniesQuery } from "../api/shipmentCompanyApi"
+import { useGetCustomerMeQuery } from "../../api/customerApi"
+import { useGetAllParcelsQuery, useCreateParcelMutation } from "../../api/parcelsApi"
+import { useGetAllShipmentCompaniesQuery } from "../../api/shipmentCompanyApi"
 import { motion } from "framer-motion"
 import { Building, Plus } from "lucide-react"
 import { AddSenderAddressForm } from "./AddSenderAddressForm"
-import { AddRecipientForm } from "./AddRecipientForm"
+import { AddRecipientForm } from "../components/AddRecipientForm"
+import { SenderAddressSection } from "./SenderAddressSection"
+import { RecipientAddressSection } from "./RecipientAddressSection"
+import { ParcelSizeSection } from "./ParcelSizeSection"
 
 const cities = [
   "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",
@@ -327,533 +330,41 @@ export function CreateShipmentSteps() {
 // Step 1 Content
 function Step1Content({ nextStep }: { nextStep: () => void }) {
   const { setValue, trigger, formState: { errors }, watch } = useFormContext()
-  
   // Fetch client addresses from API
-  const { data: clientAddressesData, isLoading, error } = useGetAllClientAddressesQuery()
-  // Fetch sender addresses from customer profile
-  const { data: customerMeData, isLoading: isLoadingCustomerMe } = useGetCustomerMeQuery();
+  // const { data: clientAddressesData, isLoading, error } = useGetAllClientAddressesQuery()
   // Mutation for creating a new client address
-  const [createClientAddress, { isLoading: isCreating, error: createError }] = useCreateClientAddressMutation()
-  // Mutation for creating a new sender address
-  const [createAddress, { isLoading: isCreatingAddress }] = useCreateAddressMutation()
-  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
-  const [recipientToDelete, setRecipientToDelete] = useState<string | null>(null)
-  const [deleteClientAddress, { isLoading: isDeleting }] = useDeleteClientAddressMutation()
-  
-  // Use API data for sender cards (customer addresses)
-  const senderCards = (customerMeData?.data.addresses || []).map((address, idx) => ({
-    id: address._id || idx,
-    _id: address._id,
-    name: address.alias || "-",
-    mobile: address.phone || "-",
-    city: address.city || "-",
-    address: address.location || "-",
-    email: customerMeData?.data.email || "-",
-  }));
-  
-  // Use API data for recipient cards
-  const recipientCards = clientAddressesData?.data || []
-  
+  // const [createClientAddress, { isLoading: isCreating, error: createError }] = useCreateClientAddressMutation()
+  // const [deleteClientAddress, { isLoading: isDeleting }] = useDeleteClientAddressMutation()
+  // const [updateClientAddress, { isLoading: isUpdating, error: updateError }] = useUpdateClientAddressMutation()
+
+  // Sender address state moved to SenderAddressSection
   const [selectedSender, setSelectedSender] = useState<string | number | null>(null)
+  // Recipient address state moved to RecipientAddressSection
   const [selectedRecipient, setSelectedRecipient] = useState<string | null>(null)
-  const [openSenderModal, setOpenSenderModal] = useState(false)
-  const [openRecipientModal, setOpenRecipientModal] = useState(false)
-  const [openAddSenderModal, setOpenAddSenderModal] = useState(false)
-  const [newSender, setNewSender] = useState({ name: "", mobile: "", city: "", address: "", email: "" })
-  const [newRecipient, setNewRecipient] = useState({
-    clientName: "",
-    clientAddress: "",
-    district: "",
-    city: "",
-    country: "",
-    clientEmail: "",
-    clientPhone: "",
-    customer: "",
-  })
-  const [editRecipientModalOpen, setEditRecipientModalOpen] = useState(false)
-  const [recipientToEdit, setRecipientToEdit] = useState<any | null>(null)
-  const [editRecipient, setEditRecipient] = useState({
-    clientName: "",
-    clientAddress: "",
-    district: "",
-    city: "",
-    country: "",
-    clientEmail: "",
-    clientPhone: "",
-    customer: "",
-  })
-  const [updateClientAddress, { isLoading: isUpdating, error: updateError }] = useUpdateClientAddressMutation()
-  const [searchSender, setSearchSender] = useState("")
-  const [searchRecipient, setSearchRecipient] = useState("")
-  const [showAllSenders, setShowAllSenders] = useState(false);
-  const [showAllRecipients, setShowAllRecipients] = useState(false);
-  // In Step1Content, before the recipient cards section:
-  const [recipientName, setRecipientName] = useState("");
 
-  const handleSelectSender = (card: any) => {
-    if (selectedSender === card.id) {
-      setSelectedSender(null)
-      setValue("shipper_full_name", "")
-      setValue("shipper_mobile", "")
-      setValue("shipper_city", "")
-      setValue("shipper_address", "")
-    } else {
-      setSelectedSender(card.id)
-      setValue("shipper_full_name", card.name)
-      setValue("shipper_mobile", card.mobile)
-      setValue("shipper_city", card.city)
-      setValue("shipper_address", card.address)
-    }
-  }
-  
-  const handleSelectRecipient = (card: any) => {
-    if (selectedRecipient === card._id) {
-      setSelectedRecipient(null)
-      setRecipientName("");
-      setValue("recipient_full_name", "");
-      setValue("recipient_mobile", "");
-      setValue("recipient_city", "");
-      setValue("recipient_address", "");
-      setValue("recipient_email", "");
-      setValue("recipient_district", "");
-    } else {
-      setSelectedRecipient(card._id)
-      setRecipientName(card.clientName || "");
-      setValue("recipient_full_name", card.clientName || "");
-      setValue("recipient_mobile", card.clientPhone)
-      setValue("recipient_city", card.city)
-      setValue("recipient_address", card.clientAddress)
-      setValue("recipient_email", card.clientEmail || "");
-      setValue("recipient_district", card.district || "");
-    }
-  }
-  
-  const handleDeleteRecipient = (id: string) => {
-    setRecipientToDelete(id)
-    setDeleteConfirmOpen(true)
-  }
-  
-  const handleConfirmDelete = async () => {
-    if (recipientToDelete) {
-      await deleteClientAddress(recipientToDelete)
-      setRecipientToDelete(null)
-      setDeleteConfirmOpen(false)
-    }
-  }
-  
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertStatus, setAlertStatus] = useState<'success' | 'fail'>("success");
-  const [alertMessage, setAlertMessage] = useState("");
-  
-  const handleAddRecipient = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    try {
-      const payload = { ...newRecipient };
-      if ('customer' in payload && !payload.customer) {
-        delete (payload as any).customer;
-      }
-      await createClientAddress(payload).unwrap();
-      setAlertStatus("success");
-      setAlertMessage("تمت إضافة العميل بنجاح");
-      setAlertOpen(true);
-      setOpenRecipientModal(false);
-      setNewRecipient({
-        clientName: "",
-        clientAddress: "",
-        district: "",
-        city: "",
-        country: "",
-        clientEmail: "",
-        clientPhone: "",
-        customer: "",
-      });
-    } catch (err: any) {
-      setAlertStatus("fail");
-      setAlertMessage(err?.data?.message || "حدث خطأ أثناء إضافة العميل");
-      setAlertOpen(true);
-    }
-  };
-
-  const handleAddSenderAddress = async (data: any) => {
-    try {
-      await createAddress({
-        alias: data.alias,
-        location: data.location,
-        city: data.city,
-        phone: data.phone,
-        country: "sa",
-      }).unwrap();
-    } catch (error: any) {
-      throw error;
-    }
-  };
-  
-  const handleEditRecipient = (card: any) => {
-    setRecipientToEdit(card)
-    setEditRecipient({
-      clientName: card.clientName || "",
-      clientAddress: card.clientAddress || "",
-      district: card.district || "",
-      city: card.city || "",
-      country: card.country || "",
-      clientEmail: card.clientEmail || "",
-      clientPhone: card.clientPhone || "",
-      customer: card.customer || "",
-    })
-    setEditRecipientModalOpen(true)
-  }
-  
-  const handleEditRecipientChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditRecipient({ ...editRecipient, [e.target.name]: e.target.value })
-  }
-  
-  const handleEditRecipientSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!recipientToEdit) return
-    try {
-      await updateClientAddress({ id: recipientToEdit._id, data: { ...editRecipient, customer: editRecipient.customer || "" } }).unwrap()
-      setEditRecipientModalOpen(false)
-      setRecipientToEdit(null)
-    } catch (err) {
-      // error handled by updateError
-    }
-  }
-  
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     if (!selectedSender || !selectedRecipient) return
     if (await trigger(["shipper_full_name","shipper_mobile","shipper_city","shipper_address","recipient_full_name","recipient_mobile","recipient_city","recipient_address","recipient_email"])) nextStep();
   }
-  
-  const filteredSenderCards = senderCards.filter(card =>
-    card.name.toLowerCase().includes(searchSender.toLowerCase()) ||
-    card.mobile.toLowerCase().includes(searchSender.toLowerCase()) ||
-    card.city.toLowerCase().includes(searchSender.toLowerCase()) ||
-    card.address.toLowerCase().includes(searchSender.toLowerCase()) ||
-    card.email.toLowerCase().includes(searchSender.toLowerCase())
-  );
-
-  // Filter recipient cards by search
-  const filteredRecipientCards = (recipientCards || []).filter(card =>
-    (card.clientName || "").toLowerCase().includes(searchRecipient.toLowerCase()) ||
-    (card.clientPhone || "").toLowerCase().includes(searchRecipient.toLowerCase()) ||
-    (card.clientEmail || "").toLowerCase().includes(searchRecipient.toLowerCase())
-  );
-
-  const displayedSenderCards = showAllSenders ? filteredSenderCards : filteredSenderCards.slice(0, 6);
-  const displayedRecipientCards = showAllRecipients ? filteredRecipientCards : filteredRecipientCards.slice(0, 6);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Sender Section */}
-      <motion.div variants={staggerChildren}>
-        <div className="flex items-center gap-3">
-          <div className="v7-neu-icon-sm">
-            <Building className="h-5 w-5 text-[#3498db]" />
-          </div>
-          <h3 className="text-xl font-bold text-gray-800">اختر عنوان الالتقاط</h3>
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-3 mb-4">
-          <div className="relative flex-1">
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <Search className="h-5 w-5 text-[#3498db]" />
-            </span>
-            <Input
-              className="pr-10 v7-neu-input" 
-              placeholder="ابحث ضمن عناوين الالتقاط الخاصة بك"
-              type="text"
-              value={searchSender}
-              onChange={e => setSearchSender(e.target.value)}
-              style={{ direction: 'rtl', fontFamily: 'inherit' }}
-            />
-          </div>
-          <button
-            type="button"
-            onClick={() => setOpenAddSenderModal(true)}
-            className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-4 py-2 rounded-lg text-white font-bold flex items-center gap-2"
-          >
-            + عنوان جديد
-          </button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {displayedSenderCards.map(card => (
-            <motion.div
-              key={card.id}
-              className={`v7-neu-card-inner p-5 cursor-pointer relative transition-all duration-300 hover:shadow-lg ${
-                selectedSender === card.id
-                  ? "ring-2 ring-[#3498db] bg-gradient-to-br from-[#3498db]/5 to-[#3498db]/10"
-                  : "hover:bg-gradient-to-br hover:from-[#3498db]/5 hover:to-transparent"
-              }`}
-              onClick={() => handleSelectSender(card)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              // variants={fadeIn} // (optional: add fadeIn animation if you want)
-            >
-              {selectedSender === card.id && (
-                <div className="absolute top-3 right-3">
-                  <div className="w-6 h-6 rounded-full bg-[#3498db] flex items-center justify-center">
-                    <CheckCircle2 className="h-4 w-4 text-white" />
-                  </div>
-                </div>
-              )}
-              <div className="absolute top-3 left-3 flex gap-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 rounded-full hover:bg-blue-100"
-                  onClick={e => {
-                    e.stopPropagation();
-                    setOpenSenderModal(true);
-                    setSelectedSender(card.id);
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-[#3498db]"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19.5 3 21l1.5-4L16.5 3.5z"/></svg>
-                </Button>
-              </div>
-              <div className="flex flex-col gap-3 pt-2">
-                <div className="font-bold text-lg">{card.name}</div>
-                <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <Phone className="h-4 w-4 text-[#3498db]" />
-                  <span>{card.mobile}</span>
-              </div>
-                <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <MapPin className="h-4 w-4 text-[#3498db]" />
-                  <span>{card.city}</span>
-              </div>
-                {card.address && <div className="text-sm text-gray-700">{card.address}</div>}
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Mail className="h-4 w-4 text-[#3498db]" />
-                  <span>{card.email}</span>
-            </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        {/* More button */}
-        {filteredSenderCards.length > 6 && !showAllSenders && (
-          <div className="flex justify-center mt-4">
-            <Button type="button" variant="ghost" className="text-blue-500 flex items-center gap-1 py-3 px-8 text-lg rounded-xl font-bold border border-blue-200 shadow-sm" onClick={() => setShowAllSenders(true)}>
-              المزيد <span>+</span>
-            </Button>
-          </div>
-        )}
-      </motion.div>
-      
+      <SenderAddressSection
+        selectedSender={selectedSender}
+        setSelectedSender={setSelectedSender}
+        setValue={setValue}
+      />
       {/* Recipient Section */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-[#1a365d]">اختر عميل</h2>
-         
-        </div>
-        <div className="flex flex-row items-center gap-3 mb-4">
-          <div className="relative flex-1">
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <Search className="h-5 w-5 text-[#3498db]" />
-          </span>
-          <Input
-            type="text"
-              placeholder="ابحث ضمن عناوين العملاء"
-            value={searchRecipient}
-            onChange={e => setSearchRecipient(e.target.value)}
-              className="pr-10 v7-neu-input"
-            style={{ direction: 'rtl', fontFamily: 'inherit' }}
-          />
-        </div>
-          <Button
-            type="button"
-            onClick={() => setOpenRecipientModal(true)}
-            className="bg-blue-500 text-white flex items-center gap-1 rounded-xl px-4 py-2"
-          >
-            <UserPlus className="w-4 h-4" /> عميل جديد +
-          </Button>
-        </div>
-        
-        {/* <div className="mb-4" style={{ width: '75%' }}>
-          <Label htmlFor="recipient_full_name">اسم العميل <span style={{color: 'red'}}>*</span></Label>
-          <Input
-            id="recipient_full_name"
-            value={recipientName}
-            onChange={e => {
-              setRecipientName(e.target.value);
-              setValue("recipient_full_name", e.target.value);
-            }}
-            placeholder="أدخل اسم العميل"
-            required
-            className="pr-10 pl-4 py-2.5 rounded-xl border border-gray-200 bg-white shadow-[0_4px_24px_rgba(52,152,219,0.10)] focus:border-[#3498db33] focus:ring-1 focus:ring-[#3498db33] text-[#1a365d] text-[15px] placeholder:text-[#b0b7c3] placeholder:text-[15px] placeholder:font-normal font-normal"
-            style={{ direction: 'rtl', fontFamily: 'inherit' }}
-          />
-        </div> */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {displayedRecipientCards.map(card => (
-            <motion.div
-              key={card._id}
-              className={`v7-neu-card-inner p-5 cursor-pointer relative transition-all duration-300 hover:shadow-lg ${
-                selectedRecipient === card._id
-                  ? "ring-2 ring-[#3498db] bg-gradient-to-br from-[#3498db]/5 to-[#3498db]/10"
-                  : "hover:bg-gradient-to-br hover:from-[#3498db]/5 hover:to-transparent"
-              }`}
-              onClick={() => handleSelectRecipient(card)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {selectedRecipient === card._id && (
-                <div className="absolute top-3 right-3">
-                  <div className="w-6 h-6 rounded-full bg-[#3498db] flex items-center justify-center">
-                    <CheckCircle2 className="h-4 w-4 text-white" />
-                </div>
-              </div>
-              )}
-              <div className="absolute top-3 left-3 flex gap-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 rounded-full hover:bg-blue-100"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleEditRecipient(card);
-                  }}
-                >
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13zm-6 6h6v-2H5a2 2 0 01-2-2v-6a2 2 0 012-2h2v-2H5a4 4 0 00-4 4v6a4 4 0 004 4z"></path></svg>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 rounded-full hover:bg-blue-100"
-                  onClick={e => {
-                    e.stopPropagation();
-                    handleDeleteRecipient(card._id);
-                  }}
-                >
-                  <Trash2 className="w-4 h-4 text-red-500" />
-                </Button>
-              </div>
-              <div className="flex flex-col gap-3 pt-2">
-                <div className="font-bold text-lg">{card.clientName}</div>
-                <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <Phone className="h-4 w-4 text-[#3498db]" />
-                  <span>{card.clientPhone}</span>
-              </div>
-                <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <MapPin className="h-4 w-4 text-[#3498db]" />
-                <span>{card.city}{card.clientAddress ? `، ${card.clientAddress}` : ''}</span>
-              </div>
-              {card.district && (
-                  <div className="flex items-center gap-2 text-sm text-gray-700">
-                  <span className="font-bold">الحي/المنطقة:</span>
-                  <span>{card.district}</span>
-                </div>
-              )}
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <Mail className="h-4 w-4 text-[#3498db]" />
-                  <span>{card.clientEmail}</span>
-            </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        {/* More button */}
-        {filteredRecipientCards.length > 6 && !showAllRecipients && (
-          <div className="flex justify-center mt-4">
-            <Button type="button" variant="ghost" className="text-blue-500 flex items-center gap-1 py-3 px-8 text-lg rounded-xl font-bold border border-blue-200 shadow-sm" onClick={() => setShowAllRecipients(true)}>
-              المزيد <span>+</span>
-            </Button>
-          </div>
-        )}
-      </div>
-      
+      <RecipientAddressSection
+        selectedRecipient={selectedRecipient}
+        setSelectedRecipient={setSelectedRecipient}
+        setValue={setValue}
+      />
       <div className="flex justify-end mt-8">
         <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db]">التالي</Button>
       </div>
-      
-      {/* Recipient Modal */}
-      <Dialog open={openRecipientModal} onOpenChange={setOpenRecipientModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>إضافة عميل جديد</DialogTitle>
-          </DialogHeader>
-          <AddRecipientForm
-            isOpen={openRecipientModal}
-            onClose={() => setOpenRecipientModal(false)}
-            onSubmit={async (data) => {
-              try {
-                const payload = { ...data };
-                if ('customer' in payload && !payload.customer) {
-                  delete (payload as any).customer;
-                }
-                await createClientAddress(payload).unwrap();
-                setAlertStatus("success");
-                setAlertMessage("تمت إضافة العميل بنجاح");
-                setAlertOpen(true);
-                setOpenRecipientModal(false);
-                setNewRecipient({
-                  clientName: "",
-                  clientAddress: "",
-                  district: "",
-                  city: "",
-                  country: "",
-                  clientEmail: "",
-                  clientPhone: "",
-                  customer: "",
-                });
-              } catch (err: any) {
-                setAlertStatus("fail");
-                setAlertMessage(err?.data?.message || "حدث خطأ أثناء إضافة العميل");
-                setAlertOpen(true);
-              }
-            }}
-            isLoading={isCreating}
-            error={createError}
-            initialValues={newRecipient}
-          />
-        </DialogContent>
-      </Dialog>
-      <ResponseModal
-        isOpen={alertOpen}
-        onClose={() => setAlertOpen(false)}
-        status={alertStatus}
-        message={alertMessage}
-      />
-      <ConfirmModal
-        isOpen={deleteConfirmOpen}
-        onClose={() => { setDeleteConfirmOpen(false); setRecipientToDelete(null) }}
-        onConfirm={handleConfirmDelete}
-        title="تأكيد الحذف"
-        description="هل أنت متأكد من حذف هذا العنوان؟ لا يمكن التراجع عن هذا الإجراء."
-        confirmText={isDeleting ? "جاري الحذف..." : "حذف"}
-        cancelText="إلغاء"
-      />
-      {/* Edit Recipient Modal */}
-      <Dialog open={editRecipientModalOpen} onOpenChange={setEditRecipientModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>تعديل بيانات العميل</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleEditRecipientSubmit} className="space-y-2">
-            <Input name="clientName" placeholder="الاسم" value={editRecipient.clientName} onChange={handleEditRecipientChange} required />
-            <Input name="clientAddress" placeholder="العنوان" value={editRecipient.clientAddress} onChange={handleEditRecipientChange} required />
-            <Input name="district" placeholder="الحي/المنطقة (district)" value={editRecipient.district} onChange={handleEditRecipientChange} />
-            <Input name="city" placeholder="المدينة" value={editRecipient.city} onChange={handleEditRecipientChange} required />
-            <Input name="country" placeholder="الدولة" value={editRecipient.country} onChange={handleEditRecipientChange} required />
-            <Input name="clientEmail" placeholder="البريد الإلكتروني" value={editRecipient.clientEmail} onChange={handleEditRecipientChange} required />
-            <Input name="clientPhone" placeholder="رقم الجوال" value={editRecipient.clientPhone} onChange={handleEditRecipientChange} required />
-            {updateError && <div className="text-red-500 text-sm">{typeof updateError === 'string' ? updateError : 'حدث خطأ أثناء التعديل'}</div>}
-            <DialogFooter>
-              <Button type="submit" className="bg-blue-500 text-white" disabled={isUpdating}>
-                {isUpdating ? 'جاري التعديل...' : 'حفظ التعديلات'}
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* Add Sender Address Form */}
-      <AddSenderAddressForm
-        isOpen={openAddSenderModal}
-        onClose={() => setOpenAddSenderModal(false)}
-        onSubmit={handleAddSenderAddress}
-        isLoading={isCreatingAddress}
-      />
     </form>
   )
 }
@@ -862,62 +373,8 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
 function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: () => void }) {
   const { register, setValue, formState: { errors }, trigger, watch } = useFormContext()
   const { data: parcelsData, isLoading: isLoadingParcels } = useGetAllParcelsQuery();
-  const [createParcel, { isLoading: isCreatingParcel }] = useCreateParcelMutation();
-  const [customModalOpen, setCustomModalOpen] = useState(false);
-  const [customParcel, setCustomParcel] = useState({ title: '', length: '', width: '', height: '', maxWeight: '', price: '', description: '' });
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
-  const [showCustomForm, setShowCustomForm] = useState(false);
-  const [customDims, setCustomDims] = useState({ length: '', width: '', high: '' });
   const paymentMethod = watch("paymentMethod")
   const { data: customerMeData } = useGetCustomerMeQuery();
-
-  // Map API data to card format with unique key
-  const sizeCards = (parcelsData?.data || []).map((parcel, idx) => ({
-    key: parcel._id ? `${parcel._id}_${idx}` : `parcel_${idx}`,
-    label: parcel.title,
-    dims: {
-      length: parcel.dimensions.length,
-      width: parcel.dimensions.width,
-      high: parcel.dimensions.height,
-    },
-    desc: parcel.description || '',
-    maxWeight: parcel.maxWeight,
-    price: parcel.price,
-    examples: parcel.examples,
-  }));
-
-  // Selection logic: only one card can be selected at a time
-  const handleSelectSize = (card: any) => {
-    setSelectedSize(prev => prev === card.key ? null : card.key);
-    if (card.key) {
-      setValue("dimension_length", card.dims.length);
-      setValue("dimension_width", card.dims.width);
-      setValue("dimension_high", card.dims.high);
-    }
-  };
-
-  // Handle custom parcel form submit
-  const handleCustomParcelFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await createParcel({
-        title: customParcel.title,
-        dimensions: {
-          length: Number(customParcel.length),
-          width: Number(customParcel.width),
-          height: Number(customParcel.height),
-        },
-        maxWeight: customParcel.maxWeight ? Number(customParcel.maxWeight) : undefined,
-        price: customParcel.price ? Number(customParcel.price) : undefined,
-        description: customParcel.description,
-        isPublic: false,
-      }).unwrap();
-      setCustomModalOpen(false);
-      setCustomParcel({ title: '', length: '', width: '', height: '', maxWeight: '', price: '', description: '' });
-    } catch (err) {
-      // handle error if needed
-    }
-  };
 
   // Watch for dimension values
   const dimension_length = watch("dimension_length")
@@ -954,52 +411,11 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
         <div className="flex flex-col md:flex-row gap-8 mb-8">
           {/* Parcel size cards (left, 2/3) */}
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-4">
-              <Package className="w-6 h-6 text-[#3498db]" />
-              <h2 className="text-xl font-bold text-[#3498db] m-0">حجم الطرد</h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-              {sizeCards.map(card => {
-                const selected = selectedSize === card.key;
-                return (
-                  <motion.div
-                    key={card.key}
-                    className={`v7-neu-card-inner p-4 cursor-pointer transition-all duration-300 hover:shadow-md ${
-                      selected
-                        ? "ring-2 ring-[#3498db] bg-gradient-to-br from-[#3498db]/5 to-[#3498db]/10"
-                        : "hover:bg-gradient-to-br hover:from-[#3498db]/5 hover:to-transparent"
-                    }`}
-                    onClick={() => handleSelectSize(card)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex flex-col items-center text-center gap-2 relative">
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                          selected
-                            ? "bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white"
-                            : "bg-[#3498db]/10 text-[#3498db]"
-                        }`}
-                      >
-                        <Package className="h-6 w-6" />
-                    </div>
-                      <div>
-                        <h4 className="font-bold text-gray-800">{card.label}</h4>
-                        <div className="text-xs text-gray-500 mt-1">سم {card.dims.length} × {card.dims.width} × {card.dims.high}</div>
-                    {card.maxWeight && (
-                          <div className="text-xs text-gray-500">حتى {card.maxWeight} كجم</div>
-                    )}
-                  </div>
-                      {selected && (
-                        <div className="absolute top-2 right-2 w-5 h-5 bg-[#3498db] rounded-full flex items-center justify-center">
-                          <CheckCircle2 className="h-3 w-3 text-white" />
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
+            <ParcelSizeSection
+              parcelsData={parcelsData}
+              setValue={setValue}
+              errors={errors}
+            />
           </div>
           {/* Shipment type (right, 1/3) */}
           <div className="w-full md:w-1/3 flex flex-col gap-2">
@@ -1060,35 +476,6 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
             </div>
           </div>
         </div>
-        {/* Selected parcel summary (centered, full width) */}
-        {selectedSize && (() => {
-          const selectedCard = sizeCards.find(c => c.key === selectedSize);
-          if (!selectedCard) return null;
-          return (
-            <div className="mb-2 w-full flex justify-center">
-              <div className="flex items-center gap-6 bg-[#f6fbff] border-2 border-[#3498db] rounded-2xl shadow-md px-8 py-4 min-w-[350px] max-w-xl w-full" style={{ height: 90 }}>
-                <div className="flex-1">
-                  <div className="font-bold text-[#1a365d] text-lg mb-1 text-right">
-                    الحجم المختار: {selectedCard.label}
-                  </div>
-                  <div className="flex items-center gap-4 text-[#7b8ca6] text-base">
-                    <span className="flex items-center gap-1">
-                      <span className="text-[#3498db]"><Package className="w-4 h-4" /></span>
-                      {selectedCard.dims.length} × {selectedCard.dims.width} × {selectedCard.dims.high} سم
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <span className="text-[#3498db]"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 21h18M6 21V7a6 6 0 1112 0v14" /></svg></span>
-                      حتى {selectedCard.maxWeight} كجم
-                    </span>
-                  </div>
-                </div>
-                <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[#3498db]">
-                  <Package className="w-7 h-7 text-white" />
-                </span>
-              </div>
-            </div>
-          );
-        })()}
         {/* Inputs row: weight, parcels, description */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           {/* الوزن (كجم) */}
@@ -1228,32 +615,11 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
             <span>السابق</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           </Button>
-          <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db] flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+          <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db]">
             التالي
           </Button>
         </div>
       </form>
-      {/* Custom Parcel Modal */}
-      <Dialog open={customModalOpen} onOpenChange={setCustomModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>إضافة حجم طرد مخصص</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleCustomParcelFormSubmit} className="space-y-2">
-            <Input placeholder="اسم الحجم" value={customParcel.title} onChange={e => setCustomParcel({ ...customParcel, title: e.target.value })} required />
-            <Input placeholder="الطول (سم)" type="number" value={customParcel.length} onChange={e => setCustomParcel({ ...customParcel, length: e.target.value })} required />
-            <Input placeholder="العرض (سم)" type="number" value={customParcel.width} onChange={e => setCustomParcel({ ...customParcel, width: e.target.value })} required />
-            <Input placeholder="الارتفاع (سم)" type="number" value={customParcel.height} onChange={e => setCustomParcel({ ...customParcel, height: e.target.value })} required />
-            <Input placeholder="الوزن الأقصى (كجم)" type="number" value={customParcel.maxWeight} onChange={e => setCustomParcel({ ...customParcel, maxWeight: e.target.value })} />
-            <Input placeholder="السعر (اختياري)" type="number" value={customParcel.price} onChange={e => setCustomParcel({ ...customParcel, price: e.target.value })} />
-            <Input placeholder="الوصف (اختياري)" value={customParcel.description} onChange={e => setCustomParcel({ ...customParcel, description: e.target.value })} />
-            <DialogFooter>
-              <Button type="submit" className="bg-blue-500 text-white" disabled={isCreatingParcel}>{isCreatingParcel ? 'جاري الإضافة...' : 'إضافة'}</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
     </>
   )
 }
