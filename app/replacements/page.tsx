@@ -126,83 +126,73 @@ export default function ReplacementsPage() {
             
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-2 rtl">
-            <div className="flex flex-wrap w-full gap-4">
-              <div className="flex-1 basis-[calc(50%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
+          {/* --- Cards Section: Styled like returns page --- */}
+          {(() => {
+            // Use exchange data for total
+            let total = 0;
+            if (Array.isArray(returnShipmentsData?.data)) {
+              total = returnShipmentsData.data.length;
+            }
+            return (
+              <div className="grid gap-4 md:grid-cols-4 mb-6">
+                <div className="v7-neu-card">
+                  <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">إجمالي الاستبدالات</p>
-                        <h3 className="text-lg font-bold text-[#294D8B] dark:text-blue-400">128</h3>
+                      <div>
+                        <p className="text-sm text-[#6d6a67]">إجمالي الاستبدالات</p>
+                        <h3 className="text-2xl font-bold text-[#294D8B]">{total}</h3>
                       </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <RepeatIcon className="h-4 w-4 text-[#294D8B] dark:text-blue-400" />
+                      <div className="v7-neu-icon-lg">
+                        <RepeatIcon className="h-6 w-6 text-[#294D8B]" />
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="flex-1 basis-[calc(50%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
+                  </div>
+                </div>
+                <div className="v7-neu-card">
+                  <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">قيد المراجعة</p>
-                        <h3 className="text-lg font-bold text-[#f39c12] dark:text-yellow-400">24</h3>
+                      <div>
+                        <p className="text-sm text-[#6d6a67]">قيد المراجعة</p>
+                        <h3 className="text-2xl font-bold text-[#f39c12]">0</h3>
                       </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <ClockIcon className="h-4 w-4 text-[#f39c12] dark:text-yellow-400" />
+                      <div className="v7-neu-icon-lg">
+                        <ClockIcon className="h-6 w-6 text-[#f39c12]" />
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-            <div className="flex flex-wrap w-full gap-4">
-              <div className="flex-1 basis-[calc(50%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
+                  </div>
+                </div>
+                <div className="v7-neu-card">
+                  <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">تمت الموافقة</p>
-                        <h3 className="text-lg font-bold text-[#2ecc71] dark:text-green-400">86</h3>
+                      <div>
+                        <p className="text-sm text-[#6d6a67]">تمت الموافقة</p>
+                        <h3 className="text-2xl font-bold text-[#2ecc71]">0</h3>
                       </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <CheckCircleIcon className="h-4 w-4 text-[#2ecc71] dark:text-green-400" />
+                      <div className="v7-neu-icon-lg">
+                        <CheckCircleIcon className="h-6 w-6 text-[#2ecc71]" />
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
-              <div className="flex-1 basis-[calc(50%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
+                  </div>
+                </div>
+                <div className="v7-neu-card">
+                  <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">مرفوضة</p>
-                        <h3 className="text-lg font-bold text-[#e74c3c] dark:text-red-400">18</h3>
+                      <div>
+                        <p className="text-sm text-[#6d6a67]">مرفوضة</p>
+                        <h3 className="text-2xl font-bold text-[#e74c3c]">0</h3>
                       </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <XCircleIcon className="h-4 w-4 text-[#e74c3c] dark:text-red-400" />
+                      <div className="v7-neu-icon-lg">
+                        <XCircleIcon className="h-6 w-6 text-[#e74c3c]" />
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            );
+          })()}
+          {/* --- End Cards Section --- */}
 
-          <Card className="v7-neu-card dark:bg-gray-800">
-            <CardContent dir="rtl" className="rtl">
-              <div className="rounded-md border v7-neu-table dark:border-gray-700 overflow-x-auto">
-                {!isShipmentsLoading && !shipmentsError && shipmentsData && shipmentsData.data.length > 0 && (
-                  <table className="w-full min-w-[800px] text-sm text-right whitespace-nowrap" dir="rtl">
-                      </table>
-                )}
-                    </div>
-            </CardContent>
-          </Card>
+         
 
           <AlertDialog open={openDialog} onOpenChange={setOpenDialog}>
             <AlertDialogContent>
@@ -267,7 +257,7 @@ export default function ReplacementsPage() {
               <h2 className="text-xl font-bold text-[#294D8B] dark:text-blue-400 mb-4 text-right">
                 {showTableType === 'return' ? 'طلبات الاستبدال' : 'طلبات الاسترجاع'}
               </h2>
-              <div className="rounded-md border v7-neu-table dark:border-gray-700 overflow-x-auto">
+              <div className="rounded-md border v7-neu-table dark:border-gray-700 overflow-x-auto mb-8">
                 {isShipmentsLoading && <div className="text-center py-8">جاري التحميل...</div>}
                 {shipmentsError && <div className="text-center py-8 text-red-600">حدث خطأ أثناء جلب البيانات</div>}
                 {!isShipmentsLoading && !shipmentsError && (!shipmentsData || !shipmentsData.data.length) && (
@@ -275,17 +265,17 @@ export default function ReplacementsPage() {
                 )}
                 {!isShipmentsLoading && !shipmentsError && shipmentsData && shipmentsData.data.length > 0 && (
                   <table className="w-full min-w-[800px] text-sm text-right whitespace-nowrap" dir="rtl">
-                        <thead>
-                          <tr className="border-b bg-[#f8fafc] dark:bg-gray-800 dark:border-gray-700">
+                    <thead>
+                      <tr className="border-b bg-[#f8fafc] dark:bg-gray-800 dark:border-gray-700">
                         <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[180px]">رقم الطلب</th>
                         <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[120px]">نوع الطلب</th>
                         <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[200px]">ملاحظات</th>
                         <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[180px]">تاريخ الإنشاء</th>
                         <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[120px]">شركة الشحن</th>
                         <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[120px]">الإجراءات</th>
-                          </tr>
-                        </thead>
-                        <tbody className="dark:bg-gray-800">
+                      </tr>
+                    </thead>
+                    <tbody className="dark:bg-gray-800">
                       {shipmentsData.data.map((item) => (
                         <tr key={item._id} className="border-b hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700">
                           <td className="px-4 py-3 text-blue-700 break-all">{item._id}</td>
@@ -293,7 +283,7 @@ export default function ReplacementsPage() {
                           <td className="px-4 py-3 break-all">{item.requestNote}</td>
                           <td className="px-4 py-3">{new Date(item.createdAt).toLocaleString('ar-EG')}</td>
                           <td className="px-4 py-3">{item.shipment?.company || '-'}</td>
-                                <td className="px-4 py-3">
+                          <td className="px-4 py-3">
                             <div className="flex items-center gap-2 justify-end">
                               <Button variant="ghost" size="sm" className="h-8 px-2 text-green-600 hover:bg-green-50 whitespace-nowrap" disabled={isApproving}
                                 onClick={async () => {
@@ -353,8 +343,8 @@ export default function ReplacementsPage() {
                         </tbody>
                       </table>
                 )}
-                    </div>
-                  </div>
+              </div>
+            </div>
           )}
 
           {approvalResult && (

@@ -18,7 +18,7 @@ import {
   CheckCircle,
 } from "lucide-react"
 import { V7StatsCard } from "@/components/v7/v7-stats-card"
-import { V7ShipmentCard } from "@/components/v7/v7-shipment-card"
+import { V7ShipmentCard } from "@/app/shipments/components/v7-shipment-card"
 import { V7WelcomeBanner } from "@/components/v7/v7-welcome-banner"
 import { V7ShipmentLineChart } from "@/components/v7/charts/shipment-line-chart"
 import { V7Content } from "@/components/v7/v7-content"

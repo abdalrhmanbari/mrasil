@@ -15,6 +15,7 @@ import { useState } from 'react'
 import { useOrderForClientAddressMutation } from '@/app/api/orderForClientAddressApi'
 import { useGetAllOrdersQuery } from '@/app/api/ordersApi'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import AddClientAddressForm from './AddClientAddressForm';
 
 const schema = yup.object({
   clientName: yup.string().required("اسم العميل مطلوب"),
@@ -45,13 +46,15 @@ type OrderFormData = yup.InferType<typeof orderSchema>;
 export function CreateOrderForm() {
   const router = useRouter()
  
-  const { data: clientAddresses, isLoading: isLoadingAddresses } = useGetAllClientAddressesQuery()
+  const { data: clientAddresses, isLoading: isLoadingAddresses, refetch: refetchAddresses } = useGetAllClientAddressesQuery()
   const [selectedCard, setSelectedCard] = useState<null | any>(null)
   const [step, setStep] = useState(1)
   const [orderForClientAddress, { isLoading: isOrderLoading }] = useOrderForClientAddressMutation()
   const [showSuccess, setShowSuccess] = useState(false);
   // For refreshing orders after creation
   const { refetch: refetchOrders } = useGetAllOrdersQuery();
+  const [showAddClientModal, setShowAddClientModal] = useState(false);
+  const [showAllAddresses, setShowAllAddresses] = useState(false);
 
   // Step 2 form
   const {
@@ -87,27 +90,53 @@ export function CreateOrderForm() {
       {step === 1 && (
         <>
           <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-4">اختر عنوان عميل موجود</h2>
+            <div className="flex flex-row-reverse items-center justify-between mb-4">
+              <Button
+                type="button"
+                className="bg-[#294D8B] text-white rounded px-4 py-2 shadow-sm hover:bg-[#1e3b6f] ml-2"
+                onClick={() => setShowAddClientModal(true)}
+              >
+                اضافة عميل جديد
+              </Button>
+              <h2 className="text-lg font-semibold">اختر عنوان عميل موجود</h2>
+            </div>
             {isLoadingAddresses ? (
               <div>جاري التحميل...</div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {clientAddresses?.data?.map((address: any) => (
-                  <div
-                    key={address._id}
-                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedCard?._id === address._id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`}
-                    onClick={() => handleCardSelect(address)}
-                  >
-                    <div className="font-bold text-[#1a365d]">{address.clientName}</div>
-                    <div className="text-sm text-gray-600">{address.clientPhone}</div>
-                    <div className="text-sm text-gray-600">{address.clientEmail}</div>
-                    <div className="text-sm text-gray-600">{address.clientAddress}</div>
-                    <div className="text-sm text-gray-600">{address.country} - {address.city}</div>
-                    <div className="text-sm text-gray-600">طريقة الدفع: {address.district}</div>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {(showAllAddresses ? clientAddresses?.data : clientAddresses?.data?.slice(0, 4))?.map((address: any) => (
+                    <div
+                      key={address._id}
+                      className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedCard?._id === address._id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`}
+                      onClick={() => handleCardSelect(address)}
+                    >
+                      <div className="font-bold text-[#1a365d]">{address.clientName}</div>
+                      <div className="text-sm text-gray-600">{address.clientPhone}</div>
+                      <div className="text-sm text-gray-600">{address.clientEmail}</div>
+                      <div className="text-sm text-gray-600">{address.clientAddress}</div>
+                      <div className="text-sm text-gray-600">{address.country} - {address.city}</div>
+                      <div className="text-sm text-gray-600">طريقة الدفع: {address.district}</div>
+                    </div>
+                  ))}
+                </div>
+                {clientAddresses?.data?.length > 4 && (
+                  <div className="flex justify-center mt-4">
+                    <Button type="button" variant="outline" onClick={() => setShowAllAddresses(v => !v)}>
+                      {showAllAddresses ? 'عرض أقل' : 'المزيد'}
+                    </Button>
                   </div>
-                ))}
-              </div>
+                )}
+              </>
             )}
+            <Dialog open={showAddClientModal} onOpenChange={setShowAddClientModal}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>اضافة عميل جديد</DialogTitle>
+                </DialogHeader>
+                <AddClientAddressForm onSuccess={() => { setShowAddClientModal(false); if (typeof refetchAddresses === 'function') refetchAddresses(); }} />
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="flex justify-end gap-4">
             <Button
@@ -133,7 +162,7 @@ export function CreateOrderForm() {
         <form onSubmit={handleOrderSubmit(async (data: OrderFormData) => {
           if (!selectedCard) return;
           try {
-            await orderForClientAddress({ id: selectedCard._id, ...data }).unwrap();
+            await orderForClientAddress({ id: selectedCard._id, order: data }).unwrap();
             setShowSuccess(true);
             resetOrderForm();
           } catch (error) {

@@ -54,7 +54,7 @@ import { useGetShipmentsQuery } from '../api/getReturnOrExchangeShipmentsApi';
 import { useHandleApprovalMutation } from '../api/handleReturnApprovalApi';
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogAction } from '@/components/ui/alert-dialog';
-import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import ReturnsTable from './ReturnsTable';
 
 // Utility classes for consistent styling
 const textPrimaryClass = "text-gray-900 dark:text-gray-100"
@@ -218,9 +218,10 @@ export default function Returns() {
 
   // Calculate stats for cards dynamically from API data
   const total = shipmentsData?.data?.length ?? 0;
-  const pending = shipmentsData?.data?.filter((item) => item.status === 'pending').length ?? 0;
-  const approved = shipmentsData?.data?.filter((item) => item.status === 'approved').length ?? 0;
-  const rejected = shipmentsData?.data?.filter((item) => item.status === 'rejected').length ?? 0;
+  // The API data does not include status, so we cannot calculate pending/approved/rejected counts
+  const pending = 0;
+  const approved = 0;
+  const rejected = 0;
 
   // Función para manejar acciones في مجموعة
   const handleBulkAction = (action: string) => {
@@ -1662,7 +1663,8 @@ export default function Returns() {
     <V7Layout>
       <V7Content title="إدارة الاسترجاع" description="إدارة طلبات الاسترجاع وتتبع حالتها">
         <div className="container mx-auto p-4 md:p-6">
-          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {/* Header with title and action button */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-[#294D8B] dark:text-blue-400">ادارة الاسترجاع</h1>
               <p className="text-[#6d6a67] dark:text-gray-400">إدارة طلبات الاسترجاع وتتبع حالتها</p>
@@ -1674,176 +1676,113 @@ export default function Returns() {
               >
                 تحقق من بريد الكترونى
               </Button>
+              <Button
+                className="v7-neu-button-accent rounded shadow px-4 py-2 text-sm"
+                onClick={() => setShowCustomizeOptions(true)}
+              >
+                تخصيص صفحة الإرجاع
+              </Button>
             </div>
           </div>
-          <div className="flex flex-wrap gap-2 mb-2 rtl">
-            <div className="flex flex-wrap w-full gap-4">
-              <div className="flex-1 basis-[calc(25%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">إجمالي الاسترجاعات</p>
-                        <h3 className="text-lg font-bold text-[#294D8B] dark:text-blue-400">{total}</h3>
-                      </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <XCircleIcon className="h-4 w-4 text-[#294D8B] dark:text-blue-400" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+          <div className="w-full px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 v7-fade-in">
+              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm text-[#6d6a67] mb-1">إجمالي الاسترجاعات</p>
+                    <h3 className="text-2xl font-bold text-[#3498db]">{total}</h3>
+                  </div>
+                  <div className="v7-neu-icon-lg ml-4">
+                    <PackageCheck className="h-6 w-6 text-[#3498db]" />
+                  </div>
+                </div>
               </div>
-              <div className="flex-1 basis-[calc(25%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">قيد المراجعة</p>
-                        <h3 className="text-lg font-bold text-[#f39c12] dark:text-yellow-400">{pending}</h3>
-                      </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <Sliders className="h-4 w-4 text-[#f39c12] dark:text-yellow-400" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm text-[#6d6a67] mb-1">تمت الموافقة</p>
+                    <h3 className="text-2xl font-bold text-[#2ecc71]">{approved}</h3>
+                  </div>
+                  <div className="v7-neu-icon-lg ml-4">
+                    <CheckCircle className="h-6 w-6 text-[#2ecc71]" />
+                  </div>
+                </div>
               </div>
-              <div className="flex-1 basis-[calc(25%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">تمت الموافقة</p>
-                        <h3 className="text-lg font-bold text-[#2ecc71] dark:text-green-400">{approved}</h3>
-                      </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <CheckCircleIcon className="h-4 w-4 text-[#2ecc71] dark:text-green-400" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm text-[#6d6a67] mb-1">قيد المراجعة</p>
+                    <h3 className="text-2xl font-bold text-[#294D8B]">{pending}</h3>
+                  </div>
+                  <div className="v7-neu-icon-lg ml-4">
+                    <Clock className="h-6 w-6 text-[#294D8B]" />
+                  </div>
+                </div>
               </div>
-              <div className="flex-1 basis-[calc(25%-0.5rem)] min-w-[180px]">
-                <Card className="v7-neu-card dark:bg-gray-800">
-                  <CardContent className="p-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="text-sm text-[#6d6a67] dark:text-gray-400 whitespace-nowrap">مرفوضة</p>
-                        <h3 className="text-lg font-bold text-[#e74c3c] dark:text-red-400">{rejected}</h3>
-                      </div>
-                      <div className="v7-neu-icon-lg flex-shrink-0 me-2">
-                        <XCircleIcon className="h-4 w-4 text-[#e74c3c] dark:text-red-400" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <p className="text-sm text-[#6d6a67] mb-1">مرفوضة</p>
+                    <h3 className="text-2xl font-bold text-[#e74c3c]">{rejected}</h3>
+                  </div>
+                  <div className="v7-neu-icon-lg ml-4">
+                    <XCircle className="h-6 w-6 text-[#e74c3c]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Search and filter bar */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border-b mb-4 bg-white rounded-lg shadow-sm">
+              <div className="relative v7-neu-input-container flex-1 min-w-[200px]">
+                <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
+                <Input
+                  placeholder="البحث عن رقم الطلب أو المنتج..."
+                  className="v7-neu-input w-full pr-12"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
+                      <Sliders className="h-4 w-4 md:mr-2" />
+                      <span className="sr-only md:not-sr-only">تصفية</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="v7-neu-dropdown min-w-[180px] border border-[#E4E9F2] shadow-lg bg-white rounded-lg">
+                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">جميع الحالات</DropdownMenuItem>
+                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">تمت الموافقة</DropdownMenuItem>
+                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">قيد المراجعة</DropdownMenuItem>
+                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">مرفوضة</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
+                      <ChevronDown className="h-4 w-4 md:mr-2" />
+                      <span className="sr-only md:not-sr-only">ترتيب</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="v7-neu-dropdown min-w-[180px] border border-[#E4E9F2] shadow-lg bg-white rounded-lg">
+                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">الأحدث أولاً</DropdownMenuItem>
+                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">الأقدم أولاً</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </div>
           <Card className="v7-neu-card dark:bg-gray-800 mt-8">
-            <CardContent dir="rtl" className="rtl">
-              <div className="rounded-md border v7-neu-table dark:border-gray-700 overflow-x-auto">
-                {isShipmentsLoading && <div className="text-center py-8">جاري التحميل...</div>}
-                {shipmentsError && <div className="text-center py-8 text-red-600">حدث خطأ أثناء جلب البيانات</div>}
-                {!isShipmentsLoading && !shipmentsError && (!shipmentsData || !shipmentsData.data.length) && (
-                  <div className="text-center py-8">لا توجد بيانات</div>
-                )}
-                {!isShipmentsLoading && !shipmentsError && shipmentsData && shipmentsData.data.length > 0 && (
-                  <table className="w-full min-w-[800px] text-sm text-right whitespace-nowrap rounded-md border v7-neu-table dark:border-gray-700 overflow-x-auto">
-                    <thead>
-                      <tr className="border-b bg-[#f8fafc] dark:bg-gray-800 dark:border-gray-700">
-                        <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[180px]">رقم الطلب</th>
-                        <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[120px]">نوع الطلب</th>
-                        <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[200px]">ملاحظات</th>
-                        <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[180px]">تاريخ الإنشاء</th>
-                        <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[120px]">شركة الشحن</th>
-                        <th className="px-4 py-3 font-semibold text-gray-900 dark:text-gray-200 min-w-[120px]">الإجراءات</th>
-                      </tr>
-                    </thead>
-                    <tbody className="dark:bg-gray-800">
-                      {shipmentsData.data.map((item) => (
-                        <tr key={item._id} className="border-b hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700">
-                          <td className="px-4 py-3 text-blue-700 break-all">{item._id}</td>
-                          <td className="px-4 py-3">{item.type === 'return' ? 'استرجاع' : item.type}</td>
-                          <td className="px-4 py-3 break-all">{item.requestNote}</td>
-                          <td className="px-4 py-3">{new Date(item.createdAt).toLocaleString('ar-EG')}</td>
-                          <td className="px-4 py-3">{item.shipment?.company || '-'}</td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-2 justify-end">
-                              <Button variant="ghost" size="sm" className="h-8 px-2 text-green-600 hover:bg-green-50 whitespace-nowrap" disabled={isApproving}
-                                onClick={async () => {
-                                  try {
-                                    const res = await handleApproval({ returnRequestId: item._id, approve: 'true' }).unwrap();
-                                    setApprovalResult({ status: 'success', message: res.message || 'تمت الموافقة بنجاح' });
-                                  } catch (err: any) {
-                                    setApprovalResult({ status: 'error', message: err?.data?.message || 'حدث خطأ أثناء الموافقة' });
-                                  }
-                                }}>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="mr-1"
-                                >
-                                  <path d="M20 6L9 17l-5-5" />
-                                </svg>
-                                <span>موافقة</span>
-                              </Button>
-                              <Button variant="ghost" size="sm" className="h-8 px-2 text-red-600 hover:bg-red-50 whitespace-nowrap" disabled={isApproving}
-                                onClick={async () => {
-                                  try {
-                                    const res = await handleApproval({ returnRequestId: item._id, approve: 'false' }).unwrap();
-                                    setApprovalResult({ status: 'success', message: res.message || 'تم الرفض بنجاح' });
-                                  } catch (err: any) {
-                                    setApprovalResult({ status: 'error', message: err?.data?.message || 'حدث خطأ أثناء الرفض' });
-                                  }
-                                }}>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="mr-1"
-                                >
-                                  <path d="M18 6L6 18" />
-                                  <path d="M6 6l12 12" />
-                                </svg>
-                                <span>رفض</span>
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </CardContent>
+            <ReturnsTable
+              data={shipmentsData?.data}
+              isLoading={isShipmentsLoading}
+              error={shipmentsError}
+              isApproving={isApproving}
+              handleApproval={handleApproval}
+              approvalResult={approvalResult}
+              setApprovalResult={setApprovalResult}
+            />
           </Card>
-          {approvalResult && (
-            <AlertDialog open={!!approvalResult} onOpenChange={() => setApprovalResult(null)}>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>{approvalResult.status === 'success' ? 'نجاح' : 'خطأ'}</AlertDialogTitle>
-                </AlertDialogHeader>
-                <div className={`text-center py-4 ${approvalResult.status === 'success' ? 'text-green-700' : 'text-red-700'}`}>{approvalResult.message}</div>
-                <div className="flex justify-end">
-                  <AlertDialogAction onClick={() => setApprovalResult(null)}>حسناً</AlertDialogAction>
-                </div>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
         </div>
       </V7Content>
     </V7Layout>

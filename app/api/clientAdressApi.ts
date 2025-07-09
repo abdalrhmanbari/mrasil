@@ -9,7 +9,7 @@ export interface ClientAddress {
   clientEmail: string;
   country: string;
   city: string;
-  district: string; // This is طريقة الدفع
+  district: string; 
   customer: string;
   createdAt: string;
   updatedAt: string;

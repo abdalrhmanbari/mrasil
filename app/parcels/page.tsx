@@ -13,7 +13,7 @@ const LoadingSpinner = () => (
 )
 
 // Dynamically import the ParcelsContent component with no SSR
-const ParcelsContent = dynamic(() => import("./ParcelsContent"), {
+const ParcelsContent = dynamic(() => import("./components/ParcelsContent"), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 })

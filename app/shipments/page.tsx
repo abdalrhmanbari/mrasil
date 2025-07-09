@@ -31,12 +31,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import V7Layout from "@/components/v7/v7-layout"
-import { V7ShipmentCard } from "@/components/v7/v7-shipment-card"
+
 import { V7ShipmentStatus } from "@/components/v7/v7-shipment-status"
 import { V7Content } from "@/components/v7/v7-content"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { useGetMyShipmentsQuery } from "@/app/api/shipmentApi"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { ShipmentsGrid } from "./components/ShipmentsGrid";
 
 type ShipmentStatus = "delivered" | "transit" | "processing" | "ready"
 type ShipmentPriority = "فائق السرعة" | "سريع" | "عادي"
@@ -76,6 +78,13 @@ interface Shipment {
   profitpickUpPrice: number;
   baseRTOprice: number;
   createdAt: string;
+  shipmentstates?: string;
+  source?: string;
+  carrier?: string;
+  priority?: string;
+  from?: string;
+  to?: string;
+  trackingNumber?: string;
 }
 
 export default function ShipmentsPage() {
@@ -86,7 +95,8 @@ export default function ShipmentsPage() {
   const [filterStatus, setFilterStatus] = useState("all")
   const [filterSource, setFilterSource] = useState("all") // إضافة حالة لفلترة المصدر
   const [filterCarrier, setFilterCarrier] = useState("all") // إضافة حالة لفلترة شركة الشحن
-  const [selectedShipments, setSelectedShipments] = useState<string[]>([])
+  // Replace selectedShipments state with selectedShipmentId
+  const [selectedShipmentId, setSelectedShipmentId] = useState<string | null>(null)
   const [activeFilters, setActiveFilters] = useState<string[]>([]) // لتتبع الفلاتر النشطة
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -213,19 +223,19 @@ export default function ShipmentsPage() {
 
   // Toggle select all shipments
   const toggleSelectAll = () => {
-    if (selectedShipments.length === filteredShipments.length) {
-      setSelectedShipments([])
+    if (selectedShipmentId === null) {
+      setSelectedShipmentId(shipments[0]?._id || null)
     } else {
-      setSelectedShipments(filteredShipments.map((shipment) => shipment._id))
+      setSelectedShipmentId(null)
     }
   }
 
   // Toggle select single shipment
   const toggleSelectShipment = (id: string) => {
-    if (selectedShipments.includes(id)) {
-      setSelectedShipments(selectedShipments.filter((shipmentId) => shipmentId !== id))
+    if (selectedShipmentId === id) {
+      setSelectedShipmentId(null)
     } else {
-      setSelectedShipments([...selectedShipments, id])
+      setSelectedShipmentId(id)
     }
   }
 
@@ -251,7 +261,7 @@ export default function ShipmentsPage() {
   // Filter shipments
   const filteredShipments = shipments.filter((shipment) => {
     // Map API status to component status
-    const componentStatus = mapApiStatusToComponentStatus(shipment.shipmentstates)
+    const componentStatus = mapApiStatusToComponentStatus(shipment.shipmentstates ?? "")
     // Filter by tab
     if (activeTab === "active" && componentStatus === "delivered") return false
     if (activeTab === "delivered" && componentStatus !== "delivered") return false
@@ -259,19 +269,19 @@ export default function ShipmentsPage() {
     // Filter by status
     if (filterStatus !== "all" && componentStatus !== filterStatus) return false
     // Filter by source
-    if (filterSource !== "all" && shipment.source !== filterSource) return false
+    if (filterSource !== "all" && (shipment.source ?? "") !== filterSource) return false
     // Filter by carrier
-    if (filterCarrier !== "all" && shipment.carrier !== filterCarrier) return false
+    if (filterCarrier !== "all" && (shipment.carrier ?? "") !== filterCarrier) return false
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       return (
         shipment._id.toString().includes(query) ||
-        (shipment.from && shipment.from.toLowerCase().includes(query)) ||
-        (shipment.to && shipment.to.toLowerCase().includes(query)) ||
-        (shipment.trackingNumber && shipment.trackingNumber.toLowerCase().includes(query)) ||
-        (shipment.source && shipment.source.toLowerCase().includes(query)) ||
-        (shipment.carrier && shipment.carrier.toLowerCase().includes(query))
+        ((shipment.from ?? "").toLowerCase().includes(query)) ||
+        ((shipment.to ?? "").toLowerCase().includes(query)) ||
+        ((shipment.trackingNumber ?? "").toLowerCase().includes(query)) ||
+        ((shipment.source ?? "").toLowerCase().includes(query)) ||
+        ((shipment.carrier ?? "").toLowerCase().includes(query))
       )
     }
     return true
@@ -285,7 +295,7 @@ export default function ShipmentsPage() {
       return a._id.localeCompare(b._id)
     } else if (sortBy === "priority") {
       const priorityOrder: Record<ShipmentPriority, number> = { "فائق السرعة": 0, "سريع": 1, "عادي": 2 }
-      return priorityOrder[a.priority as ShipmentPriority] - priorityOrder[b.priority as ShipmentPriority]
+      return priorityOrder[(a.priority ?? "عادي") as ShipmentPriority] - priorityOrder[(b.priority ?? "عادي") as ShipmentPriority]
     }
     return 0
   })
@@ -320,18 +330,18 @@ export default function ShipmentsPage() {
   const handleBulkAction = (action: string) => {
     switch (action) {
       case "ship":
-        alert(`تم شحن ${selectedShipments.length} شحنة`)
+        alert(`تم شحن ${selectedShipmentId ? 1 : 0} شحنة`)
         break
       case "print":
-        alert(`تم طباعة بوالص الشحن لـ ${selectedShipments.length} شحنة`)
+        alert(`تم طباعة بوالص الشحن لـ ${selectedShipmentId ? 1 : 0} شحنة`)
         break
       case "export":
-        alert(`تم تصدير بيانات ${selectedShipments.length} شحنة`)
+        alert(`تم تصدير بيانات ${selectedShipmentId ? 1 : 0} شحنة`)
         break
       case "cancel":
-        alert(`تم إلغاء ${selectedShipments.length} شحنة`)
+        alert(`تم إلغاء ${selectedShipmentId ? 1 : 0} شحنة`)
         // Aquí puedes implementar la lógica real para cancelar los envíos
-        // setSelectedShipments([]);
+        // setSelectedShipmentId(null);
         break
       default:
         break
@@ -542,245 +552,15 @@ export default function ShipmentsPage() {
                 </div>
               )}
 
-              {selectedShipments.length > 0 && (
-                <div className="mb-4 p-2 bg-blue-50 rounded-md flex items-center justify-between">
-                  <span className="text-sm font-medium text-blue-700">تم تحديد {selectedShipments.length} شحنة</span>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-xs bg-white hover:bg-blue-50"
-                        disabled={selectedShipments.length === 0}
-                      >
-                        إجراءات جماعية <ChevronDown className="mr-1 h-3 w-3" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 bg-[#EFF2F7] border-[#E4E9F2] shadow-sm">
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("ship")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <Truck className="h-4 w-4 ml-2 text-blue-600" />
-                        <span>شحن المحدد</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("print")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <Printer className="h-4 w-4 ml-2 text-purple-600" />
-                        <span>طباعة بوالص الشحن</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("export")}
-                        className="text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <Download className="h-4 w-4 ml-2 text-blue-600" />
-                        <span>تصدير المحدد</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => handleBulkAction("cancel")}
-                        className="text-red-600 text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
-                      >
-                        <XCircle className="h-4 w-4 ml-2 text-red-600" />
-                        <span>إلغاء المحدد</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              )}
-
-              <TabsContent value="all" className="mt-0">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center mb-4 px-2">
-                    <div className="flex items-center">
-                      <Checkbox
-                        checked={selectedShipments.length === sortedShipments.length && sortedShipments.length > 0}
-                        onCheckedChange={toggleSelectAll}
-                        aria-label="تحديد كل الشحنات"
-                        className=""
-                      />
-                      <span className="text-sm font-medium m-2">تحديد الكل</span>
-                    </div>
-
-                    <span className="text-sm text-gray-500">{sortedShipments.length} شحنة</span>
-                  </div>
-
-                  {sortedShipments.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {sortedShipments.map((shipment) => (
-                        <div key={shipment._id} className="flex items-center">
-                          <div className="w-6 flex-shrink-0 mt-4 ml-2">
-                            <Checkbox
-                              checked={selectedShipments.includes(shipment._id)}
-                              onCheckedChange={() => toggleSelectShipment(shipment._id)}
-                              aria-label={`تحديد الشحنة ${shipment._id}`}
-                            />
-                          </div>
-                          <div className="flex-grow">
-                            <V7ShipmentCard shipment={shipment} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <Package className="mx-auto h-12 w-12 text-[#6d6a67] opacity-20" />
-                      <h3 className="mt-4 text-lg font-medium">لا توجد شحنات</h3>
-                      <p className="mt-2 text-sm text-[#6d6a67]">لم يتم العثور على شحنات تطابق معايير البحث</p>
-                    </div>
-                  )}
-                  {/* Pagination UI */}
-                  {totalPages > 1 && (
-                    <div className="flex justify-center mt-8">
-                      <nav className="inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                          <button
-                            key={page}
-                            onClick={() => setCurrentPage(page)}
-                            className={`px-4 py-2 border text-sm font-medium ${currentPage === page ? 'bg-blue-500 text-white' : 'bg-white text-blue-700 border-blue-200'} ${page === 1 ? 'rounded-l-md' : ''} ${page === totalPages ? 'rounded-r-md' : ''}`}
-                            style={{ minWidth: 40 }}
-                          >
-                            {page}
-                          </button>
-                        ))}
-                      </nav>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="active" className="mt-0">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center mb-4 px-2">
-                    <div className="flex items-center">
-                      <Checkbox
-                        checked={selectedShipments.length === sortedShipments.length && sortedShipments.length > 0}
-                        onCheckedChange={toggleSelectAll}
-                        aria-label="تحديد كل الشحنات النشطة"
-                        className="ml-2"
-                      />
-                      <span className="text-sm font-medium">تحديد الكل</span>
-                    </div>
-
-                    <span className="text-sm text-gray-500">{sortedShipments.length} شحنة نشطة</span>
-                  </div>
-
-                  {sortedShipments.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {sortedShipments.map((shipment) => (
-                        <div key={shipment._id} className="flex items-center">
-                          <div className="w-6 flex-shrink-0 mt-4 ml-2">
-                            <Checkbox
-                              checked={selectedShipments.includes(shipment._id)}
-                              onCheckedChange={() => toggleSelectShipment(shipment._id)}
-                              aria-label={`تحديد الشحنة ${shipment._id}`}
-                            />
-                          </div>
-                          <div className="flex-grow ">
-                            <V7ShipmentCard shipment={shipment} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <Package className="mx-auto h-12 w-12 text-[#6d6a67] opacity-20" />
-                      <h3 className="mt-4 text-lg font-medium">لا توجد شحنات نشطة</h3>
-                      <p className="mt-2 text-sm text-[#6d6a67]">لم يتم العثور على شحنات نشطة تطابق معايير البحث</p>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="delivered" className="mt-0">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center mb-4 px-2">
-                    <div className="flex items-center">
-                      <Checkbox
-                        checked={selectedShipments.length === sortedShipments.length && sortedShipments.length > 0}
-                        onCheckedChange={toggleSelectAll}
-                        aria-label="تحديد كل الشحنات المسلمة"
-                        className="ml-2"
-                      />
-                      <span className="text-sm font-medium">تحديد الكل</span>
-                    </div>
-
-                    <span className="text-sm text-gray-500">{sortedShipments.length} شحنة مسلمة</span>
-                  </div>
-
-                  {sortedShipments.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {sortedShipments.map((shipment) => (
-                        <div key={shipment._id} className="flex items-center">
-                          <div className="w-6 flex-shrink-0 mt-4 ml-2">
-                            <Checkbox
-                              checked={selectedShipments.includes(shipment._id)}
-                              onCheckedChange={() => toggleSelectShipment(shipment._id)}
-                              aria-label={`تحديد الشحنة ${shipment._id}`}
-                            />
-                          </div>
-                          <div className="flex-grow">
-                            <V7ShipmentCard shipment={shipment} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <CheckCircle className="mx-auto h-12 w-12 text-[#6d6a67] opacity-20" />
-                      <h3 className="mt-4 text-lg font-medium">لا توجد شحنات مسلمة</h3>
-                      <p className="mt-2 text-sm text-[#6d6a67]">لم يتم العثور على شحنات مسلمة تطابق معايير البحث</p>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="processing" className="mt-0">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center mb-4 px-2">
-                    <div className="flex items-center">
-                      <Checkbox
-                        checked={selectedShipments.length === sortedShipments.length && sortedShipments.length > 0}
-                        onCheckedChange={toggleSelectAll}
-                        aria-label="تحديد كل الشحنات قيد المعالجة"
-                        className="ml-2"
-                      />
-                      <span className="text-sm font-medium">تحديد الكل</span>
-                    </div>
-
-                    <span className="text-sm text-gray-500">{sortedShipments.length} شحنة قيد المعالجة</span>
-                  </div>
-
-                  {sortedShipments.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {sortedShipments.map((shipment) => (
-                        <div key={shipment._id} className="flex items-center">
-                          <div className="w-6 flex-shrink-0 mt-4 ml-2">
-                            <Checkbox
-                              checked={selectedShipments.includes(shipment._id)}
-                              onCheckedChange={() => toggleSelectShipment(shipment._id)}
-                              aria-label={`تحديد الشحنة ${shipment._id}`}
-                            />
-                          </div>
-                          <div className="flex-grow">
-                            <V7ShipmentCard shipment={shipment} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <Clock className="mx-auto h-12 w-12 text-[#6d6a67] opacity-20" />
-                      <h3 className="mt-4 text-lg font-medium">لا توجد شحنات قيد المعالجة</h3>
-                      <p className="mt-2 text-sm text-[#6d6a67]">
-                        لم يتم العثور على شحنات قيد المعالجة تطابق معايير البحث
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </TabsContent>
+              <ShipmentsGrid
+                sortedShipments={sortedShipments}
+                selectedShipmentId={selectedShipmentId}
+                setSelectedShipmentId={setSelectedShipmentId}
+                handleBulkAction={handleBulkAction}
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
             </Tabs>
           </div>
         </div>

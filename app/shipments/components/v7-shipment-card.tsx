@@ -197,7 +197,7 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
                   <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">الأبعاد:</span><span className="font-medium">{shipment.dimension?.length ?? "-"} × {shipment.dimension?.width ?? "-"} × {shipment.dimension?.high ?? "-"} سم</span></div>
                   <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">نوع الشحن:</span><span className="font-medium">{shipment.shapmentingType}</span></div>
                   <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">نوع الخدمة:</span><span className="font-medium">{shipment.shapmentType}</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">سعر الشحن:</span><span className="font-medium">{shipment.shapmentPrice?.basePrice ?? "-"}</span></div>
+                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">سعر الشحن:</span><span className="font-medium">{shipment.shapmentPrice ?? "-"}</span></div>
                   <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">الضريبة:</span><span className="font-medium">{shipment.priceaddedtax * 100}%</span></div>
                 </div>
               </div>
