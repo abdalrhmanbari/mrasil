@@ -20,16 +20,16 @@ const features = [
 
 export function Features() {
   return (
-    <div className="py-16 bg-white">
+    <div className="py-16 ">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold text-center mb-16">لماذا مراسيل؟</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className="bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-md border border-gray-100 p-8 flex flex-col items-center text-center transition-transform duration-200 hover:shadow-2xl hover:-translate-y-2 hover:border-blue-400 cursor-pointer group"
+              className="rounded-2xl shadow-md border border-gray-100 p-8 flex flex-col items-center text-center transition-transform duration-200 hover:shadow-2xl hover:-translate-y-2 hover:border-blue-400 cursor-pointer group bg-transparent"
             >
-              <div className="w-32 h-32 mb-6 flex items-center justify-center">
+              <div className="w-32 h-32 mb-6 flex items-center justify-center bg-transparent">
                 <Image
                   src={feature.img}
                   alt={feature.title}
@@ -38,8 +38,12 @@ export function Features() {
                   height={128}
                 />
               </div>
-              <h3 className="font-extrabold mb-3 text-2xl text-blue-900 group-hover:text-blue-700 transition-all">{feature.title}</h3>
-              <p className="text-base text-gray-700 leading-relaxed font-medium">{feature.desc}</p>
+              <h3 className="font-extrabold mb-3 text-2xl text-blue-900 group-hover:text-blue-700 transition-all">
+                {feature.title}
+              </h3>
+              <p className="text-base text-gray-700 leading-relaxed font-medium">
+                {feature.desc}
+              </p>
             </div>
           ))}
         </div>

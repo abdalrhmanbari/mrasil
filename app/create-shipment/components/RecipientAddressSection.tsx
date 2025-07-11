@@ -1,6 +1,6 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Phone, MapPin, Mail, Search, UserPlus, Trash2 } from "lucide-react";
+import { CheckCircle2, Phone, MapPin, Mail, Search, UserPlus, Trash2, Edit, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AddRecipientForm } from "../components/AddRecipientForm";
@@ -167,7 +167,7 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
             {selectedRecipient === card._id && (
               <div className="absolute top-3 right-3">
                 <div className="w-6 h-6 rounded-full bg-[#3498db] flex items-center justify-center">
-                  <CheckCircle2 className="h-4 w-4 text-white" />
+                  <Check className="h-4 w-4 text-white" />
                 </div>
               </div>
             )}
@@ -181,7 +181,7 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
                   handleEditRecipient(card);
                 }}
               >
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13zm-6 6h6v-2H5a2 2 0 01-2-2v-6a2 2 0 012-2h2v-2H5a4 4 0 00-4 4v6a4 4 0 004 4z"></path></svg>
+                <Edit className="h-4 w-4 text-[#3498db]" />
               </Button>
               <Button
                 variant="ghost"
@@ -219,10 +219,16 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
           </motion.div>
         ))}
       </div>
-      {filteredRecipientCards.length > 6 && !showAllRecipients && (
+      {/* More/Less button */}
+      {filteredRecipientCards.length > 6 && (
         <div className="flex justify-center mt-4">
-          <Button type="button" variant="ghost" className="text-blue-500 flex items-center gap-1 py-3 px-8 text-lg rounded-xl font-bold border border-blue-200 shadow-sm" onClick={() => setShowAllRecipients(true)}>
-            المزيد <span>+</span>
+          <Button
+            type="button"
+            variant="ghost"
+            className="text-blue-500 flex items-center gap-1 py-3 px-8 text-lg rounded-xl font-bold border border-blue-200 shadow-sm"
+            onClick={() => setShowAllRecipients((prev) => !prev)}
+          >
+            {showAllRecipients ? 'عرض أقل' : 'المزيد +'}
           </Button>
         </div>
       )}

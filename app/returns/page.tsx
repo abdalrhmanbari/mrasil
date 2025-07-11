@@ -55,6 +55,7 @@ import { useHandleApprovalMutation } from '../api/handleReturnApprovalApi';
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogAction } from '@/components/ui/alert-dialog';
 import ReturnsTable from './ReturnsTable';
+import ReturnsFiltersBar from './ReturnsFiltersBar';
 
 // Utility classes for consistent styling
 const textPrimaryClass = "text-gray-900 dark:text-gray-100"
@@ -384,57 +385,58 @@ export default function Returns() {
   // الإحصائيات
   const renderStats = () => (
     <div className="grid gap-4 md:grid-cols-4">
+      {/* Card 1: إجمالي المرتجعات */}
       <div className="v7-neu-card">
-        <div className="p-4">
+        <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#6d6a67]">إجمالي المرتجعات</p>
-              <h3 className="text-2xl font-bold text-[#294D8B]">58</h3>
+              <p className="text-base text-[#6d6a67]">إجمالي المرتجعات</p>
+              <h3 className="text-3xl font-bold text-[#294D8B]">{total}</h3>
             </div>
             <div className="v7-neu-icon-lg">
-              <PackageX className="h-6 w-6 text-[#294D8B]" />
+              <PackageX className="h-8 w-8 text-[#294D8B]" />
             </div>
           </div>
         </div>
       </div>
-
+      {/* Card 2: المرتجعات المقبولة */}
       <div className="v7-neu-card">
-        <div className="p-4">
+        <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#6d6a67]">المرتجعات المقبولة</p>
-              <h3 className="text-2xl font-bold text-[#2ecc71]">42</h3>
+              <p className="text-base text-[#6d6a67]">المرتجعات المقبولة</p>
+              <h3 className="text-3xl font-bold text-[#2ecc71]">{approved}</h3>
             </div>
             <div className="v7-neu-icon-lg">
-              <PackageCheck className="h-6 w-6 text-[#2ecc71]" />
+              <PackageCheck className="h-8 w-8 text-[#2ecc71]" />
             </div>
           </div>
         </div>
       </div>
-
+      {/* Card 3: قيد المراجعة */}
       <div className="v7-neu-card">
-        <div className="p-4">
+        <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#6d6a67]">قيد المراجعة</p>
-              <h3 className="text-2xl font-bold text-[#f39c12]">12</h3>
+              <p className="text-base text-[#6d6a67]">قيد المراجعة</p>
+              <h3 className="text-3xl font-bold text-[#f39c12]">{pending}</h3>
             </div>
             <div className="v7-neu-icon-lg">
-              <Clock className="h-6 w-6 text-[#f39c12]" />
+              <Clock className="h-8 w-8 text-[#f39c12]" />
             </div>
           </div>
         </div>
       </div>
-
+      {/* Card 4: مرفوضة */}
       <div className="v7-neu-card">
-        <div className="p-4">
+        <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-[#6d6a67]">مرفوضة</p>
-              <h3 className="text-2xl font-bold text-[#e74c3c]">4</h3>
+              <p className="text-base text-[#6d6a67]">مرفوضة</p>
+              <h3 className="text-3xl font-bold text-[#e74c3c]">{rejected}</h3>
             </div>
             <div className="v7-neu-icon-lg">
-              <XCircle className="h-6 w-6 text-[#e74c3c]" />
+              <XCircle className="h-8 w-8 text-[#e74c3c]" />
             </div>
           </div>
         </div>
@@ -1665,124 +1667,47 @@ export default function Returns() {
         <div className="container mx-auto p-4 md:p-6">
           {/* Header with title and action button */}
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
-            <div>
-              <h1 className="text-2xl font-bold text-[#294D8B] dark:text-blue-400">ادارة الاسترجاع</h1>
-              <p className="text-[#6d6a67] dark:text-gray-400">إدارة طلبات الاسترجاع وتتبع حالتها</p>
-            </div>
+             <div>
+            <h1 className="text-3xl font-bold text-[#294D8B]">إدارة المرتجعات</h1>
+            <p className="text-base text-[#6d6a67]">تتبع وإدارة طلبات الرجيع والمرتجعات</p>
+          </div>
             <div className="flex flex-wrap gap-3">
               <Button
-                className="bg-[#294D8B] hover:bg-[#1e3b6f] text-white shadow-sm transition-all duration-200 dark:bg-blue-600 dark:hover:bg-blue-700"
+                className="bg-[#294D8B] hover:bg-[#1e3b6f] text-white shadow-sm transition-all duration-200 dark:bg-blue-600 dark:hover:bg-blue-700 text-base px-6 py-3"
                 onClick={() => window.open("/replacements/verify-email", "_blank")}
               >
                 تحقق من بريد الكترونى
               </Button>
-              <Button
-                className="v7-neu-button-accent rounded shadow px-4 py-2 text-sm"
-                onClick={() => setShowCustomizeOptions(true)}
-              >
-                تخصيص صفحة الإرجاع
-              </Button>
+             
             </div>
           </div>
-          <div className="w-full px-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 v7-fade-in">
-              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm text-[#6d6a67] mb-1">إجمالي الاسترجاعات</p>
-                    <h3 className="text-2xl font-bold text-[#3498db]">{total}</h3>
-                  </div>
-                  <div className="v7-neu-icon-lg ml-4">
-                    <PackageCheck className="h-6 w-6 text-[#3498db]" />
-                  </div>
-                </div>
-              </div>
-              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm text-[#6d6a67] mb-1">تمت الموافقة</p>
-                    <h3 className="text-2xl font-bold text-[#2ecc71]">{approved}</h3>
-                  </div>
-                  <div className="v7-neu-icon-lg ml-4">
-                    <CheckCircle className="h-6 w-6 text-[#2ecc71]" />
-                  </div>
-                </div>
-              </div>
-              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm text-[#6d6a67] mb-1">قيد المراجعة</p>
-                    <h3 className="text-2xl font-bold text-[#294D8B]">{pending}</h3>
-                  </div>
-                  <div className="v7-neu-icon-lg ml-4">
-                    <Clock className="h-6 w-6 text-[#294D8B]" />
-                  </div>
-                </div>
-              </div>
-              <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm text-[#6d6a67] mb-1">مرفوضة</p>
-                    <h3 className="text-2xl font-bold text-[#e74c3c]">{rejected}</h3>
-                  </div>
-                  <div className="v7-neu-icon-lg ml-4">
-                    <XCircle className="h-6 w-6 text-[#e74c3c]" />
-                  </div>
-                </div>
-              </div>
+          <div className="mb-6">
+            <div className="mb-8">
+              {renderStats()}
             </div>
-            {/* Search and filter bar */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border-b mb-4 bg-white rounded-lg shadow-sm">
-              <div className="relative v7-neu-input-container flex-1 min-w-[200px]">
-                <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
-                <Input
-                  placeholder="البحث عن رقم الطلب أو المنتج..."
-                  className="v7-neu-input w-full pr-12"
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
-                      <Sliders className="h-4 w-4 md:mr-2" />
-                      <span className="sr-only md:not-sr-only">تصفية</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="v7-neu-dropdown min-w-[180px] border border-[#E4E9F2] shadow-lg bg-white rounded-lg">
-                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">جميع الحالات</DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">تمت الموافقة</DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">قيد المراجعة</DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">مرفوضة</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
-                      <ChevronDown className="h-4 w-4 md:mr-2" />
-                      <span className="sr-only md:not-sr-only">ترتيب</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="v7-neu-dropdown min-w-[180px] border border-[#E4E9F2] shadow-lg bg-white rounded-lg">
-                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">الأحدث أولاً</DropdownMenuItem>
-                    <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">الأقدم أولاً</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </div>
-          <Card className="v7-neu-card dark:bg-gray-800 mt-8">
-            <ReturnsTable
-              data={shipmentsData?.data}
-              isLoading={isShipmentsLoading}
-              error={shipmentsError}
-              isApproving={isApproving}
-              handleApproval={handleApproval}
-              approvalResult={approvalResult}
-              setApprovalResult={setApprovalResult}
+            <ReturnsFiltersBar
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              returnTypeFilter={returnTypeFilter}
+              setReturnTypeFilter={setReturnTypeFilter}
+              selectedReturns={selectedReturns}
+              handleBulkAction={handleBulkAction}
+              setShowCustomizeOptions={setShowCustomizeOptions}
+              value={activeTab}
+              onTabChange={setActiveTab}
             />
-          </Card>
+          </div>
+          <ReturnsTable
+            data={shipmentsData?.data}
+            isLoading={isShipmentsLoading}
+            error={shipmentsError}
+            isApproving={isApproving}
+            handleApproval={handleApproval}
+            approvalResult={approvalResult}
+            setApprovalResult={setApprovalResult}
+          />
         </div>
       </V7Content>
     </V7Layout>

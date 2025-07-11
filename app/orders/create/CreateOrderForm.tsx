@@ -120,7 +120,7 @@ export function CreateOrderForm() {
                     </div>
                   ))}
                 </div>
-                {clientAddresses?.data?.length > 4 && (
+                {clientAddresses?.data?.length && clientAddresses?.data?.length > 4 && (
                   <div className="flex justify-center mt-4">
                     <Button type="button" variant="outline" onClick={() => setShowAllAddresses(v => !v)}>
                       {showAllAddresses ? 'عرض أقل' : 'المزيد'}

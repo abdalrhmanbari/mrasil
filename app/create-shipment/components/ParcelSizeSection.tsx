@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Package, CheckCircle2 } from "lucide-react";
+import { Package, CheckCircle2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -118,7 +118,7 @@ export function ParcelSizeSection({ parcelsData, setValue, errors }: ParcelSizeS
                 </div>
                 {selected && (
                   <div className="absolute top-2 right-2 w-5 h-5 bg-[#3498db] rounded-full flex items-center justify-center">
-                    <CheckCircle2 className="h-3 w-3 text-white" />
+                    <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
               </div>

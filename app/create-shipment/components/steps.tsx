@@ -104,7 +104,7 @@ export function CreateShipmentSteps() {
       recipient_district: "",
       // Step 2
       weight: 0,
-      Parcels: 0,
+      Parcels: 1,
       dimension_high: 0,
       dimension_width: 0,
       dimension_length: 0,
@@ -194,7 +194,7 @@ export function CreateShipmentSteps() {
           address: data.shipper_address,
         },
         weight: Number(data.weight),
-        Parcels: Number(data.Parcels),
+        Parcels: Number(data.Parcels) || 1,
         dimension: {
           high: Number(data.dimension_high),
           width: Number(data.dimension_width),
@@ -631,24 +631,31 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
   const [isSubmitting, setIsSubmitting] = useState(false)
   // Fetch companies
   const { data: companiesData, isLoading: isLoadingCompanies } = useGetAllShipmentCompaniesQuery()
-  // Collect all unique shipment types from all companies
-  const shipmentTypes = Array.from(new Set((companiesData || []).flatMap(c => c.shippingTypes.map(t => t.type))))
-  // Deduplicate companies by name
-  const uniqueCompanies = (companiesData || []).filter((c, idx, arr) => arr.findIndex(x => x.company === c.company) === idx);
-  // Selection state
-  const [selectedCompany, setSelectedCompany] = useState<string | null>(null)
-  const [selectedType, setSelectedType] = useState<string | null>(null)
+  // Shipment type tabs
+  const shipmentTypes = [
+    { label: "الشحن العادي", value: "Dry" },
+    { label: "الشحن البارد", value: "Cold" },
+    { label: "الشحن السريع", value: "Express" },
+    { label: "شحن الخزائن", value: "Lockers" },
+    { label: "الشحن الدولي", value: "International" },
+  ];
+  const [selectedShipmentType, setSelectedShipmentType] = useState(values.shipmentType || "Dry");
 
-  // Handle company select
+  // Fix: Add selectedCompany state and handler
+  const [selectedCompany, setSelectedCompany] = useState(values.company || "");
   const handleCompanySelect = (company: string) => {
-    setSelectedCompany(company)
-    setValue("company", company)
-  }
-  // Handle shipment type select
-  const handleTypeSelect = (type: string) => {
-    setSelectedType(type)
-    setValue("shipmentType", type)
-  }
+    setSelectedCompany(company);
+    setValue("company", company);
+  };
+
+  // Handle shipment type tab click
+  const handleShipmentTypeTab = (type: string) => {
+    setSelectedShipmentType(type);
+    setValue("shipmentType", type);
+  };
+
+  // Fix: Define uniqueCompanies before use
+  const uniqueCompanies = (companiesData || []).filter((c, idx, arr) => arr.findIndex(x => x.company === c.company) === idx);
 
   // Wrap onSubmit to handle loading state
   const handleSubmit = async (e: any) => {
@@ -666,47 +673,20 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-[#1a365d] flex items-center gap-2">
           <Package className="w-5 h-5 text-[#3498db]" />
-          نوع الشحنة
+          نوع الشحن
         </h2>
-        <div className="flex gap-6 mt-4">
-          {shipmentTypes.map((type) => {
-            const selected = selectedType === type;
-            return (
-              <div
-                key={type}
-                className={`
-                  flex-1 min-w-[220px] max-w-[320px] rounded-2xl p-6 cursor-pointer transition-all
-                  flex flex-col items-start border
-                  ${selected
-                    ? "bg-blue-50 border-blue-400 shadow-md"
-                    : "bg-white border-gray-200 hover:border-blue-300 hover:shadow"}
-                `}
-                onClick={() => handleTypeSelect(type)}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <span
-                    className={`
-                      flex items-center justify-center w-6 h-6 rounded-full border-2
-                      ${selected ? "border-blue-500 bg-white" : "border-gray-300 bg-white"}
-                      transition-all
-                    `}
-                  >
-                    {selected ? (
-                      <span className="block w-3 h-3 rounded-full bg-blue-500" />
-                    ) : null}
-                  </span>
-                  <span className={`font-bold text-lg ${selected ? "text-blue-700" : "text-gray-700"}`}>
-                    {type}
-                  </span>
-                </div>
-                <span className={`text-sm ${selected ? "text-gray-500" : "text-gray-400"}`}>
-                  {type === "الدفع المسبق"
-                    ? "مناسب للدفع قبل الشحن"
-                    : "مناسب للدفع عند استلام الشحنة"}
-                </span>
-              </div>
-            );
-          })}
+        <div className="flex w-full rounded-full border border-[#b6d6f6] bg-[#f7fafd] overflow-hidden">
+          {shipmentTypes.map((tab) => (
+            <button
+              key={tab.value}
+              type="button"
+              className={`flex-1 py-2 text-center font-bold transition-all text-base ${selectedShipmentType === tab.value ? "bg-[#eaf4fb] text-[#3498db]" : "bg-transparent text-[#1a365d] hover:bg-[#f0f6fa]"}`}
+              style={{ borderRadius: 20 }}
+              onClick={() => handleShipmentTypeTab(tab.value)}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
       {/* Carrier Cards Second */}
@@ -862,7 +842,7 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
         </Button>
       </div>
     </form>
-  )
+  );
 }
 
 // InputField and SelectField components

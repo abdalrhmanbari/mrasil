@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { MarasilAtomLogo } from "./MarasilAtomLogo";
 import { AIVisualizer } from "./AIVisualizer";
-import { AIBackgroundElements } from "./AIBackgroundElements";
-import { AIBackgroundPattern } from "./AIBackgroundPattern";
+//import { AIBackgroundElements } from "./AIBackgroundElements";
+//import { AIBackgroundPattern } from "./AIBackgroundPattern";
 import { CircuitBrainBackground } from "./CircuitBrainBackground";
 import { CircuitBackgroundElement } from "./CircuitBackgroundElement";
 import { CerebellarBrainBackground } from "./CerebellarBrainBackground";
@@ -13,72 +12,33 @@ import { CerebellarBrainBackground } from "./CerebellarBrainBackground";
 export function Hero() {
   const [isClient, setIsClient] = useState(false);
   const [activeText, setActiveText] = useState(0);
-  
+
   const aiCapabilities = [
     "Optimizing shipping routes in real-time",
     "Predicting delivery times with 99.4% accuracy",
     "Automating inventory management",
     "Analyzing traffic patterns for fastest delivery",
     "Neural network powered logistics solutions",
-    "Machine learning algorithms for route optimization"
+    "Machine learning algorithms for route optimization",
   ];
-  
+
   useEffect(() => {
     setIsClient(true);
-    
+
     // Rotate through AI capability text
     const interval = setInterval(() => {
       setActiveText((prev) => (prev + 1) % aiCapabilities.length);
     }, 3000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div 
-      className="relative overflow-hidden bg-[#F3F6FA] min-h-[90vh] flex flex-col justify-center items-center"
-    >
-      {/* NEW: Cerebellar Brain Background as the main visual */}
-      <CerebellarBrainBackground opacity={0.12} scale={1.2} />
-      
-      {/* Reduced opacity on other background elements */}
-      <CircuitBackgroundElement opacity={0.05} />
-      <CircuitBrainBackground opacity={0.07} />
-      
-      {/* Additional brain visualizations for depth and complexity */}
-      <CerebellarBrainBackground 
-        position="top-right" 
-        opacity={0.05} 
-        scale={0.7} 
-        className="translate-x-[25%] -translate-y-[15%]" 
-      />
-      
-      <CerebellarBrainBackground 
-        position="bottom-left" 
-        opacity={0.04} 
-        scale={0.6} 
-        className="-translate-x-[20%] translate-y-[25%]" 
-      />
-      
-      {/* Other AI-themed background elements with reduced opacity */}
-      <AIBackgroundElements className="opacity-40" />
-      
-      {/* Background neural network visualization with reduced opacity */}
-      <div className="absolute inset-0 opacity-08">
-        <AIVisualizer height={1000} density="high" animate={true} />
-      </div>
-      
-      {/* Animated particle background */}
-      <div className="absolute inset-0 z-0">
-        <AIBackgroundPattern className="opacity-30" />
-        <div className="absolute right-0 top-0 h-96 w-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-[#3B82F6]/10 blur-3xl"></div>
-        <div className="absolute left-0 bottom-0 h-96 w-96 translate-y-1/2 -translate-x-1/2 rounded-full bg-[#0F2F55]/10 blur-3xl"></div>
-      </div>
-
+    <section className="relative w-full min-h-[400px] flex flex-col items-center justify-center">
       {/* Hero content - centered column layout with responsive sizing */}
       <div className="container relative z-10 mx-auto px-4 py-8 flex flex-col items-center">
         {/* Pioneer in Saudi Arabia Badge - Now as a top ribbon */}
-        <motion.div 
+        <motion.div
           className="mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,32 +46,34 @@ export function Hero() {
         >
           <div className="inline-flex items-center gap-2 rounded-full bg-[#0F2F55]/10 backdrop-blur-sm px-4 py-2 border border-[#0F2F55]/20">
             <div className="relative h-5 w-5">
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 rounded-full bg-[#0F2F55]"
-                animate={{ 
+                animate={{
                   scale: [1, 1.2, 1],
-                  opacity: [0.7, 1, 0.7]
+                  opacity: [0.7, 1, 0.7],
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
-                  repeatType: "reverse"
+                  repeatType: "reverse",
                 }}
               />
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 rounded-full border-2 border-[#0F2F55]"
-                animate={{ 
+                animate={{
                   scale: [1, 1.4, 1],
-                  opacity: [0.7, 0, 0.7]
+                  opacity: [0.7, 0, 0.7],
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
-                  repeatType: "reverse"
+                  repeatType: "reverse",
                 }}
               />
             </div>
-            <span className="text-sm font-medium text-[#0F2F55]">World's First AI-Powered Logistics Platform</span>
+            <span className="text-sm font-medium text-[#0F2F55]">
+              World's First AI-Powered Logistics Platform
+            </span>
           </div>
         </motion.div>
 
@@ -125,25 +87,25 @@ export function Hero() {
           {/* Updated 3D Rotating Atom Logo with individually rotating rings */}
           <div className="flex justify-center">
             <MarasilAtomLogo
-              size={320} 
+              size={320}
               animated={true}
               className="w-full h-auto"
             />
           </div>
-          
+
           {/* Enhanced glow effect around the 3D atom */}
           <div className="absolute inset-0 -m-6 rounded-full pointer-events-none">
-            <motion.div 
+            <motion.div
               className="absolute inset-0 rounded-full border border-[#3B82F6]/20"
-              animate={{ 
-                scale: [1, 1.05, 1],
-                opacity: [0.3, 0.5, 0.3]
-              }}
-              transition={{ 
-                duration: 4,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
+              // animate={{
+              //   scale: [1, 1.05, 1],
+              //   opacity: [0.3, 0.5, 0.3],
+              // }}
+              // transition={{
+              //   duration: 4,
+              //   repeat: Infinity,
+              //   repeatType: "reverse",
+              // }}
             />
           </div>
         </motion.div>
@@ -151,26 +113,27 @@ export function Hero() {
         {/* Content below the atom logo */}
         <div className="max-w-3xl mx-auto text-center">
           {/* Main headline with Saudi Arabia emphasis */}
-          <motion.h1 
+          <motion.h1
             className="mb-6 text-4xl md:text-5xl font-bold tracking-tight text-[#0F2F55]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F2F55] to-[#3B82F6]">
-              The world's first
-            </span> AI-powered platform to help you manage your shipments
+              أول منصة
+            </span>{" "}
+              في العالم مدعومة بالذكاء الاصطناعي لمساعدتك في إدارة شحناتك
           </motion.h1>
-          
+
           {/* Rotating AI capabilities */}
-          <motion.div 
+          <motion.div
             className="mb-8 relative h-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
             <AnimatePresence mode="wait">
-              <motion.p 
+              <motion.p
                 key={activeText}
                 className="text-lg text-[#0F2F55]/80 absolute left-0 right-0"
                 initial={{ opacity: 0, y: 20 }}
@@ -178,11 +141,12 @@ export function Hero() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                <span className="text-[#3B82F6] font-medium">AI is</span> {aiCapabilities[activeText]}
+                <span className="text-[#3B82F6] font-medium">AI is</span>{" "}
+                {aiCapabilities[activeText]}
               </motion.p>
             </AnimatePresence>
           </motion.div>
-          
+
           {/* AI Technologies row */}
           <motion.div
             className="flex flex-wrap justify-center gap-6 mb-10"
@@ -206,23 +170,23 @@ export function Hero() {
               <div className="relative h-2 w-2">
                 <motion.div
                   className="absolute inset-0 rounded-full bg-[#F59E0B]"
-                  animate={{ 
+                  animate={{
                     scale: [1, 1.5, 1],
-                    opacity: [1, 0.7, 1]
+                    opacity: [1, 0.7, 1],
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 2,
                     repeat: Infinity,
-                    repeatType: "reverse"
+                    repeatType: "reverse",
                   }}
                 />
               </div>
               <p className="text-sm text-[#0F2F55]/80">24/7 AI Monitoring</p>
             </div>
           </motion.div>
-          
+
           {/* Stats */}
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center gap-4 md:gap-8 mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -240,26 +204,31 @@ export function Hero() {
               <div className="flex items-center gap-2">
                 <h2 className="text-3xl font-bold text-[#3B82F6]">#1</h2>
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-[#0F2F55]">Logistics Platform</span>
-                  <span className="text-xs text-[#0F2F55]/70">24/7 AI Monitoring</span>
+                  <span className="text-xs font-semibold text-[#0F2F55]">
+                    Logistics Platform
+                  </span>
+                  <span className="text-xs text-[#0F2F55]/70">
+                    24/7 AI Monitoring
+                  </span>
                 </div>
               </div>
             </div>
           </motion.div>
-          
+
           {/* Main description text */}
-          <motion.p 
+          <motion.p
             className="mb-8 text-[#0F2F55]/80 max-w-xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.55 }}
           >
-            Marasil is pioneering artificial intelligence in the global logistics sector, 
-            helping businesses manage shipments with unprecedented efficiency and accuracy.
+            Marasil is pioneering artificial intelligence in the global
+            logistics sector, helping businesses manage shipments with
+            unprecedented efficiency and accuracy.
           </motion.p>
-          
+
           {/* CTA Buttons */}
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -268,12 +237,15 @@ export function Hero() {
             <Button className="bg-[#0F2F55] hover:bg-[#0F2F55]/90 text-white rounded-full px-8 py-6">
               Get Started Now
             </Button>
-            <Button variant="outline" className="border-[#0F2F55]/20 text-[#0F2F55] hover:bg-[#0F2F55]/5 rounded-full px-8 py-6">
+            <Button
+              variant="outline"
+              className="rounded-2xl shadow-md border border-gray-100 text-[#0F2F55] hover:bg-[#0F2F55]/5 rounded-full px-8 py-6"
+            >
               Watch AI Demo
             </Button>
           </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

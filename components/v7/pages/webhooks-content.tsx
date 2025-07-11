@@ -72,13 +72,12 @@ export function WebhooksContent() {
   const webhook = { active: webhookStatus?.isEnabled ?? false }
 
   return (
-    <div className="space-y-6 rtl">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold tracking-tight">توصيل المتاجر</h1>
-        <p className="text-muted-foreground">
+    <div className="space-y-6 rtl">     
+        <h1 className="text-3xl font-bold tracking-tight">توصيل المتاجر</h1>
+        <p className="text-muted-foreground text-lg">
           قم بتوصيل متجرك الإلكتروني بمنصة الشحن لإدارة الطلبات والشحنات بشكل تلقائي
         </p>
-      </div>
+      
 
       <Card className="v7-neu-card">
         <CardContent className="p-6">
@@ -97,12 +96,12 @@ export function WebhooksContent() {
                     toast.error("حدث خطأ أثناء تحديث حالة الويب هوك")
                   }
                 }} 
-                className="scale-125"
+                className="scale-150"
                 disabled={isUpdating || isLoadingStatus}
               />
               <Badge
                 variant="outline"
-                className={`${
+                className={`text-base ${
                   webhook.active
                     ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                     : "bg-slate-50 text-slate-700 border-slate-200"
@@ -115,16 +114,16 @@ export function WebhooksContent() {
             <div className="flex-1 w-full">
               <div className="flex items-center justify-center mb-6">
                 <div className="flex items-center gap-6">
-                  <h2 className="text-xl font-bold">الربط مع سلة</h2>
-                  <div className="w-16 h-16 relative">
+                  <h2 className="text-2xl font-bold">الربط مع سلة</h2>
+                  <div className="w-20 h-20 relative">
                     <div className="v7-neu-card-inner rounded-xl flex items-center justify-center w-full h-full">
-                      <Image src="/salla.svg" alt="سلة" width={40} height={40} />
+                      <Image src="/salla.svg" alt="سلة" width={50} height={50} />
                     </div>
                   </div>
                 </div>
               </div>
               
-              <p className="mb-6 leading-relaxed">
+              <p className="mb-6 leading-relaxed text-lg">
                 لربط متجرك الإلكتروني في سلة بمنصة مراسيل كل ما عليك هو أن تضغط زر النسخ المتحرك بجوار الرابط أدناه و
                 الذي سيقوم بنسخ الرابط و تفعيل الربط مع سلة و توجيهك لسلة لتقوم باللصق و بعد اللصق، في سلة عد إلى هنا
                 لتحديث 'Webhook URL'
@@ -133,13 +132,13 @@ export function WebhooksContent() {
                 <Button
                   type="button"
                   onClick={handleManualGetAuthUrl}
-                  className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                  className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 text-lg py-3 px-6"
                   disabled={isAuthLoading}
                 >
                   {isAuthLoading ? (
-                    <Loader2 className="animate-spin h-5 w-5 ml-2" />
+                    <Loader2 className="animate-spin h-6 w-6 ml-2" />
                   ) : (
-                    <Image src="/salla.svg" alt="سلة" width={15} height={10} className="ml-2" />
+                    <Image src="/salla.svg" alt="سلة" width={20} height={15} className="ml-2" />
                   )}
                   ربط مع سلة
                 </Button>
@@ -147,37 +146,37 @@ export function WebhooksContent() {
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block font-medium">رابط سلة</label>
+                  <label className="block font-medium text-lg">رابط سلة</label>
                   <div className="flex gap-2">
                     <Button
                       type="button"
                       variant="outline"
                       size="icon"
                       onClick={copyToken}
-                      className=""
+                      className="h-12 w-12"
                     >
-                      <FileText className="h-4 w-4" />
+                      <FileText className="h-6 w-6" />
                     </Button>
-                    <Input value={sallaToken} readOnly className="font-mono text-sm  border-gray-200" />
+                    <Input value={sallaToken} readOnly className="font-mono text-base border-gray-200 h-12" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block font-medium">Webhook URL</label>
+                  <label className="block font-medium text-lg">Webhook URL</label>
                   <div className="flex gap-2">
                     <Button
                       type="button"
                       onClick={handleUpdateWebhook}
-                      className="bg-[#e74c3c] hover:bg-[#c0392b] text-white flex-shrink-0"
+                      className="bg-[#e74c3c] hover:bg-[#c0392b] text-white flex-shrink-0 text-lg py-3 px-6"
                       disabled={isUpdating || isLoadingStatus}
                     >
-                      {isUpdating ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : null}
+                      {isUpdating ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : null}
                       تحديث
                     </Button>
                     <Input
                       value={webhookUrl}
                       onChange={(e) => setWebhookUrl(e.target.value)}
-                      className="font-mono border-gray-200 text-sm"
+                      className="font-mono border-gray-200 text-base h-12"
                       placeholder="أدخل رابط الويب هوك هنا"
                       disabled={isLoadingStatus}
                     />
@@ -189,22 +188,22 @@ export function WebhooksContent() {
         </CardContent>
       </Card>
 
-      <Card className="v7-neu-card dark:bg-gray-800/50 dark:border-gray-700">
+      <Card className="v7-neu-card dark:bg-gray-800/50 ">
         <CardHeader>
-          <CardTitle className="text-lg dark:text-gray-200">متاجر أخرى</CardTitle>
-          <CardDescription className="dark:text-gray-400">قم بتوصيل منصات التجارة الإلكترونية الأخرى بمنصة الشحن</CardDescription>
+          <CardTitle className="text-xl dark:text-gray-200">متاجر أخرى</CardTitle>
+          <CardDescription className="dark:text-gray-400 text-lg">قم بتوصيل منصات التجارة الإلكترونية الأخرى بمنصة الشحن</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="flex-1">
               <Card className="v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-                    <Image src="/shopify-logo.png" alt="Shopify" width={30} height={30} className="dark:invert" />
+                  <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+                    <Image src="/shopify-logo.png" alt="Shopify" width={40} height={40} className="dark:invert" />
                   </div>
-                  <h3 className="font-medium dark:text-gray-200">Shopify</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر Shopify الخاص بك</p>
-                  <Button className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">توصيل</Button>
+                  <h3 className="font-medium dark:text-gray-200 text-lg">Shopify</h3>
+                  <p className="text-base text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر Shopify الخاص بك</p>
+                  <Button className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 text-lg py-2 px-4">توصيل</Button>
                 </CardContent>
               </Card>
             </div>
@@ -212,12 +211,12 @@ export function WebhooksContent() {
             <div className="flex-1">
               <Card className="v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-                    <Image src="/woocommerce-logo.png" alt="WooCommerce" width={30} height={30} className="dark:invert" />
+                  <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+                    <Image src="/woocommerce-logo.png" alt="WooCommerce" width={40} height={40} className="dark:invert" />
                   </div>
-                  <h3 className="font-medium dark:text-gray-200">WooCommerce</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر WooCommerce الخاص بك</p>
-                  <Button className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">توصيل</Button>
+                  <h3 className="font-medium dark:text-gray-200 text-lg">WooCommerce</h3>
+                  <p className="text-base text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر WooCommerce الخاص بك</p>
+                  <Button className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 text-lg py-2 px-4">توصيل</Button>
                 </CardContent>
               </Card>
             </div>
@@ -225,13 +224,13 @@ export function WebhooksContent() {
             <div className="flex-1">
               <Card className="v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
-                    <Image src="/Zid.svg" alt="زد" width={30} height={30} className="dark:invert" />
+                  <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+                    <Image src="/Zid.svg" alt="زد" width={40} height={40} className="dark:invert" />
                   </div>
-                  <h3 className="font-medium dark:text-gray-200">زد</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر زد الخاص بك</p>
+                  <h3 className="font-medium dark:text-gray-200 text-lg">زد</h3>
+                  <p className="text-base text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر زد الخاص بك</p>
                   <Button
-                    className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+                    className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 text-lg py-2 px-4"
                     onClick={() => {
                       if (zidAuthData?.authUrl) {
                         window.open(zidAuthData.authUrl, '_blank');

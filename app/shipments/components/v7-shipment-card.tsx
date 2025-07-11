@@ -44,6 +44,7 @@ interface V7ShipmentCardProps {
     aramexResponse?: { labelURL: string };
     omniclamaResponse?: { label: string };
     smsaResponse?: { label: string };
+    pricing?: Record<string, any>; // Added pricing to the interface
   }
 }
 
@@ -98,62 +99,53 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
 
   return (
     <div
-      className={`v7-neu-card-inner rounded-xl p-4 transition-all duration-300 border border-gray-100 max-w-md min-h-[340px] w-full mx-auto flex flex-col justify-center items-center ${isHovered ? "shadow-sm transform -translate-y-0.5" : ""}`}
+      className={`v7-neu-card-inner rounded-xl p-6 transition-all duration-300 border border-gray-100 w-full min-h-[220px] flex flex-col md:flex-row items-stretch gap-6 bg-white ${isHovered ? "shadow-md transform -translate-y-0.5" : ""}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       dir="rtl"
       style={{ position: 'relative' }}
     >
-      <div className="flex flex-col space-y-2 w-full items-center justify-center">
-        <div className="flex flex-col gap-2 w-full items-center justify-center">
-          {/* Status Icon */}
-          <div className={`v7-neu-icon ${getStatusColor()} flex items-center justify-center self-center mb-2`}>{getStatusIcon()}</div>
-
-          {/* Main Info */}
-          <div className="flex flex-col gap-y-2 w-full items-center justify-center">
-            <div className="flex flex-col items-center gap-y-2 w-full">
-              <div className="font-bold text-sm sm:text-base whitespace-nowrap text-center">رقم الشحنة #{shipment._id}</div>
-            </div>
-            <div className="text-xs text-[#6d6a67] text-center mt-0.5 w-full">
-              رقم الطلب: <span className="font-medium mr-2">{shipment.orderId}</span>
-            </div>
-            <div className="flex flex-col items-center gap-y-2 w-full">
-              <div className="text-xs text-[#6d6a67] flex items-center gap-x-2 justify-center">
-                <span>الناقل:</span>
-                <span className="font-medium flex items-center">
-                  <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-bold ${carrierInfo.color}`}>
-                    <div className="h-3.5 w-3.5 ml-2 relative overflow-hidden">
-                      <Image src={carrierInfo.logo || "/placeholder.svg"} alt={carrierInfo.name} width={14} height={14} className="object-contain" />
+      {/* Left: Main Info */}
+      <div className="flex flex-col justify-between flex-1 min-w-0">
+        <div className="flex flex-col gap-3 w-full">
+          {/* Carrier */}
+          <div className="flex items-center gap-3">
+            <span className={`inline-flex items-center rounded-md px-3 py-1 text-lg font-bold ${carrierInfo.color}`}> 
+              <div className="h-7 w-7 ml-2 relative overflow-hidden">
+                <Image src={carrierInfo.logo || "/placeholder.svg"} alt={carrierInfo.name} width={28} height={28} className="object-contain" />
                     </div>
                     {carrierInfo.name}
-                  </span>
                 </span>
               </div>
+          {/* Order Number */}
+          <div className="flex items-center gap-3">
+            <span className="font-bold text-2xl text-[#294D8B] whitespace-nowrap">رقم الشحنة #{shipment._id}</span>
             </div>
-            <div className="flex flex-col items-center gap-y-2 mt-1 w-full">
-              <div className="flex items-center gap-x-2 justify-center">
-                <MapPin className="h-3.5 w-3.5 text-emerald-500" />
-                <span className="text-xs text-emerald-700 font-medium">{shipment.senderAddress.city}</span>
+          {/* Order ID */}
+          <div className="flex items-center gap-3">
+            <span className="text-lg text-[#6d6a67]">رقم الطلب: <span className="font-medium ml-2">{shipment.orderId}</span></span>
               </div>
-              <div className="flex items-center gap-x-2 justify-center">
-                <span className="text-xs text-[#294D8B] font-medium">{shipment.senderAddress.address}</span>
-              </div>
-            </div>
+          {/* City/Address */}
+          <div className="flex items-center gap-3">
+            <MapPin className="h-6 w-6 text-emerald-500" />
+            <span className="text-lg text-emerald-700 font-medium">{shipment.senderAddress.city}</span>
+            <span className="text-lg text-[#294D8B] font-medium">{shipment.senderAddress.address}</span>
           </div>
-
-          {/* Status & Date */}
-          <div className="flex flex-col items-center gap-y-2 mt-2 min-w-0 w-full">
-            <div className={`inline-flex items-center gap-x-2 px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor()} justify-center w-full`}> 
-              <span className="ml-1">{getStatusIcon()}</span>
+          {/* Status */}
+          <div className="flex items-center gap-3">
+            <div className={`inline-flex items-center gap-x-3 px-4 py-2 rounded-full text-lg font-bold border ${getStatusColor()} justify-center`}>
+              <span className="ml-2">{getStatusIcon()}</span>
               <span>{getStatusText()}</span>
             </div>
           </div>
-
-          {/* Actions */}
-          <div className="flex flex-col gap-2 mt-2 min-w-0 w-full items-center justify-center">
+        </div>
+      </div>
+      {/* Right: Actions and More/Less */}
+      <div className="flex flex-col items-end justify-between min-w-[180px] gap-2">
+        <div className="flex flex-col gap-2 w-full">
             <Link href={`/tracking?id=${shipment._id}`} className="w-full" target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="w-full v7-neu-button-sm group h-7 text-xs flex items-center justify-center gap-x-2">
-                <Eye className="h-3.5 w-3.5 group-hover:text-[#3498db] transition-colors" />
+            <Button variant="outline" size="sm" className="w-full v7-neu-button-sm group h-8 text-xs flex items-center justify-center gap-x-2">
+              <Eye className="h-4 w-4 group-hover:text-[#3498db] transition-colors" />
                 <span className="sr-only sm:not-sr-only">تتبع</span>
               </Button>
             </Link>
@@ -165,8 +157,8 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
                 rel="noopener noreferrer"
                 download
               >
-                <Button variant="outline" size="sm" className="w-full v7-neu-button-sm group h-7 text-xs flex items-center justify-center gap-x-2">
-                  <Printer className="h-3.5 w-3.5 group-hover:text-[#3498db] transition-colors" />
+              <Button variant="outline" size="sm" className="w-full v7-neu-button-sm group h-8 text-xs flex items-center justify-center gap-x-2">
+                <Printer className="h-4 w-4 group-hover:text-[#3498db] transition-colors" />
                   <span className="sr-only sm:not-sr-only">طباعة بوالص الشحن</span>
                 </Button>
               </a>
@@ -174,61 +166,84 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full v7-neu-button-sm group h-7 text-xs flex items-center justify-center gap-x-2 opacity-50 cursor-not-allowed"
+              className="w-full v7-neu-button-sm group h-8 text-xs flex items-center justify-center gap-x-2 opacity-50 cursor-not-allowed"
                 disabled
               >
-                <Printer className="h-3.5 w-3.5" />
+              <Printer className="h-4 w-4" />
                 <span className="sr-only sm:not-sr-only">طباعة بوالص الشحن</span>
               </Button>
             )}
           </div>
+        <Button variant="ghost" size="sm" className="text-xs text-[#6d6a67] hover:text-[#3498db] flex items-center gap-x-2 h-7 px-4 mt-2" onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded ? "عرض أقل" : "عرض المزيد"}
+        </Button>
         </div>
-
-        {/* Expanded Details */}
+      {/* Expanded Details - 3-column layout, visually extends the card */}
         {isExpanded && (
-          <div className="pt-3 mt-2 border-t border-gray-100 v7-fade-in w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        <div className="w-full">
+          <div className="bg-[#f7fafd] rounded-b-xl shadow-sm p-6 mt-0 w-full max-w-none flex flex-col items-center border-t border-blue-50">
+            <div className="w-full flex flex-col md:flex-row md:justify-between gap-8">
               {/* Shipment Details */}
-              <div className="text-center">
-                <h4 className="text-xs font-bold mb-2 text-[#294D8B] text-center">تفاصيل الشحنة</h4>
-                <div className="space-y-2 text-xs text-center">
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">الوصف:</span><span className="font-medium">{shipment.orderDescription}</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">الوزن:</span><span className="font-medium">{shipment.weight} كجم</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">الأبعاد:</span><span className="font-medium">{shipment.dimension?.length ?? "-"} × {shipment.dimension?.width ?? "-"} × {shipment.dimension?.high ?? "-"} سم</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">نوع الشحن:</span><span className="font-medium">{shipment.shapmentingType}</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">نوع الخدمة:</span><span className="font-medium">{shipment.shapmentType}</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">سعر الشحن:</span><span className="font-medium">{shipment.shapmentPrice ?? "-"}</span></div>
-                  <div className="flex justify-between items-center gap-x-3 text-center"><span className="text-[#294D8B] font-bold">الضريبة:</span><span className="font-medium">{shipment.priceaddedtax * 100}%</span></div>
+              <div className="flex-1 min-w-[180px]">
+                <div className="text-[#294D8B] font-bold mb-2 text-center">تفاصيل الشحنة</div>
+                {[
+                  ["رقم التتبع", shipment.orderId],
+                  ["الوزن", typeof shipment.weight === 'number' ? `${shipment.weight} كجم` : shipment.weight],
+                  ["الأبعاد", (typeof shipment.dimension?.length === 'number' && typeof shipment.dimension?.width === 'number' && typeof shipment.dimension?.high === 'number') ? `${shipment.dimension.length} × ${shipment.dimension.width} × ${shipment.dimension.high} سم` : "-"],
+                  ["شركة الشحن", shipment.shapmentCompany],
+                ].map(([label, value]) => (
+                  (typeof value === 'string' || typeof value === 'number') && value !== undefined && value !== null ? (
+                    <div key={label} className="flex justify-between items-center text-base py-1">
+                      <span className="text-[#6d6a67]">{label}:</span>
+                      <span className="font-medium">{value}</span>
+                    </div>
+                  ) : null
+                ))}
+              </div>
+              {/* Recipient Info */}
+              <div className="flex-1 min-w-[180px]">
+                <div className="text-[#294D8B] font-bold mb-2 text-center">معلومات المستلم</div>
+                {[
+                  ["الاسم", `${shipment.customerId?.firstName ?? ''} ${shipment.customerId?.lastName ?? ''}`.trim()],
+                  ["البريد الإلكتروني", shipment.customerId?.email],
+                ].map(([label, value]) => (
+                  (typeof value === 'string' || typeof value === 'number') && value !== undefined && value !== null ? (
+                    <div key={label} className="flex justify-between items-center text-base py-1">
+                      <span className="text-[#6d6a67]">{label}:</span>
+                      <span className="font-medium">{value}</span>
                 </div>
+                  ) : null
+                ))}
               </div>
               {/* Sender Info */}
-              <div className="text-center">
-                <h4 className="text-xs font-bold mb-1.5 text-[#294D8B] text-center">معلومات المرسل</h4>
-                <div className="space-y-1.5 text-xs text-center">
-                  <div className="flex justify-between items-center gap-x-2 text-center"><span className="text-[#294D8B] font-bold">الاسم:</span><span className="font-medium">{shipment.senderAddress.full_name}</span></div>
-                  <div className="flex justify-between items-center gap-x-2 text-center"><span className="text-[#294D8B] font-bold">الهاتف:</span><span className="font-medium">{shipment.senderAddress.mobile}</span></div>
-                  <div className="flex justify-between items-center gap-x-2 text-center"><span className="text-[#294D8B] font-bold">العنوان:</span><span className="font-medium">{shipment.senderAddress.address}</span></div>
-                  <div className="flex justify-between items-center gap-x-2 text-center"><span className="text-[#294D8B] font-bold">المدينة:</span><span className="font-medium">{shipment.senderAddress.city}</span></div>
+              <div className="flex-1 min-w-[180px]">
+                <div className="text-[#294D8B] font-bold mb-2 text-center">معلومات المرسل</div>
+                {[
+                  ["الاسم", shipment.senderAddress?.full_name],
+                  ["الهاتف", shipment.senderAddress?.mobile],
+                  ["العنوان", shipment.senderAddress?.address],
+                  ["المدينة", shipment.senderAddress?.city],
+                ].map(([label, value]) => (
+                  (typeof value === 'string' || typeof value === 'number') && value !== undefined && value !== null ? (
+                    <div key={label} className="flex justify-between items-center text-base py-1">
+                      <span className="text-[#6d6a67]">{label}:</span>
+                      <span className="font-medium">{value}</span>
                 </div>
-              </div>
-              {/* Customer Info */}
-              <div className="text-center md:col-span-2">
-                <h4 className="text-xs font-bold mb-1.5 text-[#294D8B] text-center">معلومات المستلم</h4>
-                <div className="space-y-1.5 text-xs text-center">
-                  <div className="flex justify-between items-center gap-x-2 text-center"><span className="text-[#294D8B] font-bold">الاسم:</span><span className="font-medium">{shipment.customerId.firstName} {shipment.customerId.lastName}</span></div>
-                  <div className="flex justify-between items-center gap-x-2 text-center"><span className="text-[#294D8B] font-bold">البريد الإلكتروني:</span><span className="font-medium">{shipment.customerId.email}</span></div>
-                </div>
+                  ) : null
+                ))}
               </div>
             </div>
+            <div className="flex justify-center mt-6">
+              <button
+                className="border border-blue-300 rounded-xl px-8 py-2 text-[#294D8B] font-bold bg-white hover:bg-blue-50 transition"
+                onClick={() => setIsExpanded(false)}
+              >
+                عرض أقل
+              </button>
+            </div>
           </div>
-        )}
-
-        <div className="flex justify-center mt-2 w-full">
-          <Button variant="ghost" size="sm" className="text-xs text-[#6d6a67] hover:text-[#3498db] flex items-center gap-x-2 h-6 px-3" onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? "عرض أقل" : "عرض المزيد"}
-          </Button>
         </div>
-      </div>
+      )}
     </div>
   )
 }

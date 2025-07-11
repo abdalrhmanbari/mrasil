@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
-import { Search, MapPin, Phone, Edit, Trash2, PlusCircle } from "lucide-react"
+import { Search, MapPin, Phone, Edit, Trash2, PlusCircle, Star, StarOff } from "lucide-react"
 import V7Layout from "@/components/v7/v7-layout"
 import {
   useGetAllAddressesQuery,
@@ -41,6 +41,8 @@ export default function LocationsPage() {
   const [addressToDelete, setAddressToDelete] = useState<Address | null>(null)
   const [addressToEdit, setAddressToEdit] = useState<Address | null>(null)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [favorites, setFavorites] = useState<{ [id: string]: boolean }>({});
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const { data: addressesResponse, isLoading, isError } = useGetAllAddressesQuery()
   const [deleteAddress, { isLoading: isDeleting }] = useDeleteAddressMutation()
@@ -52,6 +54,7 @@ export default function LocationsPage() {
   }, [])
 
   const filteredAddresses = (addressesResponse?.data || []).filter((address) => {
+    if (showFavorites && !favorites[address._id]) return false;
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       return (
@@ -108,13 +111,22 @@ export default function LocationsPage() {
             <h1 className="text-2xl font-bold text-[#294D8B]">العناوين</h1>
             <p className="text-sm text-[#6d6a67]">مواقع الإستلام الخاصة بك</p>
           </div>
-          <Button
-            onClick={() => setIsAddDialogOpen(true)}
-            className="bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2"
-          >
-            <PlusCircle className="h-4 w-4" />
-            اضافة عنوان
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => setShowFavorites((prev) => !prev)}
+              className={`bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2 rounded px-4 py-2 transition ${showFavorites ? 'ring-2 ring-amber-400 ring-offset-2' : ''}`}
+            >
+              <Star className="h-5 w-5 mr-1" fill={showFavorites ? '#f59e42' : 'none'} />
+              المفضلة
+            </Button>
+            <Button
+              onClick={() => setIsAddDialogOpen(true)}
+              className="bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2"
+            >
+              <PlusCircle className="h-4 w-4" />
+              اضافة عنوان
+            </Button>
+          </div>
         </div>
 
         <div className={`v7-neu-card p-6 rounded-xl v7-fade-in ${isLoaded ? "opacity-100" : "opacity-0"}`}>
@@ -165,6 +177,8 @@ export default function LocationsPage() {
                     address={address}
                     onEdit={() => setAddressToEdit(address)}
                     onDelete={() => setAddressToDelete(address)}
+                    isFavorite={!!favorites[address._id]}
+                    onToggleFavorite={() => setFavorites(favs => ({ ...favs, [address._id]: !favs[address._id] }))}
                   />
                 ))
               ) : (
@@ -218,13 +232,22 @@ interface AddressCardProps {
   address: Address
   onEdit: () => void
   onDelete: () => void
+  isFavorite?: boolean
+  onToggleFavorite?: () => void
 }
 
-function AddressCard({ address, onEdit, onDelete }: AddressCardProps) {
+function AddressCard({ address, onEdit, onDelete, isFavorite, onToggleFavorite }: AddressCardProps) {
   return (
     <div className="v7-neu-card-inner rounded-xl p-5 transition-all hover:shadow-md">
       <div className="flex justify-between items-start mb-3">
         <h3 className="text-lg font-bold text-[#3498db]">{address.alias}</h3>
+        <button onClick={onToggleFavorite} className="ml-2 p-1 rounded-full hover:bg-amber-50 transition">
+          {isFavorite ? (
+            <Star className="h-5 w-5 text-amber-500 fill-amber-500" />
+          ) : (
+            <StarOff className="h-5 w-5 text-[#6d6a67]" />
+          )}
+        </button>
       </div>
       <div className="space-y-3">
         <div className="flex items-start gap-2">

@@ -221,8 +221,6 @@ const V7Layout = ({ children, theme = "light" }: V7LayoutProps) => {
           {!isHomePage && (
             <div className={`border-b ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
               <div className="container mx-auto px-4 py-4 max-w-[1920px]">
-                
-
                 {/* عناوين الصفحات المختلفة */}
                 {pathname.includes("/automation") && (
                   <div className="mt-4 text-right">
