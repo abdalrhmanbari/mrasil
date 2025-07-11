@@ -165,6 +165,8 @@ export default function ReplacementsPage() {
               <FileText className="mr-2 h-4 w-4" />
               تصدير التقرير
             </Button>
+
+            
             <Button
               className="bg-[#294D8B] hover:bg-[#1e3b6f] text-white shadow-sm transition-all duration-200 dark:bg-blue-600 dark:hover:bg-blue-700"
               onClick={() => window.open("/replacements/verify-email", "_blank")}
