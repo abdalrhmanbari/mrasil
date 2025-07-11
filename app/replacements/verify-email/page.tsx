@@ -153,24 +153,35 @@ export default function VerifyEmailPage() {
         </div>
       </div>
       {/* Footer with company info */}
-      <footer className="w-full mt-12 py-6 px-4" style={{ background: '#e3f0ff' }}>
-        <div className="max-w-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-right">
-          <div className="flex-1">
-            {company?.brand_email && (
-              <div className="text-sm text-[#294D8B] font-medium mb-1">📧 {company.brand_email}</div>
-            )}
-            {company?.brand_website && (
-              <div className="text-sm text-[#294D8B] font-medium mb-1">
-                🌐 <a href={company.brand_website} target="_blank" rel="noopener noreferrer" className="underline">{company.brand_website}</a>
-              </div>
-            )}
-            {company?.tax_number && (
-              <div className="text-sm text-[#294D8B] font-medium mb-1">💳 الرقم الضريبي: {company.tax_number}</div>
-            )}
-            {company?.additional_info && (
-              <div className="text-xs text-gray-600 mt-2">{company.additional_info}</div>
-            )}
+      <footer className="bg-[#6050DC] rounded-lg shadow-sm mt-20">
+        <div className="w-full max-w-screen-xl mx-auto p-4 py-2">
+          <div className="sm:flex sm:items-center sm:justify-centre">
+            
+            <ul className="flex flex-wrap items-center mb-6 text-base font-medium text-blue-100 sm:mb-0">
+              {company?.brand_email && (
+                <li className="me-4 md:me-6">
+                  <span className="hover:underline">📧 {company.brand_email}</span>
+                </li>
+              )}
+              {company?.brand_website && (
+                <li className="me-4 md:me-6">
+                  <a href={company.brand_website} target="_blank" rel="noopener noreferrer" className="hover:underline">🌐 {company.brand_website}</a>
+                </li>
+              )}
+              {company?.tax_number && (
+                <li className="me-4 md:me-6">
+                  <span className="hover:underline">💳 الرقم الضريبي: {company.tax_number}</span>
+                </li>
+              )}
+              {company?.additional_info && (
+                <li>
+                  <span className="hover:underline">{company.additional_info}</span>
+                </li>
+              )}
+            </ul>
           </div>
+          <hr className="my-6 border-blue-200 sm:mx-auto lg:my-8" />
+          <span className="block text-sm text-blue-100 sm:text-center">© {new Date().getFullYear()} <a href={company?.brand_website || '#'} className="hover:underline">{company?.brand_name || 'Marasil'}</a>. جميع الحقوق محفوظة.</span>
         </div>
       </footer>
     </div>

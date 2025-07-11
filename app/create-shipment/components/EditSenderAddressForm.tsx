@@ -1,88 +1,175 @@
+"use client"
+
 import { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
-import { Mail, Phone, MapPin, User, Building } from "lucide-react"
+import { Phone, Mail, MapPin, User, Building } from "lucide-react"
+import ResponseModal from "../../components/ResponseModal"
 
-const cities = [
-  "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",
-]
+const schema = yup.object({
+  alias: yup.string().required("اسم العنوان مطلوب"),
+  location: yup.string().required("العنوان التفصيلي مطلوب"),
+  phone: yup.string().required("رقم الجوال مطلوب"),
+  city: yup.string().required("المدينة مطلوبة"),
+  country: yup.string().required("الدولة مطلوبة"),
+}).required()
 
 interface EditSenderAddressFormProps {
   isOpen: boolean
   onClose: () => void
-  initialValues: {
-    _id: string
-    alias: string
-    phone: string
-    city: string
-    location: string
-    email: string
-    country?: string
-  }
   onSubmit: (data: any) => Promise<void>
   isLoading?: boolean
-  error?: any
+  initialValues: {
+    alias: string
+    location: string
+    phone: string
+    city: string
+    country: string
+  }
 }
 
-export function EditSenderAddressForm({ isOpen, onClose, initialValues, onSubmit, isLoading = false, error }: EditSenderAddressFormProps) {
-  const [form, setForm] = useState(initialValues)
-  useEffect(() => { setForm(initialValues) }, [initialValues, isOpen])
-  const [submitting, setSubmitting] = useState(false)
+export function EditSenderAddressForm({ isOpen, onClose, onSubmit, isLoading = false, initialValues }: EditSenderAddressFormProps) {
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertStatus, setAlertStatus] = useState<'success' | 'fail'>("success")
+  const [alertMessage, setAlertMessage] = useState("")
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+  const methods = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: initialValues,
+  })
+
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = methods
+
+  useEffect(() => {
+    reset(initialValues)
+  }, [initialValues, reset])
+
+  const handleFormSubmit = async (data: any) => {
+    try {
+      await onSubmit(data)
+      setAlertStatus("success")
+      setAlertMessage("تم تعديل العنوان بنجاح")
+      setAlertOpen(true)
+      setTimeout(() => {
+        onClose()
+      }, 1200)
+    } catch (error: any) {
+      setAlertStatus("fail")
+      setAlertMessage(error?.data?.message || "حدث خطأ أثناء تعديل العنوان")
+      setAlertOpen(true)
+    }
   }
-  const handleCityChange = (value: string) => {
-    setForm({ ...form, city: value })
-  }
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitting(true)
-    await onSubmit(form)
-    setSubmitting(false)
-  }
+
   const handleClose = () => {
-    setSubmitting(false)
+    reset(initialValues)
     onClose()
   }
+
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>تعديل عنوان الالتقاط</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-2">
-          <Input name="alias" placeholder="اسم العنوان" value={form.alias} onChange={handleChange} required />
-          <Input name="location" placeholder="العنوان التفصيلي" value={form.location} onChange={handleChange} required />
-          <Input name="phone" placeholder="رقم الجوال" value={form.phone} onChange={handleChange} required />
-          <div className="space-y-2">
-            <Label htmlFor="city" className="text-sm font-medium flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-[#3498db]" />
-              المدينة
-            </Label>
-            <Select onValueChange={handleCityChange} value={form.city}>
-              <SelectTrigger id="city" className={cn("v7-neu-input")}> <SelectValue placeholder="اختر المدينة" /> </SelectTrigger>
-              <SelectContent className="bg-white max-h-48 overflow-y-auto border border-gray-200 shadow-lg rounded-lg custom-scrollbar">
-                {cities.map((city) => (
-                  <SelectItem key={city} value={city} className="py-2 px-3 hover:bg-blue-50 focus:bg-blue-100 cursor-pointer transition-colors">{city}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <Input name="email" placeholder="البريد الإلكتروني" value={form.email} onChange={handleChange} required />
-          <Input name="country" placeholder="الدولة" value={form.country || ''} onChange={handleChange} required />
-          {error && <div className="text-red-500 text-sm">{typeof error === 'string' ? error : 'حدث خطأ أثناء التعديل'}</div>}
-          <DialogFooter>
-            <Button type="submit" className="bg-blue-500 text-white" disabled={isLoading || submitting}>
-              {(isLoading || submitting) ? 'جاري الحفظ...' : 'حفظ التعديلات'}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog open={isOpen} onOpenChange={handleClose}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-[#1a365d] flex items-center gap-2">
+              <Building className="w-5 h-5 text-[#3498db]" />
+              تعديل عنوان الالتقاط
+            </DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-2">
+            {/* اسم العنوان */}
+            <div className="space-y-2">
+              <Label htmlFor="alias" className="text-sm font-medium flex items-center gap-2">
+                <User className="h-4 w-4 text-[#3498db]" />
+                اسم العنوان
+              </Label>
+              <Input
+                id="alias"
+                {...register("alias")}
+                placeholder="اسم العنوان"
+                className={errors.alias ? "v7-neu-input border-red-500 focus:border-red-500" : "v7-neu-input"}
+                style={{ direction: 'rtl', fontFamily: 'inherit' }}
+              />
+              {errors.alias && <p className="text-sm text-red-500">{errors.alias.message}</p>}
+            </div>
+            {/* العنوان التفصيلي */}
+            <div className="space-y-2">
+              <Label htmlFor="location" className="text-sm font-medium flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-[#3498db]" />
+                العنوان التفصيلي
+              </Label>
+              <Input
+                id="location"
+                {...register("location")}
+                placeholder="العنوان التفصيلي"
+                className={errors.location ? "v7-neu-input border-red-500 focus:border-red-500" : "v7-neu-input"}
+                style={{ direction: 'rtl', fontFamily: 'inherit' }}
+              />
+              {errors.location && <p className="text-sm text-red-500">{errors.location.message}</p>}
+            </div>
+            {/* رقم الجوال */}
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-medium flex items-center gap-2">
+                <Phone className="h-4 w-4 text-[#3498db]" />
+                رقم الجوال
+              </Label>
+              <Input
+                id="phone"
+                {...register("phone")}
+                placeholder="05xxxxxxxx"
+                className={errors.phone ? "v7-neu-input border-red-500 focus:border-red-500" : "v7-neu-input"}
+                style={{ direction: 'rtl', fontFamily: 'inherit' }}
+              />
+              {errors.phone && <p className="text-sm text-red-500">{errors.phone.message}</p>}
+            </div>
+            {/* المدينة */}
+            <div className="space-y-2">
+              <Label htmlFor="city" className="text-sm font-medium flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-[#3498db]" />
+                المدينة
+              </Label>
+              <Input
+                id="city"
+                {...register("city")}
+                placeholder="المدينة"
+                className={errors.city ? "v7-neu-input border-red-500 focus:border-red-500" : "v7-neu-input"}
+                style={{ direction: 'rtl', fontFamily: 'inherit' }}
+              />
+              {errors.city && <p className="text-sm text-red-500">{errors.city.message}</p>}
+            </div>
+            {/* الدولة */}
+            <div className="space-y-2">
+              <Label htmlFor="country" className="text-sm font-medium flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-[#3498db]" />
+                الدولة
+              </Label>
+              <Input
+                id="country"
+                {...register("country")}
+                placeholder="الدولة"
+                className={errors.country ? "v7-neu-input border-red-500 focus:border-red-500" : "v7-neu-input"}
+                style={{ direction: 'rtl', fontFamily: 'inherit' }}
+              />
+              {errors.country && <p className="text-sm text-red-500">{errors.country.message}</p>}
+            </div>
+            <DialogFooter>
+              <Button type="submit" className="bg-blue-500 text-white" disabled={isLoading}>
+                {isLoading ? 'جاري التعديل...' : 'حفظ التعديلات'}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+      <ResponseModal
+        isOpen={alertOpen}
+        onClose={() => setAlertOpen(false)}
+        status={alertStatus}
+        message={alertMessage}
+      />
+    </>
   )
 } 

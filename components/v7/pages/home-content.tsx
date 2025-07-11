@@ -314,69 +314,69 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           <CardHeader>
             <CardTitle className="text-lg font-bold text-[#294D8B]">الإحصائيات</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4">
+          <CardContent className="grid gap-5">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="v7-neu-icon-sm">
-                  <Package className="h-4 w-4 text-[#294D8B]" />
+              <div className="flex items-center gap-3">
+                <div className="v7-neu-icon-sm p-2">
+                  <Package className="h-6 w-6 text-[#294D8B]" />
                 </div>
-                <span className="text-sm">إجمالي الشحنات</span>
+                <span className="text-lg font-medium">إجمالي الشحنات</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{statsLoading ? "..." : homeStats?.totalShipments ?? "-"}</span>
+                <span className="font-bold text-xl">{statsLoading ? "..." : homeStats?.totalShipments ?? "-"}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="v7-neu-icon-sm bg-blue-50">
-                  <Package className="h-4 w-4 text-[#3498db]" />
+              <div className="flex items-center gap-3">
+                <div className="v7-neu-icon-sm bg-blue-50 p-2">
+                  <Package className="h-6 w-6 text-[#3498db]" />
                 </div>
-                <span className="text-sm font-medium">شحنات اليوم</span>
+                <span className="text-lg font-medium">شحنات اليوم</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{statsLoading ? "..." : homeStats?.todaysShipments ?? "-"}</span>
+                <span className="font-bold text-xl">{statsLoading ? "..." : homeStats?.todaysShipments ?? "-"}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="v7-neu-icon-sm">
-                  <CheckCircle className="h-4 w-4 text-[#27ae60]" />
+              <div className="flex items-center gap-3">
+                <div className="v7-neu-icon-sm p-2">
+                  <CheckCircle className="h-6 w-6 text-[#27ae60]" />
                 </div>
-                <span className="text-sm">الشحنات المستلمة</span>
+                <span className="text-lg font-medium">الشحنات المستلمة</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{statsLoading ? "..." : homeStats?.receivedShipments ?? "-"}</span>
+                <span className="font-bold text-xl">{statsLoading ? "..." : homeStats?.receivedShipments ?? "-"}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="v7-neu-icon-sm">
-                  <XCircle className="h-4 w-4 text-[#e74c3c]" />
+              <div className="flex items-center gap-3">
+                <div className="v7-neu-icon-sm p-2">
+                  <XCircle className="h-6 w-6 text-[#e74c3c]" />
                 </div>
-                <span className="text-sm">الشحنات الملغاة</span>
+                <span className="text-lg font-medium">الشحنات الملغاة</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{statsLoading ? "..." : homeStats?.canceledShipments ?? "-"}</span>
+                <span className="font-bold text-xl">{statsLoading ? "..." : homeStats?.canceledShipments ?? "-"}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="v7-neu-icon-sm">
-                  <BarChart3 className="h-4 w-4 text-[#3498db]" />
+              <div className="flex items-center gap-3">
+                <div className="v7-neu-icon-sm p-2">
+                  <BarChart3 className="h-6 w-6 text-[#3498db]" />
                 </div>
-                <span className="text-sm">معدل النمو</span>
+                <span className="text-lg font-medium">معدل النمو</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">{statsLoading ? "..." : (homeStats?.growthRate !== undefined ? `${homeStats.growthRate}%` : "-")}</span>
+                <span className="font-bold text-xl">{statsLoading ? "..." : (homeStats?.growthRate !== undefined ? `${homeStats.growthRate}%` : "-")}</span>
               </div>
             </div>
 
-            <Button className="mt-2 w-full v7-neu-button" onClick={() => router.push("/reports")}>
-              <TrendingUp className="mr-2 h-4 w-4" />
+            <Button className="mt-3 w-full v7-neu-button text-lg py-3" onClick={() => router.push("/reports")}>
+              <TrendingUp className="mr-2 h-5 w-5" />
               تقرير مفصل
             </Button>
           </CardContent>

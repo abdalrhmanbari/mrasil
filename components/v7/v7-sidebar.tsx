@@ -398,7 +398,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
                     item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${item.active ? activeLinkClass : linkClass}`}
                   onMouseEnter={() => setHoveredItem(item.href)}
@@ -407,10 +407,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                     <item.icon
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -423,7 +423,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
                     item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${item.active ? activeLinkClass : linkClass}`}
                   onMouseEnter={() => setHoveredItem(item.href)}
@@ -432,10 +432,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                     <item.icon
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -448,7 +448,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
                     item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${item.active ? activeLinkClass : linkClass}`}
                   onMouseEnter={() => setHoveredItem(item.href)}
@@ -457,10 +457,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                     <item.icon
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -473,7 +473,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
                     item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${item.active ? activeLinkClass : linkClass}`}
                   onMouseEnter={() => setHoveredItem(item.href)}
@@ -482,10 +482,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                     <item.icon
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -498,7 +498,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
                     item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${item.active ? activeLinkClass : linkClass}`}
                   onMouseEnter={() => setHoveredItem(item.href)}
@@ -507,10 +507,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                     <item.icon
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -518,7 +518,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
               {/* قسم الفواتير الموحد */}
               <button
                 onClick={() => handleNavigation(routes.invoices)}
-                className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in ${
+                className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
                   isInvoiceActive ? "v7-neu-button-active" : "v7-neu-button-flat"
                 } ${isInvoiceActive ? activeLinkClass : linkClass}`}
                 onMouseEnter={() => setHoveredItem("invoices")}
@@ -527,10 +527,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
               >
                 <div className={`v7-icon-container ${isInvoiceActive ? "v7-icon-active" : ""}`}>
                   <Receipt
-                    className={`h-4 sm:h-5 w-4 sm:w-5 ${isInvoiceActive ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                    className={`h-6 sm:h-7 w-6 sm:w-7 ${isInvoiceActive ? "text-[#5791F4]" : "text-muted-foreground"}`}
                   />
                 </div>
-                <span className="flex-1 text-center font-semibold">{currentTranslations.navItems.invoices}</span>
+                <span className="flex-1 text-center font-semibold text-base sm:text-lg">{currentTranslations.navItems.invoices}</span>
                 {isInvoiceActive && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
               </button>
             </div>
@@ -542,7 +542,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all v7-fade-in cursor-pointer ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in cursor-pointer ${
                     item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${item.active ? activeLinkClass : linkClass}`}
                   onMouseEnter={() => setHoveredItem(item.href)}
@@ -554,10 +554,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                     <item.icon
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -568,14 +568,14 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
         <div className="mt-6 border-t border-gray-200 dark:border-[#2a3349] pt-4">
           <button
             onClick={handleSignOut}
-            className={`v7-sidebar-item flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm transition-all ${
+            className={`v7-sidebar-item flex w-full items-center gap-3 rounded-xl px-3 py-3 text-base transition-all ${
               theme === "dark" ? "hover:bg-[#2a3349] text-[#e05d34]" : "hover:bg-gray-100 text-[#e05d34]"
             }`}
           >
             <div className="v7-icon-container">
-              <LogOut className="h-5 w-5 text-[#e05d34]" />
+              <LogOut className="h-6 w-6 text-[#e05d34]" />
             </div>
-            <span>{currentTranslations.signOut}</span>
+            <span className="text-base">{currentTranslations.signOut}</span>
           </button>
         </div>
 
@@ -584,12 +584,12 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#3498db]/10 to-transparent rounded-full transform translate-x-1/3 -translate-y-1/3"></div>
 
             <div className="mb-2 flex items-center gap-2">
-              <Shield className="h-5 w-5 text-[#3498db]" />
-              <span className="text-sm font-medium">{currentTranslations.needHelp}</span>
+              <Shield className="h-6 w-6 text-[#3498db]" />
+              <span className="text-base font-medium">{currentTranslations.needHelp}</span>
             </div>
-            <p className="mb-3 text-xs text-[#6d6a67]">{currentTranslations.supportTeam}</p>
+            <p className="mb-3 text-sm text-[#6d6a67]">{currentTranslations.supportTeam}</p>
             <Button size="sm" className="w-full v7-neu-button-support" onClick={() => handleNavigation("/support")}>
-              <Headphones className="mr-2 h-4 w-4" />
+              <Headphones className="mr-2 h-5 w-5" />
               {currentTranslations.contactUs}
             </Button>
           </div>
@@ -628,7 +628,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                       item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                     } ${item.active ? activeLinkClass : linkClass}`}
                     aria-label={item.title}
@@ -639,10 +639,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   >
                     <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                       <item.icon
-                        className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                       />
                     </div>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
                     {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
                   </button>
                 ))}
@@ -655,7 +655,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                       item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                     } ${item.active ? activeLinkClass : linkClass}`}
                     aria-label={item.title}
@@ -666,10 +666,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   >
                     <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                       <item.icon
-                        className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                       />
                     </div>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
                     {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
                   </button>
                 ))}
@@ -682,7 +682,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                       item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                     } ${item.active ? activeLinkClass : linkClass}`}
                     aria-label={item.title}
@@ -693,10 +693,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   >
                     <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                       <item.icon
-                        className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                       />
                     </div>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
                     {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
                   </button>
                 ))}
@@ -709,7 +709,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                       item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                     } ${item.active ? activeLinkClass : linkClass}`}
                     aria-label={item.title}
@@ -720,10 +720,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   >
                     <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                       <item.icon
-                        className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                       />
                     </div>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
                     {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
                   </button>
                 ))}
@@ -736,7 +736,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                       item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                     } ${item.active ? activeLinkClass : linkClass}`}
                     aria-label={item.title}
@@ -747,10 +747,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   >
                     <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                       <item.icon
-                        className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                       />
                     </div>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
                     {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
                   </button>
                 ))}
@@ -758,7 +758,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 {/* قسم الفواتير الموحد للجوال */}
                 <button
                   onClick={() => handleNavigation(routes.invoices)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                  className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                     isInvoiceActive ? "v7-neu-button-active" : "v7-neu-button-flat"
                   } ${isInvoiceActive ? activeLinkClass : linkClass}`}
                   aria-label="الفواتير"
@@ -769,10 +769,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 >
                   <div className={`v7-icon-container ${isInvoiceActive ? "v7-icon-active" : ""}`}>
                     <Receipt
-                      className={`h-4 sm:h-5 w-4 sm:w-5 ${isInvoiceActive ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                      className={`h-6 sm:h-7 w-6 sm:w-7 ${isInvoiceActive ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="font-medium">{currentTranslations.navItems.invoices}</span>
+                  <span className="font-medium text-base sm:text-lg">{currentTranslations.navItems.invoices}</span>
                   {isInvoiceActive && (
                     <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>
                   )}
@@ -788,7 +788,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   <button
                     key={item.href}
                     onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all cursor-pointer ${
+                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all cursor-pointer ${
                       item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
                     } ${item.active ? activeLinkClass : linkClass}`}
                     aria-label={item.title}
@@ -799,10 +799,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                   >
                     <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
                       <item.icon
-                        className={`h-4 sm:h-5 w-4 sm:w-5 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
+                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                       />
                     </div>
-                    <span className="font-medium">{item.title}</span>
+                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
                     {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
                   </button>
                 ))}
@@ -811,14 +811,14 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             <div className="mt-6 border-t border-gray-200 dark:border-[#2a3349] pt-4 px-3">
               <button
                 onClick={handleSignOut}
-                className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-xs sm:text-sm transition-all ${
+                className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                   theme === "dark" ? "hover:bg-[#2a3349] text-[#e05d34]" : "hover:bg-gray-100 text-[#e05d34]"
                 }`}
               >
                 <div className="v7-icon-container">
-                  <LogOut className="h-4 sm:h-5 w-4 sm:w-5 text-[#e05d34]" />
+                  <LogOut className="h-6 sm:h-7 w-6 sm:w-7 text-[#e05d34]" />
                 </div>
-                <span>{currentTranslations.signOut}</span>
+                <span className="text-base">{currentTranslations.signOut}</span>
               </button>
             </div>
           </ScrollArea>

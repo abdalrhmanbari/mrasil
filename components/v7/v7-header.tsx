@@ -16,6 +16,7 @@ import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import { useGetMyNotificationsQuery, useGetUnreadNotificationsCountQuery, useMarkNotificationAsReadMutation } from "@/app/api/notificationsApi"
 import { useGetProfileQuery } from "@/app/api/profileApi"
+import { useAuth } from "@/app/providers/AuthProvider"
 
 interface V7HeaderProps {
   onMenuClick: () => void
@@ -45,8 +46,14 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
   const [markNotificationAsRead] = useMarkNotificationAsReadMutation();
 
   const { data: profileData, isLoading: profileLoading } = useGetProfileQuery();
+  const { logout } = useAuth();
 
   const currentTheme = resolvedTheme || theme || "light"
+
+  // Handle logout function
+  const handleLogout = () => {
+    logout(); // This will clear auth state and redirect to login page
+  };
 
   function timeSince(dateString: string) {
     const now = new Date();
@@ -375,7 +382,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
             الإعدادات
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer rounded-lg text-red-500 hover:text-red-500">
+          <DropdownMenuItem className="cursor-pointer rounded-lg text-red-500 hover:text-red-500" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             تسجيل الخروج
           </DropdownMenuItem>

@@ -1,11 +1,12 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { motion } from "framer-motion";
-import { Building, CheckCircle2, Phone, MapPin, Mail, Search } from "lucide-react";
+import { Building, CheckCircle2, Phone, MapPin, Mail, Search, Trash2, Check, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AddSenderAddressForm } from "./AddSenderAddressForm";
+import { EditSenderAddressForm } from "./EditSenderAddressForm";
 import { useGetCustomerMeQuery } from "../../api/customerApi";
-import { useCreateAddressMutation } from "../../api/adressesApi";
+import { useCreateAddressMutation, useDeleteAddressMutation, useUpdateAddressMutation } from "../../api/adressesApi";
 
 interface SenderAddressSectionProps {
   selectedSender: string | number | null;
@@ -25,12 +26,18 @@ const staggerChildren = {
 
 export function SenderAddressSection({ selectedSender, setSelectedSender, setValue }: SenderAddressSectionProps) {
   // Fetch sender addresses from customer profile
-  const { data: customerMeData, isLoading: isLoadingCustomerMe } = useGetCustomerMeQuery();
+  const { data: customerMeData, isLoading: isLoadingCustomerMe, refetch } = useGetCustomerMeQuery();
   // Mutation for creating a new sender address
   const [createAddress, { isLoading: isCreatingAddress }] = useCreateAddressMutation();
+  const [deleteAddress, { isLoading: isDeleting }] = useDeleteAddressMutation();
+  const [updateAddress, { isLoading: isUpdating }] = useUpdateAddressMutation();
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [addressToDelete, setAddressToDelete] = useState<string | null>(null);
   const [openAddSenderModal, setOpenAddSenderModal] = useState(false);
   const [searchSender, setSearchSender] = useState("");
   const [showAllSenders, setShowAllSenders] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [addressToEdit, setAddressToEdit] = useState<any | null>(null);
 
   // Use API data for sender cards (customer addresses)
   const senderCards = (customerMeData?.data.addresses || []).map((address, idx) => ({
@@ -128,10 +135,40 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
             {selectedSender === card.id && (
               <div className="absolute top-3 right-3">
                 <div className="w-6 h-6 rounded-full bg-[#3498db] flex items-center justify-center">
-                  <CheckCircle2 className="h-4 w-4 text-white" />
+                  <Check className="h-4 w-4 text-white" />
                 </div>
               </div>
             )}
+            {/* Delete icon */}
+            <div className="absolute top-3 left-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 rounded-full hover:bg-blue-100"
+                onClick={e => {
+                  e.stopPropagation();
+                  setAddressToDelete(card._id);
+                  setDeleteConfirmOpen(true);
+                }}
+              >
+                <Trash2 className="w-4 h-4 text-red-500" />
+              </Button>
+            </div>
+            {/* Edit icon */}
+            <div className="absolute top-3 left-12">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 rounded-full hover:bg-blue-100"
+                onClick={e => {
+                  e.stopPropagation();
+                  setAddressToEdit(card);
+                  setEditModalOpen(true);
+                }}
+              >
+                <Edit className="w-4 h-4 text-[#3498db]" />
+              </Button>
+            </div>
             <div className="flex flex-col gap-3 pt-2">
               <div className="font-bold text-lg">{card.name}</div>
               <div className="flex items-center gap-2 text-sm text-gray-700">
@@ -151,11 +188,16 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
           </motion.div>
         ))}
       </div>
-      {/* More button */}
-      {filteredSenderCards.length > 6 && !showAllSenders && (
+      {/* More/Less button */}
+      {filteredSenderCards.length > 6 && (
         <div className="flex justify-center mt-4">
-          <Button type="button" variant="ghost" className="text-blue-500 flex items-center gap-1 py-3 px-8 text-lg rounded-xl font-bold border border-blue-200 shadow-sm" onClick={() => setShowAllSenders(true)}>
-            المزيد <span>+</span>
+          <Button
+            type="button"
+            variant="ghost"
+            className="text-blue-500 flex items-center gap-1 py-3 px-8 text-lg rounded-xl font-bold border border-blue-200 shadow-sm"
+            onClick={() => setShowAllSenders((prev) => !prev)}
+          >
+            {showAllSenders ? 'عرض أقل' : 'المزيد +'}
           </Button>
         </div>
       )}
@@ -166,6 +208,59 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
         onSubmit={handleAddSenderAddress}
         isLoading={isCreatingAddress}
       />
+      {/* Edit Sender Address Form Modal */}
+      {addressToEdit && (
+        <EditSenderAddressForm
+          isOpen={editModalOpen}
+          onClose={() => { setEditModalOpen(false); setAddressToEdit(null); }}
+          initialValues={{
+            alias: addressToEdit.name,
+            location: addressToEdit.address,
+            phone: addressToEdit.mobile,
+            city: addressToEdit.city,
+            country: addressToEdit.country || "السعودية",
+          }}
+          isLoading={isUpdating}
+          onSubmit={async (data) => {
+            await updateAddress({ _id: addressToEdit._id, ...data });
+            setEditModalOpen(false);
+            setAddressToEdit(null);
+            refetch();
+          }}
+        />
+      )}
+      {/* Delete Confirm Modal */}
+      {deleteConfirmOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
+          <div className="bg-white rounded-xl p-6 shadow-lg w-full max-w-sm">
+            <div className="mb-4 text-lg font-bold text-[#1a365d]">تأكيد الحذف</div>
+            <div className="mb-6 text-gray-600">هل أنت متأكد من حذف هذا العنوان؟ لا يمكن التراجع عن هذا الإجراء.</div>
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => { setDeleteConfirmOpen(false); setAddressToDelete(null); }}
+                disabled={isDeleting}
+              >
+                إلغاء
+              </Button>
+              <Button
+                className="bg-red-500 text-white"
+                onClick={async () => {
+                  if (addressToDelete) {
+                    await deleteAddress(addressToDelete);
+                    setDeleteConfirmOpen(false);
+                    setAddressToDelete(null);
+                    refetch();
+                  }
+                }}
+                disabled={isDeleting}
+              >
+                {isDeleting ? "جاري الحذف..." : "حذف"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 } 

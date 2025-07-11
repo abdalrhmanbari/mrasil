@@ -46,6 +46,7 @@ const companyLogoMap: Record<string, string> = {
   thabit: "/Thabit.jpg",
   redbox: "/RedBox.jpg",
   dal: "/Dal.jpg",
+  omniclama: "/omniclama.png",
   // Add more mappings as needed
 }
 
@@ -55,18 +56,20 @@ function StatCard({
   value,
   trend,
   color,
+  large,
 }: {
   icon: React.ReactNode
   title: string
   value: string
   trend?: string
   color?: string
+  large?: boolean
 }) {
   return (
     <div className="v7-neu-card p-5 rounded-xl dark:bg-gray-800 dark:border-gray-700">
       <div className="flex items-center justify-between">
         <div className="flex-grow">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{title}</p>
+          <p className="text-xl  text-gray-500 mb-2">{title}</p>
           <h3 className="text-2xl font-bold dark:text-gray-100">{value}</h3>
           {trend && <p className={`text-xs mt-1 ${color || "text-green-500"}`}>{trend}</p>}
         </div>
@@ -79,133 +82,71 @@ function StatCard({
 }
 
 function CarrierCard({ carrier, logo }: { carrier: ShipmentCompany; logo: string }) {
+  // Determine if any shipping type is 'Dry' (محلي), else 'دولي'
+  const isLocal = carrier.shippingTypes.some((st) => st.type === 'Dry');
+
   return (
-    <Card className="v7-neu-card flex flex-col h-full dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-      <CardHeader className="flex flex-row items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800/50">
-        <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden flex items-center justify-center bg-white p-1">
+    <Card className="shadow-lg bg-[#f7fafd] rounded-2xl p-0 border-0 flex flex-col items-center text-center">
+      <CardContent className="flex flex-col items-center p-8 w-full">
+        {/* Logo and Name */}
+        <div className="w-28 h-28 rounded-2xl overflow-hidden bg-white flex items-center justify-center mx-auto mb-3">
           <img src={logo} alt={carrier.company} className="w-full h-full object-contain" />
         </div>
-        <div className="flex-grow">
-          <CardTitle className="text-xl font-bold dark:text-gray-100">{carrier.company}</CardTitle>
-          <Badge variant={carrier.status === "Enabled" ? "default" : "destructive"}>
-            {carrier.status}
+        <div className="text-2xl font-extrabold text-[#294D8B] mb-2">{carrier.company}</div>
+        {/* Type Badge */}
+        <div className="mb-6 flex justify-center gap-3">
+          <Badge className={isLocal ? 'bg-green-100 text-green-700 text-lg px-4 py-1' : 'bg-blue-100 text-blue-700 text-lg px-4 py-1'}>
+            {isLocal ? 'محلي' : 'دولي'}
           </Badge>
         </div>
-      </CardHeader>
-      <CardContent className="p-0 flex-grow">
-        <Tabs defaultValue="shippingTypes" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="shippingTypes">Shipping Types</TabsTrigger>
-            <TabsTrigger value="info">Info</TabsTrigger>
-            <TabsTrigger value="details">Details</TabsTrigger>
-          </TabsList>
-          <TabsContent value="shippingTypes" className="p-4 space-y-4 max-h-96 overflow-y-auto">
-            {carrier.shippingTypes.map((st) => {
-              const totalCodCost = (st.baseCODfees || 0) + (st.profitCODfees || 0)
-              return (
-                <Collapsible key={st._id} className="v7-neu-card-inset p-3 rounded-lg">
-                  <CollapsibleTrigger className="flex justify-between items-center w-full">
-                    <div className="flex items-center gap-2">
-                      <Package className="h-5 w-5 text-blue-500" />
-                      <span className="font-semibold">{st.type}</span>
-                    </div>
-                    <ChevronDown className="h-5 w-5 transition-transform duration-200 [&[data-state=open]]:-rotate-180" />
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="pt-3 mt-2 border-t dark:border-gray-700 space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Code:</span> <span>{st.code}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">RTO Code:</span> <span>{st.RTOcode}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-500">COD:</span>
-                      {st.COD ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
-                      ) : (
-                        <X className="h-5 w-5 text-red-500" />
-                      )}
-                    </div>
-                    {st.COD && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-500">Max COD Amount:</span>
-                        <span>{st.maxCodAmount}</span>
-      </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Max Weight:</span> <span>{st.maxWeight} kg</span>
+        {/* Info Section */}
+        <div className="flex flex-col items-start gap-4 w-full max-w-sm mx-auto text-right">
+          <div className="flex items-center gap-3">
+            <Truck className="h-7 w-7 text-purple-500" />
+            <span className="text-lg text-gray-700">الحد الأدنى للشحنات:</span>
+            <span className="font-bold text-xl text-[#294D8B]">{carrier.minShipments}</span>
           </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">Max Boxes:</span> <span>{st.maxBoxes}</span>
-        </div>
-                    <div className="flex justify-between font-bold text-blue-600 dark:text-blue-400 mt-2 p-2 bg-blue-50 dark:bg-blue-900/30 rounded-md">
-                      <span>Total COD Cost:</span>
-                      <span>{totalCodCost.toFixed(2)} SAR</span>
+          <div className="flex items-center gap-3">
+            <Home className="h-7 w-7 text-orange-500" />
+            <span className="text-lg text-gray-700">حالة الاستلام:</span>
+            <span className="font-bold text-xl text-[#294D8B]">{carrier.pickUpStatus}</span>
           </div>
-                  </CollapsibleContent>
-                </Collapsible>
-              )
-            })}
-          </TabsContent>
-          <TabsContent value="info" className="p-4 space-y-3">
-            <div className="flex items-center gap-3">
-              <Truck className="h-5 w-5 text-purple-500" />
-              <span>
-                Minimum Shipments: <span className="font-bold">{carrier.minShipments}</span>
-              </span>
-        </div>
-            <div className="flex items-center gap-3">
-              <Home className="h-5 w-5 text-orange-500" />
-              <span>
-                Pickup Status: <span className="font-bold">{carrier.pickUpStatus}</span>
-            </span>
+          <div className="flex items-center gap-3">
+            <LinkIcon className="h-7 w-7 text-cyan-500" />
+            <span className="text-lg text-gray-700">رابط التتبع:</span>
+            <a
+              href={carrier.trackingURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-xl text-cyan-600 hover:underline"
+            >
+              Tracking Link
+            </a>
           </div>
-            <div className="flex items-center gap-3">
-              <LinkIcon className="h-5 w-5 text-cyan-500" />
-              <a
-                href={carrier.trackingURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold text-cyan-600 hover:underline"
-              >
-                Tracking Link
-              </a>
-            </div>
+          <div className="flex items-start gap-3">
+            <Box className="h-7 w-7 text-green-500 mt-1" />
             <div>
-              <h4 className="font-semibold mb-2 flex items-center gap-2">
-                <Box className="h-5 w-5 text-green-500" /> Allowed Box Sizes:
-              </h4>
-              <ul className="list-disc pl-5 space-y-1 text-sm">
+              <span className="text-lg text-gray-700 font-semibold">أحجام الصناديق المسموحة:</span>
+              <ul className="list-disc pl-6 space-y-1 text-lg mt-2">
                 {carrier.allowedBoxSizes.map((box) => (
-                  <li key={box._id}>
-                    {box.length}x{box.width}x{box.height} cm
+                  <li key={box._id} className="text-gray-700">
+                    {box.length}×{box.width}×{box.height} سم
                   </li>
                 ))}
               </ul>
             </div>
-          </TabsContent>
-          <TabsContent value="details" className="p-4 space-y-3 max-h-96 overflow-y-auto">
-            <div>
-              <h4 className="font-semibold mb-1">Details</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{carrier.detailsAr}</p>
+          </div>
         </div>
-            <div>
-              <h4 className="font-semibold mb-1">Conditions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{carrier.conditionsAr}</p>
-      </div>
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-      <CardFooter className="p-4 mt-auto border-t dark:border-gray-700">
-        <div className="flex items-center gap-2 w-full justify-end">
-          <Switch checked={carrier.status === "Enabled"} disabled className="data-[state=checked]:bg-blue-500" />
-          <span className="text-sm font-medium dark:text-gray-200">
-            {carrier.status === "Enabled" ? "Enabled" : "Disabled"}
+        {/* Status Switch at the bottom */}
+        <div className="mt-8 flex justify-center w-full items-center gap-3">
+          <Switch checked={carrier.status === 'Enabled'} disabled className="scale-125 data-[state=checked]:bg-[blue] data-[state=unchecked]:bg-gray-300" />
+          <span className={`text-xl font-bold ${carrier.status === 'Enabled' ? 'text-[#294D8B]' : 'text-red-700'}`}>
+            {carrier.status === 'Enabled' ? 'مفعل' : 'غير مفعل'}
           </span>
         </div>
-      </CardFooter>
+      </CardContent>
     </Card>
-  )
+  );
 }
 
 export function CarriersContent() {
@@ -245,17 +186,22 @@ export function CarriersContent() {
 
   const totalCarriers = carriersList?.length ?? 0
   const activeCarriers = carriersList?.filter((c) => c.status === "Enabled").length ?? 0
+  // Count international carriers (none of their shippingTypes is 'Dry')
+  const internationalCarriers = carriersList?.filter((carrier) => !carrier.shippingTypes.some((st) => st.type === 'Dry')).length ?? 0
 
   return (
     <div className="p-6 space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#294D8B]">شركات الشحن</h1>
-          <p className="text-gray-500">إدارة شركات الشحن والناقلين المتعاقد معهم</p>
+          <h1 className="text-3xl font-bold text-[#294D8B]">شركات الشحن</h1>
+          <p className="text-gray-500 text-2xl">إدارة شركات الشحن والناقلين المتعاقد معهم</p>
         </div>
         <div className="flex gap-2">
-          <Button className="v7-neu-button-primary" onClick={() => router.push("/carriers/integration")}>
-            <FileContract className="ml-2 h-4 w-4" />
+          <Button
+            className="bg-[#294D8B] hover:bg-[#1a2a6c] text-white text-xl font-bold rounded-full px-8 py-3 shadow-lg flex items-center gap-2 transition-all"
+            onClick={() => router.push("/carriers/integration")}
+          >
+            <FileContract className="ml-2 h-5 w-5" />
             أضف عقدك الخاص
           </Button>
         </div>
@@ -263,22 +209,25 @@ export function CarriersContent() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <StatCard
-          icon={<Truck size={30} color="#294D8B" />}
+          icon={<Truck size={44} color="#294D8B" />}
           title="إجمالي شركات الشحن"
           value={isLoading ? "..." : totalCarriers.toString()}
           color="text-cyan-600"
+          large
         />
         <StatCard
-          icon={<CheckCircle size={30} color="#059669" />}
+          icon={<CheckCircle size={44} color="#059669" />}
           title="الشركات النشطة"
           value={isLoading ? "..." : activeCarriers.toString()}
           color="text-emerald-600"
+          large
         />
         <StatCard
-          icon={<Package size={30} color="#0891b2" />}
+          icon={<Package size={44} color="#0891b2" />}
           title="شركات شحن دولية"
-          value={"N/A"} // This data isn't in the new API
+          value={isLoading ? "..." : internationalCarriers.toString()}
           color="text-indigo-600"
+          large
         />
       </div>
 

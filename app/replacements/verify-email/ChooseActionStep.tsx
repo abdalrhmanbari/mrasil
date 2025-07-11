@@ -76,7 +76,7 @@ export default function ChooseActionStep({ onSelect, company }: ChooseActionStep
                   {searchResult.data.map((row: any, idx: number) => (
                     <tr key={idx}>
                       {Object.values(row).map((val, i) => (
-                        <td key={i} className="px-2 py-1">{typeof val === 'object' ? JSON.stringify(val) : val}</td>
+                        <td key={i} className="px-2 py-1">{val === undefined ? '' : typeof val === 'object' ? JSON.stringify(val) : val}</td>
                       ))}
                     </tr>
                   ))}

@@ -155,9 +155,9 @@ export const ShipmentsGrid: React.FC<ShipmentsGridProps> = ({
         {sortedShipments.map((shipment) => (
           <div
             key={shipment._id}
-            className="w-1/2 px-2 mb-4 flex"
+            className="w-full flex items-start justify-center mb-6"
           >
-            <div className="w-6 flex-shrink-0 mt-4 ml-2 flex items-start">
+            <div className="flex-shrink-0 mt-4 m-4">
               <RadioGroupItem
                 value={shipment._id}
                 id={`shipment-${shipment._id}`}
@@ -166,7 +166,7 @@ export const ShipmentsGrid: React.FC<ShipmentsGridProps> = ({
                 className={`${(allSelected || selectedShipmentId === shipment._id) ? 'ring-2 ring-blue-500' : ''}`}
               />
             </div>
-            <div className="flex-grow">
+            <div className="flex-grow max-w-5xl w-full">
               <V7ShipmentCard shipment={shipment} />
             </div>
           </div>
