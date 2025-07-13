@@ -17,6 +17,8 @@ import {
   Eye,
   CheckCircle,
 } from "lucide-react"
+import { MdOutlinePendingActions } from "react-icons/md";
+import { RiFolderReceivedFill } from "react-icons/ri";
 import { V7StatsCard } from "@/components/v7/v7-stats-card"
 import { V7ShipmentCard } from "@/app/shipments/components/v7-shipment-card"
 import { V7WelcomeBanner } from "@/components/v7/v7-welcome-banner"
@@ -27,7 +29,9 @@ import { useGetAllOrdersQuery } from "@/app/api/ordersApi"
 import { useGetMyShipmentsQuery } from "@/app/api/shipmentApi"
 import { useGetHomePageStatisticsQuery, useGetShipmentStatsQuery } from "@/app/api/homePageApi"
 import { useGetShipmentCompanyInfoQuery } from "@/app/api/shipmentCompanyApi"
-import RechargeWalletDialog from "@/app/payments/RechargeWalletDialog"
+import { FaRoadCircleExclamation } from "react-icons/fa6";
+// Remove RiyalIcon import if not used elsewhere
+// import { RiyalIcon } from '@/components/icons';
 
 // بيانات وهمية للإحصائيات
 const statsData = {
@@ -180,7 +184,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
   const { data: shipmentStats, isLoading: shipmentStatsLoading } = useGetShipmentStatsQuery();
   const { data: shipmentCompanyInfo, isLoading: shipmentCompanyInfoLoading } = useGetShipmentCompanyInfoQuery();
 
-  const [openRecharge, setOpenRecharge] = useState(false);
+  const pendingOrdersCount = ordersData?.data?.filter(order => order.status?.name === 'pending').length ?? 0;
 
   // محاكاة تحميل البيانات
   useEffect(() => {
@@ -220,7 +224,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           ]}
           action={{
             label: "شحن المحفظة الآن",
-            onClick: () => setOpenRecharge(true),
+            onClick: () => router.push("/wallet/recharge"),
           }}
         />
 
@@ -229,10 +233,11 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           icon={ShoppingBag}
           color="secondary"
           theme={theme}
+          centerContent={true}
           stats={[
             { label: "طلبات اليوم", value: ordersLoading ? "..." : todayOrders.length.toString() },
             { label: "جميع الطلبات", value: ordersLoading ? "..." : (ordersData?.data.length?.toString() ?? "-") },
-           
+            { label: "الطلبات المعلقة", value: ordersLoading ? "..." : pendingOrdersCount.toString() },
           ]}
         />
 
@@ -242,11 +247,10 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           color="success"
           theme={theme}
           stats={[
-            { label: "إجمالي قيمة الشحنات", value: shipmentStatsLoading ? "..." : (shipmentStats?.totalValue?.toLocaleString() ?? "-") + " ريال" },
-            { label: "مجموع تكاليف الشحن", value: shipmentStatsLoading ? "..." : (shipmentStats?.totalShippingCost?.toLocaleString() ?? "-") + " ريال" },
-            { label: "شحنات قيد الانتظار", value: shipmentStatsLoading ? "..." : (shipmentStats?.pendingShipments?.toLocaleString() ?? "-") },
-            { label: "شحنات تم تسليمها", value: shipmentStatsLoading ? "..." : (shipmentStats?.deliveredShipments?.toLocaleString() ?? "-") },
-            { label: "شحنات في الطريق", value: shipmentStatsLoading ? "..." : (shipmentStats?.inTransitShipments?.toLocaleString() ?? "-") },
+            { label: "إجمالي قيمة الشحنات", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.totalValue?.toLocaleString() ?? "-"}</span><img src="/riyal.png" alt="ريال" className="w-7 h-7 align-baseline" style={{display: 'inline', verticalAlign: 'middle'}} /></span> },
+            { label: "شحنات قيد الانتظار", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.pendingShipments?.toLocaleString() ?? "-"}</span><MdOutlinePendingActions className="w-6 h-6 text-yellow-500" /></span> },
+            { label: "شحنات تم تسليمها", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.deliveredShipments?.toLocaleString() ?? "-"}</span><RiFolderReceivedFill className="w-6 h-6 text-green-600" /></span> },
+            { label: "شحنات في الطريق", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.inTransitShipments?.toLocaleString() ?? "-"}</span><FaRoadCircleExclamation className="w-6 h-6 text-blue-600" /></span> },
           ]}
         />
       </div>
@@ -285,7 +289,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
                         <div className="w-full">
                           {company.shippingTypes && company.shippingTypes.length > 0 ? (
                             <ul className="text-sm w-full">
-                              {company.shippingTypes.map((type, i) => (
+                              {company.shippingTypes.map((type: { type: string; price: number }, i: number) => (
                                 <li key={type.type + i} className="flex justify-between border-b py-1 last:border-b-0">
                                   <span>{type.type}</span>
                                   <span className="font-bold text-[#3498db]">{type.price} ريال</span>
@@ -407,7 +411,6 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           </Button>
         </div>
       </div>
-      <RechargeWalletDialog open={openRecharge} onClose={() => setOpenRecharge(false)} />
     </V7Content>
   )
 }

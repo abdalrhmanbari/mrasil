@@ -24,7 +24,7 @@ export const transicationApi = createApi({
   endpoints: (builder) => ({
     getMyTransactions: builder.query<GetMyTransactionsResponse, void>({
       query: () => ({
-        url: '/tranactions',
+        url: '/tranactions/my-transaction',
         method: 'GET',
         credentials: 'include',
       }),

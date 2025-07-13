@@ -95,6 +95,19 @@ export const walletApi = createApi({
         credentials: 'include',
       }),
     }),
+    rechargeWalletByBank: builder.mutation<any, { amount: number | string; bankreceipt: File }>({
+      query: ({ amount, bankreceipt }) => {
+        const formData = new FormData();
+        formData.append('amount', amount.toString());
+        formData.append('bankreceipt', bankreceipt);
+        return {
+          url: '/wallet/rechargeWalletbyBank',
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+        };
+      },
+    }),
     getPaymentStatus: builder.query<GetPaymentStatusResponse, string>({
       query: (id) => ({
         url: `/wallet/paymentstatus/${id}`,
@@ -102,8 +115,16 @@ export const walletApi = createApi({
         credentials: 'include',
       }),
     }),
+    updateTransactionStatus: builder.mutation<any, { id: string; status: string }>({
+      query: ({ id, status }) => ({
+        url: `/wallet/updatestatus/${id}`,
+        method: 'PUT',
+        body: { status },
+        credentials: 'include',
+      }),
+    }),
   }),
   tagTypes: ['Wallet'],
 })
 
-export const { useGetMyWalletQuery, useRechargeWalletMutation, useGetPaymentStatusQuery } = walletApi 
+export const { useGetMyWalletQuery, useRechargeWalletMutation, useGetPaymentStatusQuery, useRechargeWalletByBankMutation, useUpdateTransactionStatusMutation } = walletApi 

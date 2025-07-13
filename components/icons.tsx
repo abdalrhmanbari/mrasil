@@ -132,3 +132,20 @@ export function StoreIcon({ className, ...props }: IconProps) {
     </svg>
   )
 }
+
+export function RiyalIcon({ className, ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      className={className}
+      width="20"
+      height="20"
+      {...props}
+    >
+      <text x="3" y="18" fontSize="18" fontFamily="Arial">﷼</text>
+    </svg>
+  );
+}

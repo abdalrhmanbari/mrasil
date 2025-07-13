@@ -81,11 +81,30 @@ export const ordersApi = createApi({
         return response
       }
     }),
+    getOrdersByStatus: builder.query<OrdersResponse, string>({
+      query: (status) => ({
+        url: `/orderManually/filter/status?status=${status}`,
+        method: 'GET',
+        credentials: 'include',
+      }),
+      transformErrorResponse: (response: { status: number; data: ErrorResponse }) => {
+        if (response.data?.message?.includes('Invalid token') ||
+            response.data?.status === 'fail' ||
+            response.data?.message?.includes('recently changed')) {
+          return {
+            status: response.status,
+            data: response.data
+          }
+        }
+        return response
+      }
+    }),
   }),
   tagTypes: ['Orders']
 })
 
 export const { 
   useGetAllOrdersQuery, 
-  useDeleteOrderMutation
+  useDeleteOrderMutation,
+  useGetOrdersByStatusQuery
 } = ordersApi 

@@ -15,7 +15,9 @@ import { useState } from 'react'
 import { useOrderForClientAddressMutation } from '@/app/api/orderForClientAddressApi'
 import { useGetAllOrdersQuery } from '@/app/api/ordersApi'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import AddClientAddressForm from './AddClientAddressForm';
+import { AddRecipientForm } from './AddRecipientForm';
+import { useCreateClientAddressMutation } from '@/app/api/clientAdressApi';
+import { useGetCustomerMeQuery } from '@/app/api/customerApi';
 
 const schema = yup.object({
   clientName: yup.string().required("اسم العميل مطلوب"),
@@ -45,6 +47,7 @@ type OrderFormData = yup.InferType<typeof orderSchema>;
 
 export function CreateOrderForm() {
   const router = useRouter()
+  const { data: customerMe } = useGetCustomerMeQuery();
  
   const { data: clientAddresses, isLoading: isLoadingAddresses, refetch: refetchAddresses } = useGetAllClientAddressesQuery()
   const [selectedCard, setSelectedCard] = useState<null | any>(null)
@@ -55,6 +58,8 @@ export function CreateOrderForm() {
   const { refetch: refetchOrders } = useGetAllOrdersQuery();
   const [showAddClientModal, setShowAddClientModal] = useState(false);
   const [showAllAddresses, setShowAllAddresses] = useState(false);
+  const [createClientAddress, { isLoading: isCreatingClient }] = useCreateClientAddressMutation();
+  const [showAddClientSuccess, setShowAddClientSuccess] = useState(false);
 
   // Step 2 form
   const {
@@ -64,6 +69,7 @@ export function CreateOrderForm() {
     formState: { errors: orderErrors },
     trigger: triggerOrder,
     reset: resetOrderForm,
+    watch: orderWatch,
   } = useForm<OrderFormData>({
     resolver: yupResolver(orderSchema),
     defaultValues: {
@@ -109,7 +115,7 @@ export function CreateOrderForm() {
                     <div
                       key={address._id}
                       className={`border rounded-lg p-4 cursor-pointer transition-colors ${selectedCard?._id === address._id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white'}`}
-                      onClick={() => handleCardSelect(address)}
+                      onClick={() => setSelectedCard(address)}
                     >
                       <div className="font-bold text-[#1a365d]">{address.clientName}</div>
                       <div className="text-sm text-gray-600">{address.clientPhone}</div>
@@ -129,14 +135,18 @@ export function CreateOrderForm() {
                 )}
               </>
             )}
-            <Dialog open={showAddClientModal} onOpenChange={setShowAddClientModal}>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>اضافة عميل جديد</DialogTitle>
-                </DialogHeader>
-                <AddClientAddressForm onSuccess={() => { setShowAddClientModal(false); if (typeof refetchAddresses === 'function') refetchAddresses(); }} />
-              </DialogContent>
-            </Dialog>
+            <AddRecipientForm
+              isOpen={showAddClientModal}
+              onClose={() => setShowAddClientModal(false)}
+              isLoading={isCreatingClient}
+              initialValues={{ customer: customerMe?.data?._id || '' }}
+              onSubmit={async (data) => {
+                await createClientAddress({ ...data, customer: customerMe?.data?._id }).unwrap();
+                setShowAddClientModal(false);
+                setShowAddClientSuccess(true);
+                if (typeof refetchAddresses === 'function') refetchAddresses();
+              }}
+            />
           </div>
           <div className="flex justify-end gap-4">
             <Button
@@ -189,7 +199,36 @@ export function CreateOrderForm() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="payment_method">طريقة الدفع<span className="text-red-500">*</span></Label>
-                <Input id="payment_method" type="text" {...registerOrder('payment_method')} className={cn("border-2 transition-colors w-full h-10", orderErrors.payment_method ? "border-red-500 focus-visible:ring-red-500" : "border-gray-200 focus-visible:ring-blue-500")}/>
+                <div className="flex gap-4">
+                  <label className={`flex-1 cursor-pointer rounded-xl border-2 p-4 flex flex-col items-center transition-all ${orderWatch('payment_method') === 'Prepaid' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white hover:border-blue-300'}`}>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-lg font-bold">الدفع المسبق</span>
+                      <input
+                        type="radio"
+                        value="Prepaid"
+                        {...registerOrder('payment_method')}
+                        className="form-radio ml-2 h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        checked={orderWatch('payment_method') === 'Prepaid'}
+                        onChange={() => setOrderValue('payment_method', 'Prepaid', { shouldValidate: true })}
+                      />
+                    </div>
+                    <span className="text-sm text-gray-500 mt-2">مناسب للدفع قبل الشحن</span>
+                  </label>
+                  <label className={`flex-1 cursor-pointer rounded-xl border-2 p-4 flex flex-col items-center transition-all ${orderWatch('payment_method') === 'COD' ? 'border-blue-600 bg-blue-50' : 'border-gray-200 bg-white hover:border-blue-300'}`}>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-lg font-bold">الدفع عند الاستلام</span>
+                      <input
+                        type="radio"
+                        value="COD"
+                        {...registerOrder('payment_method')}
+                        className="form-radio ml-2 h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        checked={orderWatch('payment_method') === 'COD'}
+                        onChange={() => setOrderValue('payment_method', 'COD', { shouldValidate: true })}
+                      />
+                    </div>
+                    <span className="text-sm text-gray-500 mt-2">مناسب للدفع عند استلام الشحنة</span>
+                  </label>
+                </div>
                 {orderErrors.payment_method && <p className="text-sm text-red-500">{orderErrors.payment_method.message}</p>}
               </div>
               <div className="space-y-2">
@@ -245,6 +284,20 @@ export function CreateOrderForm() {
               refetchOrders();
               router.push('/orders');
             }}>إغلاق</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      {/* Success Modal for Add Client Address */}
+      <Dialog open={showAddClientSuccess} onOpenChange={setShowAddClientSuccess}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>نجاح العملية</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col items-center justify-center py-4">
+            <span className="text-green-600 text-lg font-bold">تمت إضافة العميل بنجاح!</span>
+            <Button className="mt-4" onClick={() => setShowAddClientSuccess(false)}>
+              إغلاق
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

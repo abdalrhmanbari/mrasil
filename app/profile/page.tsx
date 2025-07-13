@@ -29,11 +29,14 @@ import ChangePasswordForm from "./ChangePasswordForm"
 import { useGetCustomerMeQuery, useUpdateCustomerMeMutation } from '../api/customerApi'
 import { useState, useEffect } from 'react'
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogAction } from '@/components/ui/alert-dialog'
+import { useGetShipmentStatsQuery } from "@/app/api/homePageApi"
+
 
 export default function ProfilePage() {
   const { data: profileData, isLoading } = useGetProfileQuery()
   const { data: customerData, isLoading: isCustomerLoading } = useGetCustomerMeQuery()
   const [updateCustomerMe, { isLoading: isUpdating, error: updateError, data: updateData }] = useUpdateCustomerMeMutation()
+  const { data: shipmentStats } = useGetShipmentStatsQuery();
 
   // For company info
   const [brandColor, setBrandColor] = useState(customerData?.data.brand_color || '')
@@ -132,7 +135,7 @@ export default function ProfilePage() {
 
               <div className="pt-4 grid grid-cols-3 gap-2 text-center">
                 <div>
-                  <div className="text-lg font-bold text-[#3498db]">42</div>
+                  <div className="text-lg font-bold text-[#3498db]">{shipmentStats?.deliveredShipments ?? 0}</div>
                   <div className="text-xs text-[#6d6a67]">شحنة</div>
                 </div>
                 <div>
@@ -140,7 +143,7 @@ export default function ProfilePage() {
                   <div className="text-xs text-[#6d6a67]">دولة</div>
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-[#3498db]">98%</div>
+                  <div className="text-lg font-bold text-[#3498db]">{shipmentStats?.totalShipments ? `${Math.round((shipmentStats.pendingShipments / shipmentStats.totalShipments) * 100)}%` : '0%'}</div>
                   <div className="text-xs text-[#6d6a67]">تقييم</div>
                 </div>
               </div>
@@ -156,30 +159,30 @@ export default function ProfilePage() {
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span>شحنات مكتملة</span>
-                    <span className="text-[#3498db] font-medium">38</span>
+                    <span className="text-[#3498db] font-medium">{shipmentStats?.deliveredShipments ?? 0}</span>
                   </div>
                   <div className="v7-neu-inset h-2 rounded-full overflow-hidden">
-                    <div className="bg-[#3498db] h-full rounded-full" style={{ width: "90%" }}></div>
+                    <div className="bg-[#3498db] h-full rounded-full" style={{ width: `${Math.min((shipmentStats?.deliveredShipments ?? 0), 100)}%` }}></div>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span>شحنات جارية</span>
-                    <span className="text-[#3498db] font-medium">3</span>
+                    <span className="text-[#3498db] font-medium">{shipmentStats?.pendingShipments ?? 0}</span>
                   </div>
                   <div className="v7-neu-inset h-2 rounded-full overflow-hidden">
-                    <div className="bg-[#3498db] h-full rounded-full" style={{ width: "7%" }}></div>
+                    <div className="bg-[#3498db] h-full rounded-full" style={{ width: `${Math.min((shipmentStats?.pendingShipments ?? 0), 100)}%` }}></div>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between text-sm mb-1">
-                    <span>شحنات ملغاة</span>
-                    <span className="text-[#3498db] font-medium">1</span>
+                    <span>شحنات في الطريق</span>
+                    <span className="text-[#3498db] font-medium">{shipmentStats?.inTransitShipments ?? 0}</span>
                   </div>
                   <div className="v7-neu-inset h-2 rounded-full overflow-hidden">
-                    <div className="bg-[#e74c3c] h-full rounded-full" style={{ width: "3%" }}></div>
+                    <div className="bg-[#2ecc71] h-full rounded-full" style={{ width: `${Math.min((shipmentStats?.inTransitShipments ?? 0), 100)}%` }}></div>
                   </div>
                 </div>
               </div>
@@ -219,50 +222,58 @@ export default function ProfilePage() {
                     <div className="space-y-2">
                       <Label htmlFor="fullName">الاسم الكامل</Label>
                       <div className="v7-neu-input-container">
-                        <Input id="fullName" className="v7-neu-input" defaultValue={`${profileData?.data.firstName} ${profileData?.data.lastName}`} />
+                        <Input id="fullName" className="v7-neu-input" defaultValue={`${customerData?.data.firstName} ${customerData?.data.lastName}`} />
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="email">البريد الإلكتروني</Label>
                       <div className="v7-neu-input-container">
-                        <Input id="email" className="v7-neu-input" defaultValue={profileData?.data.email} />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">رقم الهاتف</Label>
-                      <div className="v7-neu-input-container">
-                        <Input id="phone" className="v7-neu-input" defaultValue={profileData?.data.phone} />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="country">الدولة</Label>
-                      <div className="v7-neu-input-container">
-                        <Input id="country" className="v7-neu-input" defaultValue={profileData?.data.country} />
+                        <Input id="email" className="v7-neu-input" defaultValue={customerData?.data.email} />
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="address">العنوان</Label>
+                    <Label htmlFor="active">الحالة</Label>
                     <div className="v7-neu-input-container">
-                      <Input id="address" className="v7-neu-input" defaultValue={profileData?.data.address} />
+                      {customerData?.data.active ? (
+                        <span className="inline-block px-3 py-1 bg-green-100 text-green-700 rounded-full font-semibold">نشط</span>
+                      ) : (
+                        <span className="inline-block px-3 py-1 bg-red-100 text-red-700 rounded-full font-semibold">غير نشط</span>
+                      )}
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="bio">نبذة شخصية</Label>
+                    <Label htmlFor="role">الدور</Label>
                     <div className="v7-neu-input-container">
-                      <Textarea
-                        id="bio"
-                        className="v7-neu-input min-h-[100px]"
-                        defaultValue={profileData?.data.bio}
-                      />
+                      <Input id="role" className="v7-neu-input bg-gray-100 cursor-not-allowed" value={customerData?.data.role || ''} readOnly />
                     </div>
                   </div>
 
+                  <div className="space-y-2">
+                    <Label htmlFor="createdAt">تاريخ الإنشاء</Label>
+                    <div className="v7-neu-input-container">
+                      <Input id="createdAt" className="v7-neu-input bg-gray-100 cursor-not-allowed" value={customerData?.data.createdAt ? new Date(customerData.data.createdAt).toLocaleString('ar-EG') : ''} readOnly />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="passwordChangedAt">آخر تغيير كلمة المرور</Label>
+                    <div className="v7-neu-input-container">
+                      <Input id="passwordChangedAt" className="v7-neu-input bg-gray-100 cursor-not-allowed" value={customerData?.data.passwordChangedAt ? new Date(customerData.data.passwordChangedAt).toLocaleString('ar-EG') : 'لم يتم التغيير'} readOnly />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="addresses">عدد العناوين</Label>
+                    <div className="v7-neu-input-container">
+                      <Input id="addresses" className="v7-neu-input bg-gray-100 cursor-not-allowed" value={Array.isArray(customerData?.data.addresses) ? customerData.data.addresses.length : 0} readOnly />
+                    </div>
+                  </div>
+
+                
                   <div className="flex justify-end">
                     <Button className="v7-neu-button-accent">
                       <Save className="h-4 w-4 ml-2" />

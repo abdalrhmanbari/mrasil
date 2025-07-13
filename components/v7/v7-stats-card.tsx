@@ -4,11 +4,10 @@ import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import type { LucideIcon } from "lucide-react"
-import { WalletRechargeModal } from "./v7-wallet-recharge-modal"
 
 interface StatItem {
   label: string
-  value: string
+  value: React.ReactNode
   progress?: number
   trend?: "up" | "down"
 }
@@ -23,10 +22,10 @@ interface V7StatsCardProps {
     label: string
     onClick: () => void
   }
+  centerContent?: boolean // new prop
 }
 
-export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, action }: V7StatsCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, action, centerContent }: V7StatsCardProps) {
 
   // تحديث تعريف الألوان في colorMap لتشمل تدرجات لونية جميلة:
   const colorMap = {
@@ -154,11 +153,10 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
 
   return (
     <>
-      <Card className={`${cardClass} v7-neu-card border-none overflow-hidden`}>
-        <CardContent className="p-5">
+      <Card className={`${cardClass} v7-neu-card border-none overflow-hidden h-full`}>
+        <CardContent className="p-5 h-full flex flex-col">
           <div className="flex items-center justify-between mb-3">
             <h3 className={`font-bold text-3xl ${textColor}`}>{title}</h3>
-            {/* تحديث div الأيقونة لتكون أكثر جمالاً: */}
             <div
               className={`v7-neu-icon ${bgColor} p-3 rounded-lg shadow-md flex items-center justify-center relative overflow-hidden`}
               style={{
@@ -171,16 +169,14 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
               <Icon className={`h-10 w-10 ${iconColor} relative z-10`} strokeWidth={2.5} />
             </div>
           </div>
-
-          {/* Make stats fill the card vertically with even spacing */}
-          <div className="flex flex-col justify-between h-[120px]">
+          {/* Stats fill the card vertically with space between */}
+          <div className="flex flex-col flex-1 justify-between min-h-[180px]">
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col flex-1 justify-center">
                 <div className="flex items-center justify-between mb-1">
                   <span className={`text-xl font-medium ${labelTextColor}`}>{stat.label}</span>
                   <span className={`font-bold text-2xl ${isDark ? "text-white" : "text-gray-800"}`}>{stat.value}</span>
                 </div>
-
                 {stat.progress !== undefined && (
                   <div className={`w-full h-2.5 ${progressBgColor} rounded-full overflow-hidden`}>
                     <div
@@ -192,7 +188,6 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
                     ></div>
                   </div>
                 )}
-
                 {stat.trend && (
                   <div className="flex items-center justify-end">
                     <span
@@ -213,10 +208,9 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
               </div>
             ))}
           </div>
-
           {action && (
             <Button
-              onClick={() => setIsModalOpen(true)}
+              onClick={action.onClick}
               className={`mt-3 w-full v7-neu-button text-white font-medium text-xl py-2 transition-all duration-200 ${bgColor}`}
               style={{
                 boxShadow: isDark ? "0 4px 10px rgba(0, 0, 0, 0.3)" : "0 4px 6px rgba(0, 0, 0, 0.1)",
@@ -230,8 +224,6 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
           )}
         </CardContent>
       </Card>
-
-      <WalletRechargeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   )
 }

@@ -12,12 +12,17 @@ import { Badge } from "@/components/ui/badge"
 import { useGetSallaAuthUrlQuery, useGetWebhookStatusQuery, useUpdateWebhookMutation } from "@/app/api/sallaApi"
 import { toast } from "sonner"
 import { useGetZidAuthUrlQuery } from '@/app/api/zedApi'
+import { useLazyGetAuthUrlQuery } from "@/app/api/shopifyApi";
 
 export function WebhooksContent() {
   const router = useRouter()
   const [webhookUrl, setWebhookUrl] = useState("")
   const sallaToken = "38c5a910b012dfcbca23913cfb167308602e62fa9edea4c9ac2fa28"
   const manualAuthUrlRef = useRef("")
+  const [showInputs, setShowInputs] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [triggerGetAuthUrl, { data: authData, isLoading: isShopifyAuthLoading, error: authError }] = useLazyGetAuthUrlQuery();
 
   // Get webhook status
   const { data: webhookStatus, isLoading: isLoadingStatus } = useGetWebhookStatusQuery()
@@ -203,7 +208,45 @@ export function WebhooksContent() {
                   </div>
                   <h3 className="font-medium dark:text-gray-200 text-lg">Shopify</h3>
                   <p className="text-base text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر Shopify الخاص بك</p>
-                  <Button className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 text-lg py-2 px-4">توصيل</Button>
+                  {showInputs && (
+                    <div className="flex flex-col gap-2 mb-4">
+                      <input
+                        type="text"
+                        className="v7-neu-input text-right"
+                        placeholder="الاسم الأول"
+                        value={firstName}
+                        onChange={e => setFirstName(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        className="v7-neu-input text-right"
+                        placeholder="اسم العائلة"
+                        value={lastName}
+                        onChange={e => setLastName(e.target.value)}
+                      />
+                    </div>
+                  )}
+                  <Button
+                    className="mt-4 v7-neu-button dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 text-lg py-2 px-4"
+                    disabled={isShopifyAuthLoading}
+                    onClick={async () => {
+                      if (!showInputs) {
+                        setShowInputs(true);
+                        return;
+                      }
+                      if (firstName && lastName) {
+                        await triggerGetAuthUrl({ firstName, lastName });
+                      }
+                    }}
+                  >
+                    {isShopifyAuthLoading ? "...جاري التوصيل" : "توصيل"}
+                  </Button>
+                  {authData && authData.authUrl && (
+                    <div className="mt-4 text-green-700 text-center break-all">رابط التوثيق: <a href={authData.authUrl} target="_blank" rel="noopener noreferrer" className="underline">{authData.authUrl}</a></div>
+                  )}
+                  {authError && (
+                    <div className="mt-4 text-red-600 text-center">{authError?.data?.error || "حدث خطأ أثناء جلب رابط التوثيق"}</div>
+                  )}
                 </CardContent>
               </Card>
             </div>

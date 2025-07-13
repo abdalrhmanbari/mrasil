@@ -42,7 +42,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useGetAllOrdersQuery, useDeleteOrderMutation } from "../api/ordersApi"
+import { useGetAllOrdersQuery, useDeleteOrderMutation, useGetOrdersByStatusQuery } from "../api/ordersApi"
 import { ConfirmModal } from "@/components/ui/confirm-modal"
 import { useToast } from "@/hooks/use-toast"
 
@@ -76,6 +76,10 @@ export default function OrdersContent() {
   const { data, isLoading, refetch } = useGetAllOrdersQuery()
   const [deleteOrder] = useDeleteOrderMutation()
   const { toast } = useToast();
+  // Fetch completed orders count
+  const { data: completedOrdersData, isLoading: isLoadingCompleted } = useGetOrdersByStatusQuery('completed');
+  // Fetch canceled orders count
+  const { data: canceledOrdersData, isLoading: isLoadingCanceled } = useGetOrdersByStatusQuery('canceled');
   
   // Add state for delete confirmation
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -86,6 +90,12 @@ export default function OrdersContent() {
   // Safely extract orders from the response
   const orders = data?.data || []
   const totalOrders = orders.length
+  // Completed orders count
+  const completedOrdersCount = Array.isArray(completedOrdersData?.data) ? completedOrdersData.data.length : 0;
+  // Pending orders count - filter from getAllOrders data
+  const pendingOrdersCount = orders.filter(order => order.status?.name === 'pending').length;
+  // Canceled orders count
+  const canceledOrdersCount = Array.isArray(canceledOrdersData?.data) ? canceledOrdersData.data.length : 0;
 
   // Filter orders by search (email or phone)
   const filteredOrders = orders.filter(order => {
@@ -176,50 +186,50 @@ export default function OrdersContent() {
         {/* بطاقات الإحصائيات */}
         <div className="w-full px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 v7-fade-in">
-            <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-sm text-[#6d6a67] mb-1">إجمالي الطلبات</p>
-                  <h3 className="text-2xl font-bold text-[#3498db]">{totalOrders}</h3>
+                  <p className="text-base font-semibold text-[#6d6a67] mb-1">إجمالي الطلبات</p>
+                  <h3 className="text-3xl font-extrabold text-[#3498db] mt-1">{totalOrders}</h3>
                 </div>
-                <div className="v7-neu-icon-lg ml-4">
-                  <ShoppingBag className="h-6 w-6 text-[#3498db]" />
+                <div className="v7-neu-icon-lg ml-2">
+                  <ShoppingBag className="h-8 w-8 text-[#3498db]" />
                 </div>
               </div>
             </div>
 
-            <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-sm text-[#6d6a67] mb-1">طلبات مكتملة</p>
-                  <h3 className="text-2xl font-bold text-[#2ecc71]">187</h3>
+                  <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات مكتملة</p>
+                  <h3 className="text-3xl font-extrabold text-[#2ecc71] mt-1">{isLoadingCompleted ? '...' : completedOrdersCount}</h3>
                 </div>
-                <div className="v7-neu-icon-lg ml-4">
-                  <CheckCircle className="h-6 w-6 text-[#2ecc71]" />
+                <div className="v7-neu-icon-lg ml-2">
+                  <CheckCircle className="h-8 w-8 text-[#2ecc71]" />
                 </div>
               </div>
             </div>
 
-            <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-sm text-[#6d6a67] mb-1">طلبات قيد التنفيذ</p>
-                  <h3 className="text-2xl font-bold text-[#294D8B]">42</h3>
+                  <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات قيد التنفيذ</p>
+                  <h3 className="text-3xl font-extrabold text-[#294D8B] mt-1">{isLoading ? '...' : pendingOrdersCount}</h3>
                 </div>
-                <div className="v7-neu-icon-lg ml-4">
-                  <Clock className="h-6 w-6 text-[#294D8B]" />
+                <div className="v7-neu-icon-lg ml-2">
+                  <Clock className="h-8 w-8 text-[#294D8B]" />
                 </div>
               </div>
             </div>
 
-            <div className="v7-neu-card p-4 flex flex-col justify-between min-h-[140px] transition-all duration-300 hover:shadow-lg">
-              <div className="flex items-center justify-between">
+            <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
+              <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-sm text-[#6d6a67] mb-1">طلبات ملغاة</p>
-                  <h3 className="text-2xl font-bold text-[#e74c3c]">19</h3>
+                  <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات ملغاة</p>
+                  <h3 className="text-3xl font-extrabold text-[#e74c3c] mt-1">{isLoadingCanceled ? '...' : canceledOrdersCount}</h3>
                 </div>
-                <div className="v7-neu-icon-lg ml-4">
-                  <XCircle className="h-6 w-6 text-[#e74c3c]" />
+                <div className="v7-neu-icon-lg ml-2">
+                  <XCircle className="h-8 w-8 text-[#e74c3c]" />
                 </div>
               </div>
             </div>
@@ -304,7 +314,7 @@ export default function OrdersContent() {
               <div className="overflow-x-auto whitespace-nowrap">
                 <table className="w-full text-sm border-separate border-spacing-0">
                   <thead>
-                    <tr className="v7-neu-table-header">
+                    <tr className="v7-neu-table-header text-base"> {/* Increased font size */}
                       <th className="p-2 sticky left-0 bg-[#f8fafc] z-10 text-center">اختيار</th>
                       <th className="p-2 px-4 whitespace-nowrap">رقم الطلب</th>
                       <th className="p-2 px-4 whitespace-nowrap">العميل</th>
@@ -312,6 +322,9 @@ export default function OrdersContent() {
                       <th className="p-2 px-4 whitespace-nowrap">رقم الهاتف</th>
                       <th className="p-2 px-4 whitespace-nowrap">البريد الإلكتروني</th>
                       <th className="p-2 px-4 whitespace-nowrap">العنوان</th>
+                      <th className="p-2 px-4 whitespace-nowrap">المنصة</th> {/* New column */}
+                      <th className="p-2 px-4 whitespace-nowrap">عدد الصناديق</th> {/* New column */}
+                      <th className="p-2 px-4 whitespace-nowrap">الوزن (كجم)</th> {/* New column */}
                       <th className="p-2 px-4 whitespace-nowrap">طريقة الدفع</th>
                       <th className="p-2 px-4 whitespace-nowrap">التاريخ</th>
                       <th className="p-2 px-4 whitespace-nowrap">حالة الطلب</th>
@@ -322,7 +335,7 @@ export default function OrdersContent() {
                     {filteredOrders.map((order) => (
                       <tr
                         key={order._id}
-                        className={`v7-neu-table-row cursor-pointer ${selectedOrder === order._id ? 'bg-blue-50' : ''}`}
+                        className={`v7-neu-table-row cursor-pointer text-base ${selectedOrder === order._id ? 'bg-blue-50' : ''}`}
                         onClick={() => handleSelectOrder(order._id)}
                         tabIndex={0}
                         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') handleSelectOrder(order._id); }}
@@ -343,6 +356,9 @@ export default function OrdersContent() {
                         <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientPhone || '-'}</td>
                         <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientEmail || '-'}</td>
                         <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientAddress || '-'}</td>
+                        <td className="p-2 px-4 whitespace-nowrap">{order.platform || '-'}</td> {/* New cell */}
+                        <td className="p-2 px-4 whitespace-nowrap">{order.number_of_boxes ?? '-'}</td> {/* New cell */}
+                        <td className="p-2 px-4 whitespace-nowrap">{order.weight ?? '-'}</td> {/* New cell */}
                         <td className="p-2 px-4 whitespace-nowrap">{order.payment_method}</td>
                         <td className="p-2 px-4 whitespace-nowrap">
                           <div className="flex items-center gap-1">

@@ -98,8 +98,7 @@ export function PaymentsContent() {
     setIsLoaded(true)
   }, [])
 
-  const [openRecharge, setOpenRecharge] = useState(false);
-  const handleWalletRecharge = () => setOpenRecharge(true);
+  const handleWalletRecharge = () => router.push('/wallet/recharge');
 
   // --- Payment Status Search ---
   const [searchId, setSearchId] = useState("");
@@ -114,7 +113,7 @@ export function PaymentsContent() {
 
   return (
     <div className="space-y-6">
-      <RechargeWalletDialog open={openRecharge} onClose={() => setOpenRecharge(false)} />
+      <RechargeWalletDialog open={false} onClose={() => {}} />
       <div
         className={`v7-neu-card p-6 rounded-xl v7-fade-in bg-white dark:bg-gray-900 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         style={{ transitionDelay: "0.2s" }}
