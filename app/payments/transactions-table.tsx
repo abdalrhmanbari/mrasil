@@ -64,18 +64,17 @@ export function TransactionsTable() {
                 <th className="py-3 px-4 text-right font-bold text-muted-foreground dark:text-gray-400">نوع الشحن</th>
                 <th className="py-3 px-4 text-right font-bold text-muted-foreground dark:text-gray-400">المبلغ</th>
                 <th className="py-3 px-4 text-right font-bold text-muted-foreground dark:text-gray-400">الحالة</th>
-                <th className="py-3 px-4 text-right font-bold text-muted-foreground dark:text-gray-400">الإجراءات</th>
               </tr>
             </thead>
             <tbody className="bg-white dark:bg-gray-800">
               {isLoading && (
-                <tr><td colSpan={7} className="text-center py-6">جاري التحميل...</td></tr>
+                <tr><td colSpan={6} className="text-center py-6">جاري التحميل...</td></tr>
               )}
               {isError && (
-                <tr><td colSpan={7} className="text-center text-red-500 py-6">حدث خطأ أثناء جلب البيانات</td></tr>
+                <tr><td colSpan={6} className="text-center text-red-500 py-6">حدث خطأ أثناء جلب البيانات</td></tr>
               )}
               {data && data.data && data.data.length === 0 && !isLoading && !isError && (
-                <tr><td colSpan={7} className="text-center py-6">لا توجد معاملات</td></tr>
+                <tr><td colSpan={6} className="text-center py-6">لا توجد معاملات</td></tr>
               )}
               {data && data.data && data.data.map((trx) => (
                 <tr key={trx._id} className="border-b dark:border-gray-700 hover:bg-[#f0f4f8] dark:hover:bg-gray-700">
@@ -94,38 +93,6 @@ export function TransactionsTable() {
                     <span className={`inline-block px-2 py-1 rounded-full text-xs ${getStatusBadgeClass(trx.status)}`}>
                       {trx.status === 'completed' ? 'مكتمل' : trx.status === 'pending' ? 'قيد الانتظار' : trx.status === 'failed' ? 'فشل' : trx.status}
                     </span>
-                  </td>
-                  <td className="py-3 px-4">
-                   <button
-                     className={`px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow text-sm font-bold transition flex items-center justify-center min-w-[110px] ${loadingRows[trx._id] || approvedRows[trx._id] ? 'opacity-60 cursor-not-allowed' : ''}`}
-                     disabled={loadingRows[trx._id] || approvedRows[trx._id]}
-                     onClick={async () => {
-                       if (loadingRows[trx._id] || approvedRows[trx._id]) return;
-                       setLoadingRows((prev) => ({ ...prev, [trx._id]: true }));
-                       try {
-                         const res = await updateTransactionStatus({ id: trx._id, status: "approved" }).unwrap();
-                         setModalMsg("تمت الموافقة على المعاملة بنجاح");
-                         setModalSuccess(true);
-                         setApprovedRows((prev) => ({ ...prev, [trx._id]: true }));
-                       } catch (err: any) {
-                         setModalMsg(err?.data?.message || "حدث خطأ أثناء الموافقة على المعاملة");
-                         setModalSuccess(false);
-                       }
-                       setLoadingRows((prev) => ({ ...prev, [trx._id]: false }));
-                       setModalOpen(true);
-                     }}
-                   >
-                     {loadingRows[trx._id] ? (
-                       <>
-                         <Loader2 className="animate-spin inline-block mr-2 w-4 h-4" />
-                         جاري التنفيذ...
-                       </>
-                     ) : approvedRows[trx._id] ? (
-                       "تمت الموافقة"
-                     ) : (
-                       "موافقة"
-                     )}
-                   </button>
                   </td>
                 </tr>
               ))}

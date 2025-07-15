@@ -1,6 +1,6 @@
 import { V7LoadingScreen } from "@/components/v7/v7-loading-screen"
 import { Suspense } from "react"
-import TeamMemberDetails from "@/components/v7/pages/team-member-details"
+import TeamMemberDetails from "@/app/team/team-member-details"
 
 export default function TeamMemberPage({ params }: { params: { id: string } }) {
   return (

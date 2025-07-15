@@ -1,4 +1,4 @@
-import { WebhookTestPage } from "@/components/v7/pages/webhook-test-page"
+import { WebhookTestPage } from "@/app/webhooks/[id]/test/webhook-test-page"
 
 export default function WebhookTest() {
   return <WebhookTestPage />

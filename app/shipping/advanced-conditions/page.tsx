@@ -1,4 +1,4 @@
-import AdvancedShippingConditions from "@/components/advanced-shipping-conditions"
+import AdvancedShippingConditions from "./advanced-shipping-conditions"
 
 export default function AdvancedShippingConditionsPage() {
   return <AdvancedShippingConditions />

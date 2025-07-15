@@ -570,21 +570,6 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
             {errors.total && typeof errors.total.message === 'string' && <div className="text-red-500 text-sm mt-1">{errors.total.message}</div>}
           </motion.div>
 
-          <motion.div variants={fadeIn}>
-            <Label htmlFor="description" className="text-base font-medium flex items-center gap-2 mb-2">
-              <FileText className="h-5 w-5 text-[#3498db]" />
-              الوصف
-            </Label>
-            <div className="v7-neu-input-container">
-              <input
-                type="text"
-                {...register("description")}
-                placeholder="أدخل الوصف"
-                className="v7-neu-input text-base"
-              />
-            </div>
-              {errors.description && typeof errors.description.message === 'string' && <div className="text-red-500 text-sm mt-1">{errors.description.message}</div>}
-          </motion.div>
             </div>
         {/* عنوان العميل (hidden but included in form) */}
         <Label htmlFor="customerAddress" className="hidden">عنوان العميل</Label>

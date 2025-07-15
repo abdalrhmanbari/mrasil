@@ -1,5 +1,5 @@
 import V7Layout from "@/components/v7/v7-layout"
-import { CarrierIntegrationList } from "@/components/v7/pages/carrier-integration-list"
+import { CarrierIntegrationList } from "@/app/carriers/integration/carrier-integration-list"
 
 export default function CarrierIntegrationPage() {
   return (

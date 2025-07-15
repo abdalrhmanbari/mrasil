@@ -1,5 +1,5 @@
 import V7Layout from "@/components/v7/v7-layout"
-import { CarriersContent } from "@/components/v7/pages/carriers-content"
+import { CarriersContent } from "@/app/carriers/carriers-content"
 
 export default function CarriersPage() {
   return (
