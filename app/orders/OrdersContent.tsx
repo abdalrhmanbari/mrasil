@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import moment from 'moment'
@@ -13,28 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
-  Search,
-  Filter,
-  Package,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  XCircle,
-  ChevronLeft,
-  ChevronRight,
-  Calendar,
-  Truck,
-  ShoppingBag,
-  Edit,
-  Plus,
-  ArrowUpDown,
-  CreditCard,
-  Send,
-  X,
-  ChevronDown,
-  Printer,
-  Download,
-} from "lucide-react"
+  Search,Filter,Package,Clock,CheckCircle,AlertCircle,XCircle,ChevronLeft,ChevronRight,Calendar,Truck,ShoppingBag,Edit,Plus,ArrowUpDown,CreditCard, Send,X,ChevronDown,Printer, Download,} from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,7 +23,6 @@ import {
 import { useGetAllOrdersQuery, useDeleteOrderMutation, useGetOrdersByStatusQuery } from "../api/ordersApi"
 import { ConfirmModal } from "@/components/ui/confirm-modal"
 import { useToast } from "@/hooks/use-toast"
-
 interface Order {
   _id: string;
   status: { name: string };
@@ -76,28 +53,28 @@ export default function OrdersContent() {
   const { data, isLoading, refetch } = useGetAllOrdersQuery()
   const [deleteOrder] = useDeleteOrderMutation()
   const { toast } = useToast();
-  // Fetch completed orders count
+ 
   const { data: completedOrdersData, isLoading: isLoadingCompleted } = useGetOrdersByStatusQuery('completed');
-  // Fetch canceled orders count
+  
   const { data: canceledOrdersData, isLoading: isLoadingCanceled } = useGetOrdersByStatusQuery('canceled');
   
-  // Add state for delete confirmation
+
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [orderToDelete, setOrderToDelete] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false);
   const [search, setSearch] = useState("");
 
-  // Safely extract orders from the response
+
   const orders = data?.data || []
   const totalOrders = orders.length
-  // Completed orders count
+
   const completedOrdersCount = Array.isArray(completedOrdersData?.data) ? completedOrdersData.data.length : 0;
-  // Pending orders count - filter from getAllOrders data
+
   const pendingOrdersCount = orders.filter(order => order.status?.name === 'pending').length;
-  // Canceled orders count
+  
   const canceledOrdersCount = Array.isArray(canceledOrdersData?.data) ? canceledOrdersData.data.length : 0;
 
-  // Filter orders by search (email or phone)
+
   const filteredOrders = orders.filter(order => {
     if (!search) return true;
     const email = order.clientAddress?.clientEmail?.toLowerCase() || "";
@@ -105,7 +82,6 @@ export default function OrdersContent() {
     const searchValue = search.toLowerCase();
     return email.includes(searchValue) || phone.includes(searchValue);
   });
-
   if (isLoading) {
     return (
       <V7Layout>
@@ -119,14 +95,10 @@ export default function OrdersContent() {
         </V7Content>
       </V7Layout>
     )
-  }
-
-  // وظيفة تحديد طلب واحد فقط
+  } 
   const handleSelectOrder = (orderId: string) => {
     setSelectedOrder(orderId)
-  }
-
-  // Función para manejar acciones en grupo
+  } 
   const handleBulkAction = (action: string) => {
     switch (action) {
       case "process":
@@ -143,21 +115,15 @@ export default function OrdersContent() {
         break
       case "cancel":
         alert(`تم إلغاء ${selectedOrder ? 1 : 0} طلب`)
-        // Aquí puedes implementar la lógica real para cancelar los pedidos
-        // setSelectedOrder(null);
-        break
+         break
       default:
         break
     }
-  }
-
-  // Handle delete button click
+  }  
   const handleDeleteClick = (orderId: string) => {
     setOrderToDelete(orderId)
     setDeleteModalOpen(true)
-  }
-
-  // Handle delete confirmation
+  }  
   const handleDeleteConfirm = async () => {
     if (orderToDelete) {
       setIsDeleting(true);
@@ -179,12 +145,10 @@ export default function OrdersContent() {
       }
     }
   }
-
   return (
     <V7Layout>
       <V7Content title="الطلبات" description="إدارة ومتابعة جميع طلباتك">
-        {/* بطاقات الإحصائيات */}
-        <div className="w-full px-4">
+          <div className="w-full px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 v7-fade-in">
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
@@ -197,7 +161,6 @@ export default function OrdersContent() {
                 </div>
               </div>
             </div>
-
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
@@ -209,7 +172,6 @@ export default function OrdersContent() {
                 </div>
               </div>
             </div>
-
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
@@ -221,7 +183,6 @@ export default function OrdersContent() {
                 </div>
               </div>
             </div>
-
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
@@ -236,8 +197,7 @@ export default function OrdersContent() {
           </div>
         </div>
 
-       {/* زر إنشاء طلب جديد */}
-        <div className="flex justify-end mb-6">
+          <div className="flex justify-end mb-6">
           <Button 
             className="v7-neu-button-accent"
             onClick={() => router.push('/orders/create')}
@@ -245,12 +205,9 @@ export default function OrdersContent() {
             <Plus className="h-4 w-4 ml-2" />
             إنشاء طلب جديد
           </Button>
-        </div>
-
-        {/* تبويبات الطلبات */}
+        </div>       
         <div className="v7-neu-card overflow-hidden v7-fade-in">
-          <Tabs defaultValue="all" className="w-full">
-            {/* شريط البحث والفلترة */}
+          <Tabs defaultValue="all" className="w-full">            
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border-b">
               <TabsList className="v7-neu-tabs">
                 <TabsTrigger value="all" className="v7-neu-tab">
@@ -266,7 +223,6 @@ export default function OrdersContent() {
                   ملغاة
                 </TabsTrigger>
               </TabsList>
-
               <div className="flex gap-2">
                 <div className="relative v7-neu-input-container flex-1 min-w-[200px]">
                   <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
@@ -277,7 +233,6 @@ export default function OrdersContent() {
                     onChange={e => setSearch(e.target.value)}
                   />
                 </div>
-
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
@@ -292,7 +247,6 @@ export default function OrdersContent() {
                     <DropdownMenuItem className="text-sm p-2 hover:bg-[#e4e9f2] cursor-pointer transition-colors duration-200">ملغاة</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
@@ -307,9 +261,7 @@ export default function OrdersContent() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-            </div>
-
-            {/* محتوى التبويبات */}
+            </div>        
             <TabsContent value="all" className="mt-0">
               <div className="overflow-x-auto whitespace-nowrap">
                 <table className="w-full text-sm border-separate border-spacing-0">
@@ -331,8 +283,7 @@ export default function OrdersContent() {
                       <th className="p-2 px-4 whitespace-nowrap">الإجراءات</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {filteredOrders.map((order) => (
+                  <tbody>                    {filteredOrders.map((order) => (
                       <tr
                         key={order._id}
                         className={`v7-neu-table-row cursor-pointer text-base ${selectedOrder === order._id ? 'bg-blue-50' : ''}`}
@@ -403,8 +354,6 @@ export default function OrdersContent() {
                   </tbody>
                 </table>
               </div>
-
-              {/* ترقيم الصفحات */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t">
                 <div className="text-sm text-[#6d6a67]">
                   عرض <span className="font-medium">1</span> إلى <span className="font-medium">10</span> من أصل{" "}
@@ -438,7 +387,6 @@ export default function OrdersContent() {
               <p className="text-[#6d6a67] mb-4">يمكنك متابعة جميع الطلبات قيد التنفيذ هنا</p>
               <Button className="v7-neu-button-accent">عرض الطلبات قيد التنفيذ</Button>
             </TabsContent>
-
             <TabsContent value="completed" className="mt-0 p-6 text-center">
               <div className="v7-neu-icon-xl mx-auto mb-4">
                 <CheckCircle className="h-8 w-8 text-[#2ecc71]" />
@@ -457,9 +405,7 @@ export default function OrdersContent() {
               <Button className="v7-neu-button-accent">عرض الطلبات الملغاة</Button>
             </TabsContent>
           </Tabs>
-        </div>
-
-        {/* Add confirmation modal */}
+        </div>    
         <ConfirmModal
           isOpen={deleteModalOpen}
           onClose={() => {
@@ -475,8 +421,6 @@ export default function OrdersContent() {
     </V7Layout>
   )
 }
-
-// تحديث دالة OrderStatusBadge لتستخدم نظام الألوان الموحد
 function OrderStatusBadge({ status = 'pending' }: { status?: string }) {
   switch (status) {
     case "completed":
@@ -510,8 +454,6 @@ function OrderStatusBadge({ status = 'pending' }: { status?: string }) {
       )
   }
 }
-
-// تحديث دالة ShippingStatusBadge لتستخدم نظام الألوان الموحد
 function ShippingStatusBadge({ status }: { status: string }) {
   switch (status) {
     case "delivered":

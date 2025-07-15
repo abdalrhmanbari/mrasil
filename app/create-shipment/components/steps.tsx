@@ -28,6 +28,8 @@ import { AddRecipientForm } from "../components/AddRecipientForm"
 import { SenderAddressSection } from "./SenderAddressSection"
 import { RecipientAddressSection } from "./RecipientAddressSection"
 import { ParcelSizeSection } from "./ParcelSizeSection"
+import { CarrierCard } from "./CarrierCard";
+import { OrderSummaryAndFragileTips } from "./OrderSummaryAndFragileTips";
 
 const cities = [
   "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",
@@ -611,11 +613,11 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
 
 // Step 3 Content
 function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSelect, shipmentType, handleShipmentTypeSelect }: any) {
-  const { register, formState: { errors }, watch, getValues, setValue } = useFormContext()
-  const values = getValues()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { register, formState: { errors }, watch, getValues, setValue } = useFormContext();
+  const values = getValues();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // Fetch companies
-  const { data: companiesData, isLoading: isLoadingCompanies } = useGetAllShipmentCompaniesQuery()
+  const { data: companiesData, isLoading: isLoadingCompanies } = useGetAllShipmentCompaniesQuery();
   // Shipment type tabs
   const shipmentTypes = [
     { label: "الشحن العادي", value: "Dry" },
@@ -625,32 +627,25 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
     { label: "الشحن الدولي", value: "International" },
   ];
   const [selectedShipmentType, setSelectedShipmentType] = useState(values.shipmentType || "Dry");
-
-  // Fix: Add selectedCompany state and handler
-  const [selectedCompany, setSelectedCompany] = useState(values.company || "");
+  const selectedCompany = watch("company");
   const handleCompanySelect = (company: string) => {
-    setSelectedCompany(company);
     setValue("company", company);
   };
-
-  // Handle shipment type tab click
   const handleShipmentTypeTab = (type: string) => {
     setSelectedShipmentType(type);
     setValue("shipmentType", type);
   };
 
-  // Fix: Define uniqueCompanies before use
   const uniqueCompanies = (companiesData || []).filter((c, idx, arr) => arr.findIndex(x => x.company === c.company) === idx);
 
-  // Wrap onSubmit to handle loading state
   const handleSubmit = async (e: any) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      await onSubmit(e)
+      await onSubmit(e);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
@@ -677,17 +672,13 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
       {/* Carrier Cards Second */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold text-[#1a365d]">اختيار الناقل</h2>
-        <RadioGroup
-          value={selectedCompany || ""}
-          onValueChange={handleCompanySelect}
-          className="flex flex-col gap-4"
-        >
+        <div className="flex flex-col gap-4">
           {isLoadingCompanies ? (
             <div>جاري التحميل...</div>
           ) : (
-            (() => {
-              // Helper function to get company logo path
-              function getCompanyLogo(companyName: string): string {
+            uniqueCompanies.map((company) => {
+              const firstType = company.shippingTypes && company.shippingTypes[0];
+              const logoSrc = (function getCompanyLogo(companyName: string): string {
                 const map: Record<string, string> = {
                   redbox: '/companies/RedBox.jpg',
                   smsa: '/companies/smsa.jpg',
@@ -695,123 +686,26 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
                   aramex: '/companies/Aramex.jpg',
                 };
                 return map[companyName.toLowerCase()] || '/carriers/carrier-placeholder.png';
-              }
-              return uniqueCompanies.map((company) => {
-                const firstType = company.shippingTypes && company.shippingTypes[0];
-                const logoSrc = getCompanyLogo(company.company);
-                const isSelected = selectedCompany === company.company;
-                return (
-                  <motion.div
-                    key={company._id}
-                    className={`flex items-center justify-between v7-neu-card-inner px-6 py-6 transition-all duration-300 relative overflow-hidden w-full ${
-                      isSelected
-                        ? "border-2 border-[#3498db]/70 bg-[#f8fafc] shadow-sm"
-                        : "border border-gray-200 hover:border-[#3498db]/40 bg-white"
-                    }`}
-                    whileHover={{ scale: 1.005 }}
-                    whileTap={{ scale: 0.995 }}
-                    initial={{ opacity: 0.9, y: 5 }}
-                    animate={{ opacity: 1, y: 0, transition: { duration: 0.3 } }}
-                    onClick={() => handleCompanySelect(company.company)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {/* Right group: radio, price, delivery time */}
-                    <div className="flex flex-col items-start min-w-[120px] gap-1">
-                      <RadioGroupItem
-                        value={company.company}
-                        id={company.company}
-                        className="text-[#3498db] mb-1"
-                        checked={isSelected}
-                        onChange={() => handleCompanySelect(company.company)}
-                      />
-                      <span className="text-[#3498db] font-bold text-lg">{firstType?.basePrice ? `${firstType.basePrice} ريال` : '-'}</span>
-                      <span className="text-sm text-gray-500">{company.deliveryTime ? `توصيل خلال ${company.deliveryTime}` : '-'}</span>
-                    </div>
-                    {/* Left group: company name, logo */}
-                    <div className="flex items-center gap-3 min-w-[180px] justify-end">
-                      <span className="text-[#3498db] font-bold text-base whitespace-nowrap">{company.company}</span>
-                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center overflow-hidden border border-gray-100">
-                        <img src={logoSrc} alt={company.company} className="object-contain w-10 h-10" onError={e => { e.currentTarget.src = '/carriers/carrier-placeholder.png'; }} />
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              });
-            })()
+              })(company.company);
+              const isSelected = selectedCompany === company.company;
+              return (
+                <CarrierCard
+                  key={company._id}
+                  company={company}
+                  selectedCompany={selectedCompany}
+                  handleCompanySelect={handleCompanySelect}
+                  logoSrc={logoSrc}
+                  firstType={firstType}
+                />
+              );
+            })
           )}
-        </RadioGroup>
-      </div>
-
-      {/* ملخص الطلب */}
-      <div className="bg-white rounded-2xl shadow border border-[#e5eaf2] mt-8 p-6 max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-[#1a365d] flex items-center gap-2">
-            <span className="inline-block"><FileText className="w-5 h-5 text-[#1a365d]" /></span>
-            ملخص الطلب
-          </h2>
-          {values.orderId && (
-            <span className="bg-blue-50 text-blue-600 font-bold rounded-full px-4 py-1 text-sm">
-              رقم الطلب: <span className="font-bold">{values.orderId}</span>
-            </span>
-          )}
-        </div>
-        <div className="divide-y divide-[#f3f6fa]">
-          <div className="flex items-center justify-between py-3">
-            <span className="text-[#7b8ca6] font-bold">من</span>
-            <span className="text-[#1a365d]">{values.shipper_city || "-"}</span>
-          </div>
-          <div className="flex items-center justify-between py-3">
-            <span className="text-[#7b8ca6] font-bold">إلى</span>
-            <span className="text-[#1a365d]">{values.recipient_city || "-"}</span>
-          </div>
-          <div className="flex items-center justify-between py-3">
-            <span className="text-[#7b8ca6] font-bold">نوع الشحنة</span>
-            <span className="text-[#1a365d]">{values.shipmentType || "-"}</span>
-          </div>
-          <div className="flex items-center justify-between py-3">
-            <span className="text-[#7b8ca6] font-bold">حجم الطرد</span>
-            <span className="text-[#1a365d]">{values.dimension_length && values.dimension_width && values.dimension_high ? `${values.dimension_length} × ${values.dimension_width} × ${values.dimension_high}` : "-"}</span>
-          </div>
-          <div className="flex items-center justify-between py-3">
-            <span className="text-[#7b8ca6] font-bold">الوزن</span>
-            <span className="text-[#1a365d]">{values.weight ? `${values.weight} كجم` : "-"}</span>
-          </div>
         </div>
       </div>
 
-      {/* نصائح للشحنات القابلة للكسر */}
-      <div className="mt-8 rounded-2xl border border-[#e5eaf2] bg-[#f8fafc] p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-[#f59e42] text-2xl"><Package className="w-6 h-6" /></span>
-          <span className="font-bold text-[#1a365d] text-lg">نصائح للشحنات القابلة للكسر</span>
-        </div>
-        <div className="flex items-center gap-2 mb-4">
-          <span className="text-[#f59e42] text-xl"><FileText className="w-5 h-5" /></span>
-          <span className="font-bold text-[#1a365d] text-base">كيف تحمي شحنتك القابلة للكسر؟</span>
-        </div>
-        <ol className="space-y-2 mb-4">
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#fbeee6] text-[#f59e42] font-bold">1</span>
-            <span className="text-[#1a365d]">استخدم تغليف مناسب مثل الفقاعات الهوائية أو الفلين لحماية المحتويات الهشة</span>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#fbeee6] text-[#f59e42] font-bold">2</span>
-            <span className="text-[#1a365d]">ضع علامة "قابل للكسر" بشكل واضح على جميع جوانب الطرد</span>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#fbeee6] text-[#f59e42] font-bold">3</span>
-            <span className="text-[#1a365d]">اختر خدمة الشحن المميزة للتعامل مع الشحنات الحساسة بعناية إضافية</span>
-          </li>
-          <li className="flex items-start gap-3">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#fbeee6] text-[#f59e42] font-bold">4</span>
-            <span className="text-[#1a365d]">نوصي بشدة بإضافة تأمين الشحنة لتغطية أي أضرار محتملة أثناء النقل</span>
-          </li>
-        </ol>
-        <div className="bg-[#f3f7fa] text-[#f59e42] rounded-xl px-4 py-3 flex items-center gap-2 mt-2">
-          <span><Shield className="w-5 h-5" /></span>
-          <span className="font-bold">يمكنك إضافة تأمين على الشحنة من خلال الفرع كل ماعليك فعله عند تسليم الشحنة أخبرهم أنك تريد التأمين عليها.</span>
-        </div>
-      </div>
+     
+
+      <OrderSummaryAndFragileTips values={values} />
 
       <div className="flex justify-between mt-8">
         <Button type="button" onClick={prevStep} variant="outline" className="border-2">السابق</Button>

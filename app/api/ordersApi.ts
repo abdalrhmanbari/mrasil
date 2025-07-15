@@ -99,6 +99,25 @@ export const ordersApi = createApi({
         return response
       }
     }),
+    updateOrderStatus: builder.mutation<void, { id: string; status: string }>({
+      query: ({ id, status }) => ({
+        url: `/orderManually/${id}/status`,
+        method: 'PUT',
+        credentials: 'include',
+        body: { status }
+      }),
+      transformErrorResponse: (response: { status: number; data: ErrorResponse }) => {
+        if (response.data?.message?.includes('Invalid token') ||
+            response.data?.status === 'fail' ||
+            response.data?.message?.includes('recently changed')) {
+          return {
+            status: response.status,
+            data: response.data
+          }
+        }
+        return response
+      }
+    }),
   }),
   tagTypes: ['Orders']
 })
@@ -106,5 +125,6 @@ export const ordersApi = createApi({
 export const { 
   useGetAllOrdersQuery, 
   useDeleteOrderMutation,
-  useGetOrdersByStatusQuery
+  useGetOrdersByStatusQuery,
+  useUpdateOrderStatusMutation
 } = ordersApi 

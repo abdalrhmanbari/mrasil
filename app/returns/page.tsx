@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -56,17 +55,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogAction } from '@/components/ui/alert-dialog';
 import ReturnsTable from './ReturnsTable';
 import ReturnsFiltersBar from './ReturnsFiltersBar';
-
-// Utility classes for consistent styling
-const textPrimaryClass = "text-gray-900 dark:text-gray-100"
-const textSecondaryClass = "text-gray-700 dark:text-gray-300"
-const textMutedClass = "text-gray-500 dark:text-gray-400"
-const buttonHoverClass = "hover:bg-gray-50 dark:hover:bg-gray-800/50"
-const cardHoverClass = "hover:shadow-lg transition-shadow duration-200"
-const flexRtlClass = "flex rtl:flex-row-reverse"
-const marginRtlClass = "rtl:ml-0 rtl:mr-2 ltr:ml-2 ltr:mr-0"
-
-// Añadir estilos para la animación
 const animationStyles = `
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -76,8 +64,6 @@ const animationStyles = `
     animation: fadeIn 0.3s ease-out forwards;
   }
 `
-
-// بيانات وهمية لمرتجعات العميل
 const returnsData = [
   {
     id: "RTN-001245",
@@ -1660,7 +1646,7 @@ export default function Returns() {
     )
   }
 
-  // حالة عرض الصفحة الرئيسية
+
   return (
     <V7Layout>
       <V7Content title="إدارة الاسترجاع" description="إدارة طلبات الاسترجاع وتتبع حالتها">
