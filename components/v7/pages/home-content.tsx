@@ -30,6 +30,7 @@ import { useGetMyShipmentsQuery } from "@/app/api/shipmentApi"
 import { useGetHomePageStatisticsQuery, useGetShipmentStatsQuery } from "@/app/api/homePageApi"
 import { useGetShipmentCompanyInfoQuery } from "@/app/api/shipmentCompanyApi"
 import { FaRoadCircleExclamation } from "react-icons/fa6";
+import { useGetMyTransactionsQuery } from "@/app/api/transicationApi";
 // Remove RiyalIcon import if not used elsewhere
 // import { RiyalIcon } from '@/components/icons';
 
@@ -183,6 +184,8 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
   const { data: homeStats, isLoading: statsLoading } = useGetHomePageStatisticsQuery();
   const { data: shipmentStats, isLoading: shipmentStatsLoading } = useGetShipmentStatsQuery();
   const { data: shipmentCompanyInfo, isLoading: shipmentCompanyInfoLoading } = useGetShipmentCompanyInfoQuery();
+  const { data: transactionsData, isLoading: transactionsLoading } = useGetMyTransactionsQuery();
+  const lastTransaction = transactionsData?.data && transactionsData.data.length > 0 ? transactionsData.data[transactionsData.data.length - 1] : null;
 
   const pendingOrdersCount = ordersData?.data?.filter(order => order.status?.name === 'pending').length ?? 0;
 
@@ -220,7 +223,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           theme={theme}
           stats={[
             { label: "الرصيد الحالي", value: walletLoading ? "..." : (walletData?.wallet.balance !== undefined ? walletData.wallet.balance.toString() : "-") },
-            { label: "تاريخ الإنشاء", value: walletLoading ? "..." : (walletData?.wallet.createdAt ? new Date(walletData.wallet.createdAt).toLocaleDateString() : "-") },
+            { label: "آخر معاملة", value: transactionsLoading ? "..." : (lastTransaction?.createdAt ? new Date(lastTransaction.createdAt).toLocaleDateString() : "-") },
           ]}
           action={{
             label: "شحن المحفظة الآن",
@@ -260,12 +263,12 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           <Card className="v7-neu-card overflow-hidden border-none">
             <CardHeader className="pb-0">
               <div className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg font-bold text-[#294D8B] -mt-1">أسعار الشحن</CardTitle>
+                <CardTitle className="text-2xl font-bold text-[#294D8B] -mt-1">أسعار الشحن</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="p-4 pt-2">
               {shipmentCompanyInfoLoading ? (
-                <div className="text-center p-4">جاري تحميل أسعار الشحن...</div>
+                <div className="text-center p-4 text-lg">جاري تحميل أسعار الشحن...</div>
               ) : shipmentCompanyInfo && Array.isArray(shipmentCompanyInfo) ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Show each company only once */}
@@ -285,19 +288,19 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
                     return (
                       <div key={company.name + idx} className="border rounded-lg p-4 flex flex-col items-center bg-white shadow-sm">
                         <img src={imgSrc} alt={company.name} className="h-12 mb-2 object-contain" />
-                        <div className="font-bold text-[#294D8B] mb-2">{company.name}</div>
+                        <div className="font-bold text-[#294D8B] mb-2 text-xl">{company.name}</div>
                         <div className="w-full">
                           {company.shippingTypes && company.shippingTypes.length > 0 ? (
                             <ul className="text-sm w-full">
                               {company.shippingTypes.map((type: { type: string; price: number }, i: number) => (
-                                <li key={type.type + i} className="flex justify-between border-b py-1 last:border-b-0">
+                                <li key={type.type + i} className="flex justify-between border-b py-2 last:border-b-0 text-lg">
                                   <span>{type.type}</span>
                                   <span className="font-bold text-[#3498db]">{type.price} ريال</span>
                                 </li>
                               ))}
                             </ul>
                           ) : (
-                            <div className="text-gray-400 text-xs">لا توجد أنواع شحن متاحة</div>
+                            <div className="text-gray-400 text-base">لا توجد أنواع شحن متاحة</div>
                           )}
                         </div>
                       </div>
@@ -305,7 +308,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
                   })}
                 </div>
               ) : (
-                <div className="text-center p-4">لا توجد بيانات شركات شحن</div>
+                <div className="text-center p-4 text-lg">لا توجد بيانات شركات شحن</div>
               )}
               <div className="mt-4 text-xs text-gray-500 text-center">
                 * الأسعار تشمل الضريبة وتختلف حسب الوزن والمسافة

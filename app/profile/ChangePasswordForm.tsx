@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useChangePasswordMutation } from "../api/profileApi"
 import ResponseModal from "../components/ResponseModal"
+import { Save } from "lucide-react"
 
 const formSchema = z.object({
   currentPassword: z.string().min(1, "كلمة المرور الحالية مطلوبة"),
@@ -111,9 +112,10 @@ export default function ChangePasswordForm() {
           />
           <Button 
             type="submit" 
-            className="w-full"
+            className="w-full flex items-center justify-center py-3 text-base font-semibold bg-[#165a8f] text-white rounded-lg hover:bg-[#1a6bb8] transition-colors gap-2"
             disabled={form.formState.isSubmitting}
           >
+            <Save className="h-5 w-5" />
             {form.formState.isSubmitting ? 'جاري التغيير...' : 'تغيير كلمة المرور'}
           </Button>
         </form>

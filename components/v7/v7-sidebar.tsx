@@ -71,7 +71,6 @@ type TranslationType = {
     locations: string;
     history: string;
     payments: string;
-    invoices: string;
     team: string;
     salary: string;
     settings: string;
@@ -111,7 +110,7 @@ const translations: Translations = {
       locations: "العناوين",
       history: "سجل الشحنات",
       payments: "المحفظة",
-      invoices: "الفواتير",
+      
       team: "الفريق",
       salary: "الرواتب",
       settings: "الإعدادات",
@@ -144,8 +143,7 @@ const translations: Translations = {
       customTracking: "Custom Tracking",
       locations: "Addresses",
       history: "Shipment History",
-      payments: "Wallet",
-      invoices: "Invoices",
+      payments: "Wallet",     
       team: "Team",
       salary: "Salaries",
       settings: "Settings",
@@ -225,10 +223,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
   }, [pathname])
 
   // التحقق مما إذا كان المسار الحالي متعلقًا بالفواتير
-  const isInvoiceActive =
-    isActiveRoute(currentPath, routes.invoices) ||
-    isActiveRoute(currentPath, routes.taxInvoices) ||
-    isActiveRoute(currentPath, routes.zakatInvoices)
+  // const isInvoiceActive =
+  //   isActiveRoute(currentPath, routes.invoices) ||
+  //   isActiveRoute(currentPath, routes.taxInvoices) ||
+  //   isActiveRoute(currentPath, routes.zakatInvoices)
 
   // تعريف عناصر القائمة مع التحقق من المسار النشط
   const navItems = useMemo(() => [
@@ -328,12 +326,12 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
       icon: CreditCard,
       active: isActiveRoute(currentPath, routes.payments),
     },
-    {
-      title: currentTranslations.navItems.invoices,
-      href: routes.invoices,
-      icon: Receipt,
-      active: isInvoiceActive,
-    },
+    // {
+    //   title: currentTranslations.navItems.invoices,
+    //   href: routes.invoices,
+    //   icon: Receipt,
+    //   active: isInvoiceActive,
+    // },
    
     {
       title: currentTranslations.navItems.team,
@@ -354,7 +352,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
       active: isActiveRoute(currentPath, routes.settings),
     },
    
-  ], [currentPath, currentTranslations, isInvoiceActive]);
+  ], [currentPath, currentTranslations]);
 
   // دالة للتنقل بين الصفحات مع إغلاق القائمة الجانبية في الأجهزة المحمولة
   const handleNavigation = (href: string) => {
@@ -388,13 +386,13 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
       <aside className={`hidden md:block w-64 lg:w-72 flex-shrink-0 v7-neu-sidebar ${sidebarClass}`}>
         <ScrollArea className="h-[calc(100vh-4rem)]">
           <div className="flex h-full flex-col gap-2 p-4 sm:p-5">
-            <div className="mb-3 px-3 text-lg font-extrabold text-[#5791F4] uppercase tracking-wider">
+            <div className="mb-3 px-3 text-base font-bold text-[#5791F4] uppercase tracking-wider">
               {currentTranslations.mainMenu}
             </div>
 
             <div className="space-y-1.5 mb-4">
-              {/* الصفحات الرئيسية */}
-              {navItems.slice(0, 4).map((item, index) => (
+             
+              {navItems.slice(0, 3).map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
@@ -410,16 +408,16 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                       className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-lg sm:text-xl">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
             </div>
 
             {/* قسم الشحنات والطرود */}
-            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.shipmentsAndParcels}</div>
+            <div className="mb-2 px-3 text-base font-medium text-muted-foreground">{currentTranslations.shipmentsAndParcels}</div>
             <div className="space-y-1.5 mb-4">
-              {navItems.slice(4, 8).map((item, index) => (
+              {navItems.slice(3, 7).map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
@@ -435,16 +433,16 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                       className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-lg sm:text-xl">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
             </div>
 
             {/* قسم التكامل والواجهات البرمجية */}
-            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.storeIntegration}</div>
+            <div className="mb-2 px-3 text-base font-medium text-muted-foreground">{currentTranslations.storeIntegration}</div>
             <div className="space-y-1.5 mb-4">
-              {navItems.slice(8, 11).map((item, index) => (
+              {navItems.slice(7, 10).map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
@@ -460,16 +458,16 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                       className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-lg sm:text-xl">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
             </div>
 
             {/* قسم التتبع والمواقع */}
-            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.trackingAndLocations}</div>
+            <div className="mb-2 px-3 text-base font-medium text-muted-foreground">{currentTranslations.trackingAndLocations}</div>
             <div className="space-y-1.5 mb-4">
-              {navItems.slice(11, 15).map((item, index) => (
+              {navItems.slice(10, 12).map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
@@ -485,16 +483,16 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                       className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-lg sm:text-xl">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
             </div>
 
             {/* قسم المالية والفواتير */}
-            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.financeAndBilling}</div>
+            <div className="mb-2 px-3 text-base font-medium text-muted-foreground">{currentTranslations.financeAndBilling}</div>
             <div className="space-y-1.5 mb-4">
-              {navItems.slice(15, 16).map((item, index) => (
+              {navItems.slice(12, 15).map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
@@ -510,35 +508,18 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                       className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-lg sm:text-xl">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
 
-              {/* قسم الفواتير الموحد */}
-              <button
-                onClick={() => handleNavigation(routes.invoices)}
-                className={`v7-sidebar-item flex w-full items-center gap-2.5 sm:gap-3 rounded-xl px-2.5 sm:px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all v7-fade-in ${
-                  isInvoiceActive ? "v7-neu-button-active" : "v7-neu-button-flat"
-                } ${isInvoiceActive ? activeLinkClass : linkClass}`}
-                onMouseEnter={() => setHoveredItem("invoices")}
-                onMouseLeave={() => setHoveredItem(null)}
-                style={{ animationDelay: `0.9s` }}
-              >
-                <div className={`v7-icon-container ${isInvoiceActive ? "v7-icon-active" : ""}`}>
-                  <Receipt
-                    className={`h-6 sm:h-7 w-6 sm:w-7 ${isInvoiceActive ? "text-[#5791F4]" : "text-muted-foreground"}`}
-                  />
-                </div>
-                <span className="flex-1 text-center font-semibold text-base sm:text-lg">{currentTranslations.navItems.invoices}</span>
-                {isInvoiceActive && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
-              </button>
+              
             </div>
 
             {/* قسم إدارة الحساب */}
-            <div className="mb-3 px-3 text-lg font-extrabold text-[#5791F4] uppercase tracking-wider">{currentTranslations.accountManagement}</div>
+            <div className="mb-3 px-3 text-base font-bold text-[#5791F4] uppercase tracking-wider">{currentTranslations.accountManagement}</div>
             <div className="space-y-1.5">
-              {navItems.slice(17).map((item, index) => (
+              {navItems.slice(15 ,17).map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
@@ -557,7 +538,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                       className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
                     />
                   </div>
-                  <span className="flex-1 text-center font-semibold text-base sm:text-lg">{item.title}</span>
+                  <span className="flex-1 text-center font-semibold text-lg sm:text-xl">{item.title}</span>
                   {item.active && <div className="h-2 w-2 rounded-full bg-[#5791F4]"></div>}
                 </button>
               ))}
@@ -729,55 +710,6 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 ))}
               </div>
 
-              {/* قسم المالية والفواتير */}
-              <div className="mb-2 px-3 text-[10px] sm:text-xs font-medium text-muted-foreground">{currentTranslations.financeAndBilling}</div>
-              <div className="space-y-1.5 mb-4">
-                {navItems.slice(15, 16).map((item) => (
-                  <button
-                    key={item.href}
-                    onClick={() => handleNavigation(item.href)}
-                    className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
-                      item.active ? "v7-neu-button-active" : "v7-neu-button-flat"
-                    } ${item.active ? activeLinkClass : linkClass}`}
-                    aria-label={item.title}
-                    aria-current={item.active ? "page" : undefined}
-                    role="link"
-                    onMouseEnter={() => setHoveredItem(item.href)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                  >
-                    <div className={`v7-icon-container ${item.active ? "v7-icon-active" : ""}`}>
-                      <item.icon
-                        className={`h-6 sm:h-7 w-6 sm:w-7 ${item.active ? "text-[#5791F4]" : "text-muted-foreground"}`}
-                      />
-                    </div>
-                    <span className="font-medium text-base sm:text-lg">{item.title}</span>
-                    {item.active && <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>}
-                  </button>
-                ))}
-
-                {/* قسم الفواتير الموحد للجوال */}
-                <button
-                  onClick={() => handleNavigation(routes.invoices)}
-                  className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
-                    isInvoiceActive ? "v7-neu-button-active" : "v7-neu-button-flat"
-                  } ${isInvoiceActive ? activeLinkClass : linkClass}`}
-                  aria-label="الفواتير"
-                  aria-current={isInvoiceActive ? "page" : undefined}
-                  role="link"
-                  onMouseEnter={() => setHoveredItem("invoices")}
-                  onMouseLeave={() => setHoveredItem(null)}
-                >
-                  <div className={`v7-icon-container ${isInvoiceActive ? "v7-icon-active" : ""}`}>
-                    <Receipt
-                      className={`h-6 sm:h-7 w-6 sm:w-7 ${isInvoiceActive ? "text-[#5791F4]" : "text-muted-foreground"}`}
-                    />
-                  </div>
-                  <span className="font-medium text-base sm:text-lg">{currentTranslations.navItems.invoices}</span>
-                  {isInvoiceActive && (
-                    <div className="mr-auto h-1.5 sm:h-2 w-1.5 sm:w-2 rounded-full bg-[#5791F4]"></div>
-                  )}
-                </button>
-              </div>
 
               {/* قسم إدارة الحساب */}
               <div className="mb-3 px-3 text-[10px] sm:text-xs font-bold text-[#5791F4] uppercase tracking-wider">

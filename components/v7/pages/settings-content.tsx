@@ -12,10 +12,78 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Bell, CreditCard, Globe, Lock, Moon, Save, Sun, Upload, User, UserCog, Wallet } from "lucide-react"
+import { useGetCustomerMeQuery, useUpdateCustomerMeMutation } from "@/app/api/customerApi";
+import { useChangePasswordMutation } from "@/app/api/profileApi";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+// Password change schema (copied from ChangePasswordForm)
+const passwordFormSchema = z.object({
+  currentPassword: z.string().min(1, "كلمة المرور الحالية مطلوبة"),
+  newPassword: z.string().min(8, "كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل"),
+  confirmPassword: z.string().min(1, "تأكيد كلمة المرور مطلوب"),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "كلمات المرور غير متطابقة",
+  path: ["confirmPassword"],
+});
 
 export function SettingsContent() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [showCardModal, setShowCardModal] = useState(false)
+
+  // --- Profile state and API integration ---
+  const { data, isLoading, error } = useGetCustomerMeQuery();
+  const [updateCustomerMe, { isLoading: isUpdating }] = useUpdateCustomerMeMutation();
+  const [profileForm, setProfileForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    // Hidden fields to preserve
+    brand_color: "",
+    brand_email: "",
+    brand_logo: "",
+    brand_website: "",
+    commercial_registration_number: "",
+    company_name_ar: "",
+    company_name_en: "",
+    tax_number: "",
+  });
+  const [profileError, setProfileError] = useState("");
+  const [profileSuccess, setProfileSuccess] = useState("");
+
+  // Password change logic
+  const [changePassword] = useChangePasswordMutation();
+  const passwordForm = useForm<z.infer<typeof passwordFormSchema>>({
+    resolver: zodResolver(passwordFormSchema),
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+  });
+  const [passwordResponse, setPasswordResponse] = useState<{ status: 'success' | 'fail'; message: string } | null>(null);
+  const [isPasswordSubmitting, setIsPasswordSubmitting] = useState(false);
+
+  async function onPasswordSubmit(values: z.infer<typeof passwordFormSchema>) {
+    setIsPasswordSubmitting(true);
+    setPasswordResponse(null);
+    try {
+      const response = await changePassword({
+        currentPassword: values.currentPassword,
+        password: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      }).unwrap();
+      setPasswordResponse({ status: 'success', message: response.msg || 'تم تغيير كلمة المرور بنجاح' });
+      passwordForm.reset();
+    } catch (error: any) {
+      setPasswordResponse({ status: 'fail', message: error.data?.message || 'حدث خطأ أثناء تغيير كلمة المرور' });
+    } finally {
+      setIsPasswordSubmitting(false);
+    }
+  }
 
   const handleAddCard = () => {
     setShowCardModal(true)
@@ -26,6 +94,46 @@ export function SettingsContent() {
   useEffect(() => {
     setIsLoaded(true)
   }, [])
+
+  // Populate form with fetched data
+  useEffect(() => {
+    if (data?.data) {
+      setProfileForm({
+        firstName: data.data.firstName || "",
+        lastName: data.data.lastName || "",
+        email: data.data.email || "",
+        phone: data.data.addresses?.[0]?.phone || "",
+        address: data.data.addresses?.[0]?.location || "",
+        brand_color: data.data.brand_color || "",
+        brand_email: data.data.brand_email || "",
+        brand_logo: data.data.brand_logo || "",
+        brand_website: data.data.brand_website || "",
+        commercial_registration_number: data.data.commercial_registration_number || "",
+        company_name_ar: data.data.company_name_ar || "",
+        company_name_en: data.data.company_name_en || "",
+        tax_number: data.data.tax_number || "",
+      });
+    }
+  }, [data]);
+
+  const handleProfileChange = (field: string, value: string) => {
+    setProfileForm(f => ({ ...f, [field]: value }));
+  };
+
+  const handleProfileSave = async () => {
+    setProfileError("");
+    setProfileSuccess("");
+    const formData = new FormData();
+    Object.entries(profileForm).forEach(([key, value]) => {
+      formData.append(key, value ?? "");
+    });
+    try {
+      await updateCustomerMe(formData).unwrap();
+      setProfileSuccess("تم حفظ التغييرات بنجاح!");
+    } catch (err: any) {
+      setProfileError("حدث خطأ أثناء حفظ التغييرات");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -54,6 +162,11 @@ export function SettingsContent() {
         </TabsList>
 
         <TabsContent value="profile" className="mt-6">
+          {isLoading ? (
+            <div>جاري التحميل...</div>
+          ) : error ? (
+            <div className="text-red-500">حدث خطأ أثناء جلب البيانات</div>
+          ) : (
           <div
             className={`v7-neu-card p-6 rounded-xl v7-fade-in ${isLoaded ? "opacity-100" : "opacity-0"}`}
             style={{ transitionDelay: "0.2s" }}
@@ -62,7 +175,7 @@ export function SettingsContent() {
               <div className="md:w-1/3">
                 <div className="flex flex-col items-center">
                   <Avatar className="h-24 w-24 mb-4">
-                    <AvatarFallback className="bg-[#3498db]/10 text-[#3498db] text-2xl">أح</AvatarFallback>
+                    <AvatarFallback className="bg-[#3498db]/10 text-[#3498db] text-2xl">{profileForm.firstName?.[0] || "أ"}{profileForm.lastName?.[0] || "ح"}</AvatarFallback>
                   </Avatar>
                   <Button variant="outline" size="sm" className="v7-neu-button-sm gap-1">
                     <Upload className="h-4 w-4" />
@@ -77,35 +190,38 @@ export function SettingsContent() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">الاسم الأول</Label>
-                      <Input id="firstName" defaultValue="أحمد" className="v7-neu-input" />
+                      <Input id="firstName" value={profileForm.firstName} onChange={e => handleProfileChange("firstName", e.target.value)} className="v7-neu-input" />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName">الاسم الأخير</Label>
-                      <Input id="lastName" defaultValue="محمد" className="v7-neu-input" />
+                      <Input id="lastName" value={profileForm.lastName} onChange={e => handleProfileChange("lastName", e.target.value)} className="v7-neu-input" />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">البريد الإلكتروني</Label>
-                    <Input id="email" type="email" defaultValue="ahmed@example.com" className="v7-neu-input" />
+                    <Input id="email" type="email" value={profileForm.email} onChange={e => handleProfileChange("email", e.target.value)} className="v7-neu-input" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">رقم الهاتف</Label>
-                    <Input id="phone" defaultValue="0512345678" className="v7-neu-input" />
+                    <Input id="phone" value={profileForm.phone} onChange={e => handleProfileChange("phone", e.target.value)} className="v7-neu-input" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="address">العنوان</Label>
-                    <Textarea id="address" defaultValue="الرياض، المملكة العربية السعودية" className="v7-neu-input" />
+                    <Textarea id="address" value={profileForm.address} onChange={e => handleProfileChange("address", e.target.value)} className="v7-neu-input" />
                   </div>
+                  {profileError && <div className="text-red-500 text-sm">{profileError}</div>}
+                  {profileSuccess && <div className="text-green-600 text-sm">{profileSuccess}</div>}
                   <div className="flex justify-end">
-                    <Button className="v7-neu-button gap-1">
+                    <Button className="v7-neu-button gap-1" onClick={handleProfileSave} disabled={isUpdating}>
                       <Save className="h-4 w-4" />
-                      <span>حفظ التغييرات</span>
+                      <span>{isUpdating ? "جارٍ الحفظ..." : "حفظ التغييرات"}</span>
                     </Button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          )}
         </TabsContent>
 
         <TabsContent value="account" className="mt-6">
@@ -161,22 +277,43 @@ export function SettingsContent() {
             <div className="space-y-6">
               <div className="space-y-4">
                 <h4 className="text-lg font-medium">تغيير كلمة المرور</h4>
-                <div className="space-y-2">
-                  <Label htmlFor="currentPassword">كلمة المرور الحالية</Label>
-                  <Input id="currentPassword" type="password" className="v7-neu-input" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
-                  <Input id="newPassword" type="password" className="v7-neu-input" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
-                  <Input id="confirmPassword" type="password" className="v7-neu-input" />
-                </div>
-                <Button className="v7-neu-button gap-1">
-                  <Save className="h-4 w-4" />
-                  <span>تحديث كلمة المرور</span>
-                </Button>
+                {/* Password change form */}
+                <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="currentPassword">كلمة المرور الحالية</Label>
+                    <Input id="currentPassword" type="password" {...passwordForm.register("currentPassword")}/>
+                    {passwordForm.formState.errors.currentPassword && (
+                      <span className="text-red-500 text-xs">{passwordForm.formState.errors.currentPassword.message}</span>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
+                    <Input id="newPassword" type="password" {...passwordForm.register("newPassword")}/>
+                    {passwordForm.formState.errors.newPassword && (
+                      <span className="text-red-500 text-xs">{passwordForm.formState.errors.newPassword.message}</span>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
+                    <Input id="confirmPassword" type="password" {...passwordForm.register("confirmPassword")}/>
+                    {passwordForm.formState.errors.confirmPassword && (
+                      <span className="text-red-500 text-xs">{passwordForm.formState.errors.confirmPassword.message}</span>
+                    )}
+                  </div>
+                  {passwordResponse && (
+                    <div className={passwordResponse.status === 'success' ? "text-green-600 text-sm" : "text-red-500 text-sm"}>
+                      {passwordResponse.message}
+                    </div>
+                  )}
+                  <Button
+                    type="submit"
+                    className="v7-neu-button gap-2 w-full flex items-center justify-center py-3 text-base font-semibold bg-[#165a8f] text-white rounded-lg hover:bg-[#1a6bb8] transition-colors"
+                    disabled={isPasswordSubmitting}
+                  >
+                    <Save className="h-5 w-5" />
+                    <span>{isPasswordSubmitting ? "جارٍ التغيير..." : "تحديث كلمة المرور"}</span>
+                  </Button>
+                </form>
               </div>
 
               <div className="border-t pt-6">
