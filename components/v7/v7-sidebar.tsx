@@ -388,7 +388,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
       <aside className={`hidden md:block w-64 lg:w-72 flex-shrink-0 v7-neu-sidebar ${sidebarClass}`}>
         <ScrollArea className="h-[calc(100vh-4rem)]">
           <div className="flex h-full flex-col gap-2 p-4 sm:p-5">
-            <div className="mb-3 px-3 text-xs font-bold text-[#5791F4] uppercase tracking-wider">
+            <div className="mb-3 px-3 text-lg font-extrabold text-[#5791F4] uppercase tracking-wider">
               {currentTranslations.mainMenu}
             </div>
 
@@ -417,7 +417,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             </div>
 
             {/* قسم الشحنات والطرود */}
-            <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">{currentTranslations.shipmentsAndParcels}</div>
+            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.shipmentsAndParcels}</div>
             <div className="space-y-1.5 mb-4">
               {navItems.slice(4, 8).map((item, index) => (
                 <button
@@ -442,7 +442,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             </div>
 
             {/* قسم التكامل والواجهات البرمجية */}
-            <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">{currentTranslations.storeIntegration}</div>
+            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.storeIntegration}</div>
             <div className="space-y-1.5 mb-4">
               {navItems.slice(8, 11).map((item, index) => (
                 <button
@@ -467,7 +467,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             </div>
 
             {/* قسم التتبع والمواقع */}
-            <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">{currentTranslations.trackingAndLocations}</div>
+            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.trackingAndLocations}</div>
             <div className="space-y-1.5 mb-4">
               {navItems.slice(11, 15).map((item, index) => (
                 <button
@@ -492,7 +492,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             </div>
 
             {/* قسم المالية والفواتير */}
-            <div className="mb-2 px-3 text-xs font-medium text-muted-foreground">{currentTranslations.financeAndBilling}</div>
+            <div className="mb-2 px-3 text-lg font-extrabold text-muted-foreground">{currentTranslations.financeAndBilling}</div>
             <div className="space-y-1.5 mb-4">
               {navItems.slice(15, 16).map((item, index) => (
                 <button
@@ -536,7 +536,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             </div>
 
             {/* قسم إدارة الحساب */}
-            <div className="mb-3 px-3 text-xs font-bold text-[#5791F4] uppercase tracking-wider">{currentTranslations.accountManagement}</div>
+            <div className="mb-3 px-3 text-lg font-extrabold text-[#5791F4] uppercase tracking-wider">{currentTranslations.accountManagement}</div>
             <div className="space-y-1.5">
               {navItems.slice(17).map((item, index) => (
                 <button

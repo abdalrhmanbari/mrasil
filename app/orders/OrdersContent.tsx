@@ -20,7 +20,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useGetAllOrdersQuery, useDeleteOrderMutation, useGetOrdersByStatusQuery } from "../api/ordersApi"
+import { useGetAllOrdersQuery, useDeleteOrderMutation, useGetOrdersByStatusQuery, useUpdateOrderStatusMutation } from "../api/ordersApi"
 import { ConfirmModal } from "@/components/ui/confirm-modal"
 import { useToast } from "@/hooks/use-toast"
 interface Order {
@@ -52,7 +52,13 @@ export default function OrdersContent() {
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null)
   const { data, isLoading, refetch } = useGetAllOrdersQuery()
   const [deleteOrder] = useDeleteOrderMutation()
+  const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const { toast } = useToast();
+
+  // State for status change confirmation
+  const [selectedStatusOrderId, setSelectedStatusOrderId] = useState<string | null>(null);
+  const [selectedStatusValue, setSelectedStatusValue] = useState<string | null>(null);
+  const [statusModalOpen, setStatusModalOpen] = useState(false);
  
   const { data: completedOrdersData, isLoading: isLoadingCompleted } = useGetOrdersByStatusQuery('completed');
   
@@ -68,11 +74,11 @@ export default function OrdersContent() {
   const orders = data?.data || []
   const totalOrders = orders.length
 
-  const completedOrdersCount = Array.isArray(completedOrdersData?.data) ? completedOrdersData.data.length : 0;
+  const completedOrdersCount = orders.filter(order => order.status?.name === 'completed').length;
 
   const pendingOrdersCount = orders.filter(order => order.status?.name === 'pending').length;
   
-  const canceledOrdersCount = Array.isArray(canceledOrdersData?.data) ? canceledOrdersData.data.length : 0;
+  const canceledOrdersCount = orders.filter(order => order.status?.name === 'canceled').length;
 
 
   const filteredOrders = orders.filter(order => {
@@ -165,7 +171,7 @@ export default function OrdersContent() {
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
                   <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات مكتملة</p>
-                  <h3 className="text-3xl font-extrabold text-[#2ecc71] mt-1">{isLoadingCompleted ? '...' : completedOrdersCount}</h3>
+                  <h3 className="text-3xl font-extrabold text-[#2ecc71] mt-1">{isLoading ? '...' : completedOrdersCount}</h3>
                 </div>
                 <div className="v7-neu-icon-lg ml-2">
                   <CheckCircle className="h-8 w-8 text-[#2ecc71]" />
@@ -187,7 +193,7 @@ export default function OrdersContent() {
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
                   <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات ملغاة</p>
-                  <h3 className="text-3xl font-extrabold text-[#e74c3c] mt-1">{isLoadingCanceled ? '...' : canceledOrdersCount}</h3>
+                  <h3 className="text-3xl font-extrabold text-[#e74c3c] mt-1">{isLoading ? '...' : canceledOrdersCount}</h3>
                 </div>
                 <div className="v7-neu-icon-lg ml-2">
                   <XCircle className="h-8 w-8 text-[#e74c3c]" />
@@ -280,6 +286,7 @@ export default function OrdersContent() {
                       <th className="p-2 px-4 whitespace-nowrap">طريقة الدفع</th>
                       <th className="p-2 px-4 whitespace-nowrap">التاريخ</th>
                       <th className="p-2 px-4 whitespace-nowrap">حالة الطلب</th>
+                      <th className="p-2 px-4 whitespace-nowrap">تحديث الحالة</th>
                       <th className="p-2 px-4 whitespace-nowrap">الإجراءات</th>
                     </tr>
                   </thead>
@@ -318,7 +325,26 @@ export default function OrdersContent() {
                           </div>
                         </td>
                         <td className="p-2 px-4 whitespace-nowrap">
-                          <OrderStatusBadge status={order.status?.name || 'pending'} />
+                          <OrderStatusBadge status={order.status?.name} />
+                        </td>
+                        <td className="p-2 px-4 whitespace-nowrap">
+                          <select
+                            className="border rounded px-2 py-1 text-sm"
+                            value={selectedStatusOrderId === order._id ? selectedStatusValue || '' : ''}
+                            onClick={e => e.stopPropagation()}
+                            onChange={e => {
+                              const value = e.target.value;
+                              if (!value) return;
+                              setSelectedStatusOrderId(order._id);
+                              setSelectedStatusValue(value);
+                              setStatusModalOpen(true);
+                            }}
+                          >
+                            <option value="">تحديث الآن</option>
+                            <option value="completed">مكتمل</option>
+                            <option value="cancelled">ملغى</option>
+                            <option value="pending">معلق</option>
+                          </select>
                         </td>
                         <td className="p-2 px-4 whitespace-nowrap">
                           <div className="flex items-center gap-1">
@@ -417,11 +443,40 @@ export default function OrdersContent() {
           description="هل أنت متأكد من حذف هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء."
           confirmText={isDeleting ? "جاري الحذف..." : "حذف"}
         />
+        <ConfirmModal
+          isOpen={statusModalOpen}
+          onClose={() => {
+            setStatusModalOpen(false);
+            setSelectedStatusOrderId(null);
+            setSelectedStatusValue(null);
+          }}
+          onConfirm={async () => {
+            if (selectedStatusOrderId && selectedStatusValue) {
+              let status = "pending";
+              if (selectedStatusValue === "completed") status = "completed";
+              else if (selectedStatusValue === "cancelled") status = "canceled";
+              else if (selectedStatusValue === "pending") status = "pending";
+              try {
+                await updateOrderStatus({ id: selectedStatusOrderId, status }).unwrap();
+                toast({ title: "تم تحديث حالة الطلب بنجاح", variant: "success" });
+                refetch();
+              } catch (err) {
+                toast({ title: "حدث خطأ أثناء تحديث الحالة", variant: "destructive" });
+              }
+            }
+            setStatusModalOpen(false);
+            setSelectedStatusOrderId(null);
+            setSelectedStatusValue(null);
+          }}
+          title="تأكيد تحديث الحالة"
+          description="هل تريد تغيير حالة الطلب؟"
+          confirmText="تحديث"
+        />
       </V7Content>
     </V7Layout>
   )
 }
-function OrderStatusBadge({ status = 'pending' }: { status?: string }) {
+function OrderStatusBadge({ status }: { status?: string }) {
   switch (status) {
     case "completed":
       return (
@@ -437,11 +492,12 @@ function OrderStatusBadge({ status = 'pending' }: { status?: string }) {
           قيد التنفيذ
         </Badge>
       )
+    case "canceled":
     case "cancelled":
       return (
         <Badge className="v7-neu-badge-error bg-rose-50 text-rose-700 border border-rose-200">
           <XCircle className="h-3 w-3 ml-1" />
-          ملغي
+          ملغى
         </Badge>
       )
     case "pending":

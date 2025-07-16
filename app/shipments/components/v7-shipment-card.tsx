@@ -19,6 +19,19 @@ import {
   ShoppingCart,
 } from "lucide-react"
 
+const companyLogoMap: Record<string, string> = {
+  smsa: "/smsa_b2c.jpg",
+  jandt: "/jandt.jpg",
+  aramex: "/Aramex.jpg",
+  aymakan: "/AyMakan.jpg",
+  imile: "/iMile.jpg",
+  thabit: "/Thabit.jpg",
+  redbox: "/RedBox.jpg",
+  dal: "/Dal.jpg",
+  omniclama: "/omniclama.png",
+
+};
+
 interface V7ShipmentCardProps {
   shipment: {
     _id: string;
@@ -62,20 +75,16 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
   const getStatusColor = () => "bg-violet-50 text-violet-700 border-violet-200"
 
   // Carrier details
-  const getCarrierDetails = (carrier: string) => {
-    const normalizedCarrier = carrier?.toLowerCase().trim()
-    const carrierDetails: Record<string, { name: string; logo: string; color: string }> = {
-      aramex: { name: "أرامكس", logo: "/carriers/aramex-logo.png", color: "text-red-600" },
-      dhl: { name: "دي إتش إل", logo: "/carriers/dhl-logo.png", color: "text-yellow-600" },
-      fedex: { name: "فيديكس", logo: "/carriers/fedex-logo.png", color: "text-purple-600" },
-      ups: { name: "يو بي إس", logo: "/carriers/ups-logo.png", color: "text-brown-600" },
-      smsa: { name: "سمسا", logo: "/carriers/carrier-placeholder.png", color: "text-blue-600" },
-      imile: { name: "آي مايل", logo: "/carriers/imile-logo.png", color: "text-green-600" },
-      redbox: { name: "ريد بوكس", logo: "/carriers/carrier-placeholder.png", color: "text-pink-600" },
-    }
-    return carrierDetails[normalizedCarrier] || { name: carrier || "غير معروف", logo: "/carriers/carrier-placeholder.png", color: "text-gray-600" }
-  }
-  const carrierInfo = getCarrierDetails(shipment?.shapmentCompany || "unknown")
+  const getCarrierLogo = (carrier: string) => {
+    const normalizedCarrier = carrier?.toLowerCase().trim();
+    return companyLogoMap[normalizedCarrier] || "/placeholder.svg";
+  };
+  const carrierLogo = getCarrierLogo(shipment?.shapmentCompany || "unknown");
+  const carrierInfo = {
+    name: shipment?.shapmentCompany || "غير معروف",
+    logo: carrierLogo,
+    color: "text-gray-600", // Default color
+  };
 
   // Helper: Get label URL for printing
   const getLabelUrl = () => {
@@ -112,12 +121,12 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
           <div className="flex flex-col justify-between flex-1 min-w-0">
             <div className="flex flex-col gap-3 w-full">
               {/* Carrier */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-6"> {/* Increased gap for more space */}
                 <span className={`inline-flex items-center rounded-md px-3 py-1 text-lg font-bold ${carrierInfo.color}`}> 
-                  <div className="h-7 w-7 ml-2 relative overflow-hidden">
-                    <Image src={carrierInfo.logo || "/placeholder.svg"} alt={carrierInfo.name} width={28} height={28} className="object-contain" />
+                  <div className="h-14 w-14 ml-6 relative overflow-hidden rounded-full border-2 border-gray-200 bg-white flex items-center justify-center"> {/* Larger, circular, spaced */}
+                    <Image src={carrierInfo.logo} alt={carrierInfo.name} width={56} height={56} className="object-contain" />
                   </div>
-                  {carrierInfo.name}
+                  <span className="ml-6">{carrierInfo.name}</span> {/* More space between image and name */}
                 </span>
               </div>
               

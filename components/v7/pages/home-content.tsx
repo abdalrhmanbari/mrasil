@@ -214,12 +214,12 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 v7-fade-in" style={{ transitionDelay: "0.1s" }}>
         <V7StatsCard
-          title="الرصيد الحالي"
+          title="المحفظة"
           icon={Wallet}
           color="primary"
           theme={theme}
           stats={[
-            { label: "الرصيد المتاح", value: walletLoading ? "..." : (walletData?.wallet.balance !== undefined ? walletData.wallet.balance.toString() : "-") },
+            { label: "الرصيد الحالي", value: walletLoading ? "..." : (walletData?.wallet.balance !== undefined ? walletData.wallet.balance.toString() : "-") },
             { label: "تاريخ الإنشاء", value: walletLoading ? "..." : (walletData?.wallet.createdAt ? new Date(walletData.wallet.createdAt).toLocaleDateString() : "-") },
           ]}
           action={{
@@ -229,7 +229,7 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
         />
 
         <V7StatsCard
-          title="طلبات اليوم"
+          title="الطلبات"
           icon={ShoppingBag}
           color="secondary"
           theme={theme}

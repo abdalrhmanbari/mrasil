@@ -78,11 +78,11 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
   const handleAddSenderAddress = async (data: any) => {
     try {
       await createAddress({
-        alias: data.alias,
-        location: data.location,
+        alias: data.clientName,
+        location: data.clientAddress,
+        phone: data.clientPhone,
         city: data.city,
-        phone: data.phone,
-        country: "sa",
+        country: data.country,
       }).unwrap();
     } catch (error) {
       throw error;
@@ -95,15 +95,15 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
         <div className="v7-neu-icon-sm">
           <Building className="h-5 w-5 text-[#3498db]" />
         </div>
-        <h3 className="text-xl font-bold text-gray-800">اختر عنوان الالتقاط</h3>
+        <h3 className="text-xl font-bold text-gray-800">اختر عنوان المرسل</h3>
       </div>
       <div className="flex flex-col md:flex-row gap-3 mb-4">
         <div className="relative flex-1">
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <span className="absolute inset-y-0 right-0 flex items-center pr-5 pointer-events-none">
             <Search className="h-5 w-5 text-[#3498db]" />
           </span>
           <Input
-            className="pr-10 v7-neu-input"
+            className="pr-16   m-v7-neu-input"
             placeholder="ابحث ضمن عناوين الالتقاط الخاصة بك"
             type="text"
             value={searchSender}
@@ -116,7 +116,7 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
           onClick={() => setOpenAddSenderModal(true)}
           className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-4 py-2 rounded-lg text-white font-bold flex items-center gap-2"
         >
-          + عنوان جديد
+          + عنوان  مرسل جديد
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

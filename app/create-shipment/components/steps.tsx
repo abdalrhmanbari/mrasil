@@ -486,17 +486,16 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
               <Scale className="h-5 w-5 text-[#3498db]" />
               الوزن (كجم)
             </Label>
-            <div className="v7-neu-input-container relative overflow-hidden group mt-2">
+            <div className="v7-neu-card-inner px-6 py-6 w-full min-w-[180px] flex items-center">
               <input
                 type="number"
                 {...register("weight")}
                 placeholder="أدخل وزن الشحنة"
                 onFocus={() => setWeightFocused(true)}
                 onBlur={() => setWeightFocused(false)}
-                className="v7-neu-input text-base"
+                className="bg-transparent border-none shadow-none outline-none text-base w-full"
                 style={weightFocused ? { boxShadow: '0 2px 0 0 #3498db' } : {}}
               />
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#3498db] to-[#2980b9] transform scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-left"></div>
             </div>
               {errors.weight && typeof errors.weight.message === 'string' && <div className="text-red-500 text-sm mt-1">{errors.weight.message}</div>}
           </motion.div>
@@ -507,8 +506,8 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
               <Box className="h-5 w-5 text-[#3498db]" />
               عدد الصناديق
             </Label>
-            <div className="v7-neu-card-inner p-4 mt-2">
-              <div className="flex items-center justify-between">
+            <div className="v7-neu-card-inner px-6 py-6 w-full min-w-[180px] flex items-center">
+              <div className="flex items-center justify-between w-full">
                 <Button
                   type="button"
                   variant="outline"
@@ -528,9 +527,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
                 >
                   <span className="text-lg font-bold">+</span>
                 </Button>
-            </div>
-              <p className="text-sm text-gray-500 text-center mt-2">حدد عدد الصناديق المراد شحنها</p>
-              {errors.Parcels && typeof errors.Parcels.message === 'string' && <div className="text-red-500 text-sm mt-2">{errors.Parcels.message}</div>}
+              </div>
             </div>
           </motion.div>
 
@@ -676,29 +673,34 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
           {isLoadingCompanies ? (
             <div>جاري التحميل...</div>
           ) : (
-            uniqueCompanies.map((company) => {
-              const firstType = company.shippingTypes && company.shippingTypes[0];
-              const logoSrc = (function getCompanyLogo(companyName: string): string {
-                const map: Record<string, string> = {
-                  redbox: '/companies/RedBox.jpg',
-                  smsa: '/companies/smsa.jpg',
-                  omniclama: '/companies/omniclama.png',
-                  aramex: '/companies/Aramex.jpg',
-                };
-                return map[companyName.toLowerCase()] || '/carriers/carrier-placeholder.png';
-              })(company.company);
-              const isSelected = selectedCompany === company.company;
-              return (
-                <CarrierCard
-                  key={company._id}
-                  company={company}
-                  selectedCompany={selectedCompany}
-                  handleCompanySelect={handleCompanySelect}
-                  logoSrc={logoSrc}
-                  firstType={firstType}
-                />
-              );
-            })
+            uniqueCompanies
+              .filter(company =>
+                company.shippingTypes &&
+                company.shippingTypes.some(type => type.type === selectedShipmentType)
+              )
+              .map((company) => {
+                const firstType = company.shippingTypes.find(type => type.type === selectedShipmentType) || company.shippingTypes[0];
+                const logoSrc = (function getCompanyLogo(companyName: string): string {
+                  const map: Record<string, string> = {
+                    redbox: '/companies/RedBox.jpg',
+                    smsa: '/companies/smsa.jpg',
+                    omniclama: '/companies/omniclama.png',
+                    aramex: '/companies/Aramex.jpg',
+                  };
+                  return map[companyName.toLowerCase()] || '/carriers/carrier-placeholder.png';
+                })(company.company);
+                const isSelected = selectedCompany === company.company;
+                return (
+                  <CarrierCard
+                    key={company._id}
+                    company={company}
+                    selectedCompany={selectedCompany}
+                    handleCompanySelect={handleCompanySelect}
+                    logoSrc={logoSrc}
+                    firstType={firstType}
+                  />
+                );
+              })
           )}
         </div>
       </div>

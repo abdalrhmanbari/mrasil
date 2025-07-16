@@ -139,16 +139,16 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
             placeholder="ابحث ضمن عناوين العملاء"
             value={searchRecipient}
             onChange={e => setSearchRecipient(e.target.value)}
-            className="pr-10 v7-neu-input"
+            className="pr-16   m-v7-neu-input"
             style={{ direction: 'rtl', fontFamily: 'inherit' }}
           />
         </div>
         <Button
           type="button"
           onClick={() => setOpenRecipientModal(true)}
-          className="bg-blue-500 text-white flex items-center gap-1 rounded-xl px-4 py-2"
+          className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-4 py-2 rounded-lg text-white font-bold flex items-center gap-2"
         >
-          <UserPlus className="w-4 h-4" /> عميل جديد +
+           + عنوان  مستلم جديد
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
