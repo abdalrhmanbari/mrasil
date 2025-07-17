@@ -151,7 +151,7 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
               <div className="flex items-center gap-3">
                 <div className={`inline-flex items-center gap-x-3 px-4 py-2 rounded-full text-lg font-bold border ${getStatusColor()} justify-center`}>
                   <span className="ml-2">{getStatusIcon()}</span>
-                  <span className="text-blue-600">{getStatusText()}</span>
+                  <span className="text-[#294D8B]">{getStatusText()}</span>
                 </div>
               </div>
             </div>

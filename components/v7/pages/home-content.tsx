@@ -250,7 +250,10 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           color="success"
           theme={theme}
           stats={[
-            { label: "إجمالي قيمة الشحنات", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.totalValue?.toLocaleString() ?? "-"}</span><img src="/riyal.png" alt="ريال" className="w-7 h-7 align-baseline" style={{display: 'inline', verticalAlign: 'middle'}} /></span> },
+            { label: "إجمالي قيمة الشحنات", value: shipmentStatsLoading ? "..." :<span className="flex items-center justify-end gap-1">
+  <span>{shipmentStats?.totalValue?.toLocaleString() ?? "-"}</span>
+  <img src="/riyal.png" alt="ريال" className="w-7 h-7 align-baseline" style={{display: 'inline', verticalAlign: 'middle'}} />
+</span> },
             { label: "شحنات قيد الانتظار", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.pendingShipments?.toLocaleString() ?? "-"}</span><MdOutlinePendingActions className="w-6 h-6 text-yellow-500" /></span> },
             { label: "شحنات تم تسليمها", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.deliveredShipments?.toLocaleString() ?? "-"}</span><RiFolderReceivedFill className="w-6 h-6 text-green-600" /></span> },
             { label: "شحنات في الطريق", value: shipmentStatsLoading ? "..." : <span className="flex items-center justify-end gap-1"><span>{shipmentStats?.inTransitShipments?.toLocaleString() ?? "-"}</span><FaRoadCircleExclamation className="w-6 h-6 text-blue-600" /></span> },
