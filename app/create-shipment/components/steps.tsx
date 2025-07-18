@@ -423,7 +423,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
           <div className="w-full md:w-1/3 flex flex-col gap-2">
             <div className="flex items-center gap-2 mb-4">
               <Package className="w-5 h-5 text-[#3498db]" />
-              <h2 className="text-xl font-bold text-[#3498db] m-0">نوع الشحنة</h2>
+              <h2 className="text-xl font-bold text-[#3498db] m-0">طريقة الدفع </h2>
             </div>
             <div className="flex gap-4">
               {[
@@ -479,10 +479,10 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
           </div>
         </div>
         {/* Inputs row: weight, parcels, description */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 ">
           {/* الوزن (كجم) */}
           <motion.div variants={fadeIn}>
-            <Label htmlFor="weight" className="text-base font-medium flex items-center gap-2">
+            <Label htmlFor="weight" className="text-xl font-bold text-[#3498db] m-0">
               <Scale className="h-5 w-5 text-[#3498db]" />
               الوزن (كجم)
             </Label>
@@ -502,7 +502,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
 
           {/* عدد الصناديق */}
           <motion.div variants={fadeIn}>
-            <Label htmlFor="Parcels" className="text-base font-medium flex items-center gap-2">
+            <Label htmlFor="Parcels" className="text-xl font-bold text-[#3498db] m-0">
               <Box className="h-5 w-5 text-[#3498db]" />
               عدد الصناديق
             </Label>
@@ -533,7 +533,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
 
           {/* وصف محتويات الشحنة */}
           <motion.div variants={fadeIn} className="col-span-1 md:col-span-2">
-            <Label htmlFor="orderDescription" className="text-base font-medium flex items-center gap-2">
+            <Label htmlFor="orderDescription" className="text-xl font-bold text-[#3498db] m-0">
               <FileText className="h-5 w-5 text-[#3498db]" />
               وصف محتويات الشحنة
             </Label>
@@ -555,7 +555,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <motion.div variants={fadeIn}>
             <Label htmlFor="total" className="text-base font-medium flex items-center gap-2 mb-2">
-              <CreditCard className="h-5 w-5 text-[#3498db]" />
+              <CreditCard className="text-xl font-bold text-[#3498db] m-0" />
               الإجمالى
             </Label>
             <div className="v7-neu-input-container relative overflow-hidden group">

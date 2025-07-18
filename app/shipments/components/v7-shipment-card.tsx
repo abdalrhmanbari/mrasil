@@ -53,12 +53,34 @@ interface V7ShipmentCardProps {
     profitpickUpPrice?: number;
     baseRTOprice?: number;
     createdAt?: string;
-    redboxResponse?: { label?: string };
-    aramexResponse?: { labelURL?: string };
-    omniclamaResponse?: { label?: string };
-    smsaResponse?: { label?: string };
+    redboxResponse?: { label?: string; trackingNumber?: string };
+    aramexResponse?: { labelURL?: string; trackingNumber?: string };
+    omniclamaResponse?: { label?: string; trackingNumber?: string };
+    smsaResponse?: { label?: string; trackingNumber?: string };
     pricing?: Record<string, any>;
+    trackingNumber?: string;
   }
+}
+
+// Helper: Download SMSA base64 label as PDF
+function downloadSmsaLabel(base64String: string, fileName = "smsa-label.pdf") {
+  // Remove any data URL prefix and whitespace/line breaks
+  const cleanedBase64 = base64String.replace(/^data:application\/pdf;base64,/, "").replace(/\s/g, "");
+  // Decode base64
+  const byteCharacters = atob(cleanedBase64);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  // Always save as PDF for SMSA
+  const blob = new Blob([byteArray], { type: "application/pdf" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
@@ -104,6 +126,25 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
     return null;
   };
   const labelUrl = getLabelUrl();
+
+  // Helper: Get tracking number for the 'تتبع' button
+  const getTrackingNumber = () => {
+    const company = (shipment?.shapmentCompany || '').toLowerCase();
+    if (company === 'redbox' && shipment?.redboxResponse?.trackingNumber) {
+      return shipment.redboxResponse.trackingNumber;
+    }
+    if (company === 'aramex' && shipment?.aramexResponse?.trackingNumber) {
+      return shipment.aramexResponse.trackingNumber;
+    }
+    if (company === 'omniclama' && shipment?.omniclamaResponse?.trackingNumber) {
+      return shipment.omniclamaResponse.trackingNumber;
+    }
+    if (company === 'smsa' && shipment?.smsaResponse?.trackingNumber) {
+      return shipment.smsaResponse.trackingNumber;
+    }
+    return shipment.trackingNumber || shipment._id || '';
+  };
+  const trackingNumber = getTrackingNumber();
 
   return (
     <div
@@ -160,7 +201,7 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
           {/* Right: Actions and More/Less */}
           <div className="flex flex-col items-end justify-between min-w-[180px] gap-2">
             <div className="flex flex-col gap-2 w-full">
-              <Link href={`/tracking?id=${shipment?._id || ""}`} className="w-full" target="_blank" rel="noopener noreferrer">
+              <Link href={`/tracking?id=${trackingNumber}`} className="w-full" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="sm" className="w-full v7-neu-button-sm group h-8 text-xs flex items-center justify-center gap-x-2">
                   <Eye className="h-4 w-4 group-hover:text-[#3498db] transition-colors" />
                   <span className="sr-only sm:not-sr-only">تتبع</span>
@@ -168,18 +209,15 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
               </Link>
               
               {labelUrl ? (
-                <a
-                  href={labelUrl}
-                  className="w-full"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full v7-neu-button-sm group h-8 text-xs flex items-center justify-center gap-x-2"
+                  onClick={() => downloadSmsaLabel(labelUrl)}
                 >
-                  <Button variant="outline" size="sm" className="w-full v7-neu-button-sm group h-8 text-xs flex items-center justify-center gap-x-2">
-                    <Printer className="h-4 w-4 group-hover:text-[#3498db] transition-colors" />
-                    <span className="sr-only sm:not-sr-only">طباعة بوالص الشحن</span>
-                  </Button>
-                </a>
+                  <Printer className="h-4 w-4 group-hover:text-[#3498db] transition-colors" />
+                  <span className="sr-only sm:not-sr-only">طباعة بوالص الشحن</span>
+                </Button>
               ) : (
                 <Button
                   variant="outline"
@@ -214,7 +252,7 @@ export function V7ShipmentCard({ shipment }: V7ShipmentCardProps) {
               <div className="space-y-2">
                 <div className="text-[#294D8B] font-bold mb-3 text-center text-sm">تفاصيل الشحنة</div>
                 {[
-                  ["رقم التتبع", shipment.orderId],
+                  ["رقم التتبع", trackingNumber],
                   ["الوزن", typeof shipment.weight === 'number' ? `${shipment.weight} كجم` : shipment.weight],
                   ["الأبعاد", (typeof shipment.dimension?.length === 'number' && typeof shipment.dimension?.width === 'number' && typeof shipment.dimension?.high === 'number') ? `${shipment.dimension.length} × ${shipment.dimension.width} × ${shipment.dimension.high} سم` : "-"],
                   ["شركة الشحن", shipment.shapmentCompany],

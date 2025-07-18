@@ -127,7 +127,7 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
   return (
     <motion.div variants={staggerChildren}>
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-[#1a365d]">اختر عميل</h2>
+        <h2 className="text-xl font-semibold text-[#1a365d]">اختر المستلم</h2>
       </div>
       <div className="flex flex-row items-center gap-3 mb-4">
         <div className="relative flex-1">

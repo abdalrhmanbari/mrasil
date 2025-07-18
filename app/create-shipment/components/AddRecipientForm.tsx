@@ -53,7 +53,13 @@ export function AddRecipientForm({ isOpen, onClose, onSubmit, isLoading = false,
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
-    await onSubmit(form)
+    // Combine country and city for clientAddress, and set district to '----'
+    const payload = {
+      ...form,
+      clientAddress: `${form.country}, ${form.city}`,
+      district: '----',
+    }
+    await onSubmit(payload)
     setSubmitting(false)
   }
 
@@ -79,8 +85,6 @@ export function AddRecipientForm({ isOpen, onClose, onSubmit, isLoading = false,
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-2">
           <Input name="clientName" placeholder="الاسم" value={form.clientName} onChange={handleChange} required />
-          <Input name="clientAddress" placeholder="العنوان" value={form.clientAddress} onChange={handleChange} required />
-          <Input name="district" placeholder="الحي" value={form.district} onChange={handleChange} required />
           <div className="space-y-2">
             <Label htmlFor="city" className="text-sm font-medium flex items-center gap-2">
               <MapPin className="h-4 w-4 text-[#3498db]" />
