@@ -72,16 +72,16 @@ export function V7LoginHeader({ onMenuClick, onThemeToggle, theme: propTheme }: 
             </div>
             <div className="flex flex-col">
               <span className="text-base sm:text-lg font-bold text-[#294D8B]">مراسيل</span>
-              <span className="text-[10px] sm:text-xs text-[#6d6a67]">خدمات الشحن المتطورة</span>
+              <span className="text-[10px] sm:text-xs text-gry">خدمات الشحن المتطورة</span>
             </div>
           </Link>
         </div>
         <div className="flex items-center gap-1 sm:gap-3 md:gap-4">
           <Button variant="ghost" size="icon" className="v7-neu-button-sm">
-            <Globe className="h-4 sm:h-5 w-4 sm:w-5 text-[#6d6a67]" />
+            <Globe className="h-4 sm:h-5 w-4 sm:w-5 text-gry" />
           </Button>
           <Button variant="ghost" size="icon" className="v7-neu-button-sm">
-            <Moon className="h-4 sm:h-5 w-4 sm:w-5 text-[#6d6a67]" />
+            <Moon className="h-4 sm:h-5 w-4 sm:w-5 text-gry" />
           </Button>
         </div>
       </header>
@@ -116,7 +116,7 @@ export function V7LoginHeader({ onMenuClick, onThemeToggle, theme: propTheme }: 
           </div>
           <div className="flex flex-col">
             <span className="text-base sm:text-xl font-bold text-[#294D8B]">مراسيل</span>
-            <span className="text-[10px] sm:text-xs text-[#6d6a67]">خدمات الشحن المتطورة</span>
+            <span className="text-[10px] sm:text-xs text-gry">خدمات الشحن المتطورة</span>
           </div>
         </Link>
       </div>
@@ -130,7 +130,7 @@ export function V7LoginHeader({ onMenuClick, onThemeToggle, theme: propTheme }: 
               className={`relative ${
                 currentTheme === "dark"
                   ? "bg-[#1e263a] border border-[#2a3349] text-[#8b5cf6] hover:bg-[#252e45] hover:text-[#a78bfa]"
-                  : "v7-neu-button-sm text-[#6d6a67] hover:text-[#3498db]"
+                  : "v7-neu-button-sm text-gry hover:text-[#3498db]"
               }`}
               title="تغيير اللغة"
               aria-label="تغيير اللغة"
@@ -177,7 +177,7 @@ export function V7LoginHeader({ onMenuClick, onThemeToggle, theme: propTheme }: 
               className={`relative ${
                 currentTheme === "dark"
                   ? "bg-[#1e263a] border border-[#2a3349] text-[#8b5cf6] hover:bg-[#252e45] hover:text-[#a78bfa]"
-                  : "v7-neu-button-sm text-[#6d6a67] hover:text-[#3498db]"
+                  : "v7-neu-button-sm text-gry hover:text-[#3498db]"
               }`}
               title={currentTheme === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"}
               aria-label="تبديل السمة"

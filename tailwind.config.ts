@@ -23,6 +23,7 @@ const config = {
         sans: ["var(--font-cairo)"],
       },
       colors: {
+        gry:"#6d6a67",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

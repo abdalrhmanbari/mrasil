@@ -376,7 +376,7 @@ export default function Returns() {
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base text-[#6d6a67]">إجمالي المرتجعات</p>
+              <p className="text-base text-gry">إجمالي المرتجعات</p>
               <h3 className="text-3xl font-bold text-[#294D8B]">{total}</h3>
             </div>
             <div className="v7-neu-icon-lg">
@@ -390,7 +390,7 @@ export default function Returns() {
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base text-[#6d6a67]">المرتجعات المقبولة</p>
+              <p className="text-base text-gry">المرتجعات المقبولة</p>
               <h3 className="text-3xl font-bold text-[#2ecc71]">{approved}</h3>
             </div>
             <div className="v7-neu-icon-lg">
@@ -404,7 +404,7 @@ export default function Returns() {
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base text-[#6d6a67]">قيد المراجعة</p>
+              <p className="text-base text-gry">قيد المراجعة</p>
               <h3 className="text-3xl font-bold text-[#f39c12]">{pending}</h3>
             </div>
             <div className="v7-neu-icon-lg">
@@ -418,7 +418,7 @@ export default function Returns() {
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-base text-[#6d6a67]">مرفوضة</p>
+              <p className="text-base text-gry">مرفوضة</p>
               <h3 className="text-3xl font-bold text-[#e74c3c]">{rejected}</h3>
             </div>
             <div className="v7-neu-icon-lg">
@@ -465,7 +465,7 @@ export default function Returns() {
                   </Button>
                   <h1 className="text-2xl font-bold text-[#294D8B]">تخصيص صفحة الإرجاع للعميل</h1>
                 </div>
-                <p className="text-sm text-[#6d6a67]">قم بتخصيص صفحة الإرجاع التي سيراها عملاؤك</p>
+                <p className="text-sm text-gry">قم بتخصيص صفحة الإرجاع التي سيراها عملاؤك</p>
               </div>
               <div className="flex items-center gap-2">
                 <Button
@@ -1120,7 +1120,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">رقم الطلب</Label>
-                            <p className="text-xs text-[#6d6a67]">السماح للعميل بإدخال رقم الطلب</p>
+                            <p className="text-xs text-gry">السماح للعميل بإدخال رقم الطلب</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <Label htmlFor="orderRequired" className="text-xs">
@@ -1140,7 +1140,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">اختيار المنتج</Label>
-                            <p className="text-xs text-[#6d6a67]">السماح للعميل باختيار المنتج المراد إرجاعه</p>
+                            <p className="text-xs text-gry">السماح للعميل باختيار المنتج المراد إرجاعه</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <Label htmlFor="productRequired" className="text-xs">
@@ -1160,7 +1160,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">سبب الإرجاع</Label>
-                            <p className="text-xs text-[#6d6a67]">السماح للعميل بتحديد سبب الإرجاع</p>
+                            <p className="text-xs text-gry">السماح للعميل بتحديد سبب الإرجاع</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <Label htmlFor="reasonRequired" className="text-xs">
@@ -1180,7 +1180,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">المرفقات</Label>
-                            <p className="text-xs text-[#6d6a67]">السماح للعميل بإرفاق صور للمنتج</p>
+                            <p className="text-xs text-gry">السماح للعميل بإرفاق صور للمنتج</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <Label htmlFor="attachmentsRequired" className="text-xs">
@@ -1200,7 +1200,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">معلومات الاتصال</Label>
-                            <p className="text-xs text-[#6d6a67]">السماح للعميل بإدخال معلومات الاتصال</p>
+                            <p className="text-xs text-gry">السماح للعميل بإدخال معلومات الاتصال</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <Label htmlFor="contactInfoRequired" className="text-xs">
@@ -1220,7 +1220,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">عنوان الإرجاع</Label>
-                            <p className="text-xs text-[#6d6a67]">السماح للعميل باختيار عنوان إرجاع المنتج</p>
+                            <p className="text-xs text-gry">السماح للعميل باختيار عنوان إرجاع المنتج</p>
                           </div>
                           <div className="flex items-center gap-4">
                             <Label htmlFor="returnAddressRequired" className="text-xs">
@@ -1323,14 +1323,14 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">التحقق من رقم الطلب</Label>
-                            <p className="text-xs text-[#6d6a67]">التحقق من صحة رقم الطلب قبل السماح بالإرجاع</p>
+                            <p className="text-xs text-gry">التحقق من صحة رقم الطلب قبل السماح بالإرجاع</p>
                           </div>
                           <Switch defaultChecked />
                         </div>
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">التحقق من فترة الإرجاع</Label>
-                            <p className="text-xs text-[#6d6a67]">
+                            <p className="text-xs text-gry">
                               التحقق من أن المنتج ضمن فترة الإرجاع المسموحة (14 يوم)
                             </p>
                           </div>
@@ -1339,7 +1339,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">إشعارات البريد الإلكتروني</Label>
-                            <p className="text-xs text-[#6d6a67]">
+                            <p className="text-xs text-gry">
                               إرسال إشعار بالبريد الإلكتروني للعميل عند استلام طلب الإرجاع
                             </p>
                           </div>
@@ -1348,7 +1348,7 @@ export default function Returns() {
                         <div className="flex items-center justify-between">
                           <div>
                             <Label className="text-sm font-medium">إشعارات الرسائل النصية</Label>
-                            <p className="text-xs text-[#6d6a67]">
+                            <p className="text-xs text-gry">
                               إرسال إشعار برسالة نصية للعميل عند استلام طلب الإرجاع
                             </p>
                           </div>
@@ -1362,7 +1362,7 @@ export default function Returns() {
                     <div className="v7-neu-card p-6 rounded-xl">
                       <h3 className="text-lg font-medium mb-4">تضمين الصفحة</h3>
                       <div className="space-y-4">
-                        <p className="text-sm text-[#6d6a67]">
+                        <p className="text-sm text-gry">
                           يمكنك تضمين صفحة الإرجاع في موقعك الإلكتروني باستخدام الكود التالي
                         </p>
                         <div className="relative">
@@ -1401,7 +1401,7 @@ export default function Returns() {
                     <div className="v7-neu-card p-6 rounded-xl">
                       <h3 className="text-lg font-medium mb-4">واجهة برمجة التطبيقات (API)</h3>
                       <div className="space-y-4">
-                        <p className="text-sm text-[#6d6a67]">
+                        <p className="text-sm text-gry">
                           يمكنك استخدام واجهة برمجة التطبيقات (API) للتكامل مع أنظمتك الأخرى
                         </p>
                         <div className="relative">
@@ -1655,7 +1655,7 @@ export default function Returns() {
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
              <div>
             <h1 className="text-3xl font-bold text-[#294D8B]">إدارة المرتجعات</h1>
-            <p className="text-base text-[#6d6a67]">تتبع وإدارة طلبات الرجيع والمرتجعات</p>
+            <p className="text-base text-gry">تتبع وإدارة طلبات الرجيع والمرتجعات</p>
           </div>
             <div className="flex flex-wrap gap-3">
               <Button

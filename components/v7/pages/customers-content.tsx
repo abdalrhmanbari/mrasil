@@ -218,7 +218,7 @@ export function CustomersContent() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div>
             <h3 className="text-xl font-bold text-[#3498db]">العملاء</h3>
-            <p className="text-sm text-[#6d6a67]">إدارة العملاء والشركات</p>
+            <p className="text-sm text-gry">إدارة العملاء والشركات</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" className="v7-neu-button-sm gap-1">
@@ -245,7 +245,7 @@ export function CustomersContent() {
             </CardHeader>
             <CardContent className="bg-[#EFF2F7] p-4 rounded-b-lg">
               <div className="text-3xl font-bold text-[#3498db]">215</div>
-              <div className="text-xs text-[#6d6a67] mt-1">76.8% من إجمالي العملاء</div>
+              <div className="text-xs text-gry mt-1">76.8% من إجمالي العملاء</div>
             </CardContent>
           </Card>
 
@@ -255,7 +255,7 @@ export function CustomersContent() {
             </CardHeader>
             <CardContent className="bg-[#EFF2F7] p-4 rounded-b-lg">
               <div className="text-3xl font-bold text-[#3498db]">3.5</div>
-              <div className="text-xs text-[#6d6a67] mt-1">شحنة لكل عميل شهرياً</div>
+              <div className="text-xs text-gry mt-1">شحنة لكل عميل شهرياً</div>
             </CardContent>
           </Card>
         </div>
@@ -277,7 +277,7 @@ export function CustomersContent() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
             <div>
               <h3 className="text-xl font-bold text-[#3498db]">اكثر العملاء طلباً</h3>
-              <p className="text-sm text-[#6d6a67]">العملاء الأكثر نشاطاً</p>
+              <p className="text-sm text-gry">العملاء الأكثر نشاطاً</p>
             </div>
           </div>
 
@@ -327,7 +327,7 @@ export function CustomersContent() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
             <div>
               <h3 className="text-xl font-bold text-[#3498db]">جميع العملاء</h3>
-              <p className="text-sm text-[#6d6a67]">قائمة العملاء والشركات</p>
+              <p className="text-sm text-gry">قائمة العملاء والشركات</p>
             </div>
           </div>
 

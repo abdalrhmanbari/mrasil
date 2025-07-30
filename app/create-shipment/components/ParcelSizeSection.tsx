@@ -90,9 +90,9 @@ export function ParcelSizeSection({ parcelsData, setValue, errors }: ParcelSizeS
           return (
             <motion.div
               key={card.key}
-              className={`v7-neu-card-inner p-4 cursor-pointer transition-all duration-300 hover:shadow-md ${
+              className={`v7-neu-card-inner p-4 cursor-pointer ${
                 selected
-                  ? "ring-2 ring-[#3498db] bg-gradient-to-br from-[#3498db]/5 to-[#3498db]/10"
+                  ? " bg-gradient-to-br from-[#3498db]/5 to-[#3498db]/10"
                   : "hover:bg-gradient-to-br hover:from-[#3498db]/5 hover:to-transparent"
               }`}
               onClick={() => handleSelectSize(card)}
@@ -121,16 +121,26 @@ export function ParcelSizeSection({ parcelsData, setValue, errors }: ParcelSizeS
                     <Check className="h-4 w-4 text-white" />
                   </div>
                 )}
+                <div>
+
+                </div>
               </div>
             </motion.div>
           );
         })}
-      </div>
-      <div className="mb-4">
-        <Button type="button" className="bg-blue-500 text-white" onClick={() => setCustomModalOpen(true)}>
-          + إضافة حجم طرد مخصص
+     
+        <Button type="button" className={` v7-neu-card-inner  p-4 cursor-pointer  hover:bg-[#f0f4f8] h-[10rem] w-[18rem]  flex flex-col  gap-2`}    onClick={() => setCustomModalOpen(true)}>
+    <span className={`w-12 h-12 rounded-full flex items-center justify-center
+                    ${customModalOpen
+                      ? "bg-gradient-to-br from-[#3498db] to-[#2980b9] text-white"
+                      : "bg-[#3498db]/10 text-[#3498db]"}
+                      `}>
+                       <Package className="h-8 w-8" />
+      </span>
+      <h4 className="font-bold text-gray-800"> إضافة حجم طرد مخصص  +</h4>
+         
         </Button>
-      </div>
+                  </div>
       {/* Selected parcel summary (centered, full width) */}
       {selectedSize && (() => {
         const selectedCard = sizeCards.find((c: SizeCard) => c.key === selectedSize);
@@ -161,21 +171,18 @@ export function ParcelSizeSection({ parcelsData, setValue, errors }: ParcelSizeS
         );
       })()}
       {/* Custom Parcel Modal */}
-      <Dialog open={customModalOpen} onOpenChange={setCustomModalOpen}>
-        <DialogContent>
+      <Dialog open={customModalOpen} onOpenChange={setCustomModalOpen} >
+        <DialogContent  className=" flex  flex-col gap-8  sm:h-[16rem] w-[40rem]">
           <DialogHeader>
-            <DialogTitle>إضافة حجم طرد مخصص</DialogTitle>
+            <DialogTitle className=" text-start pt-5">إضافة حجم طرد مخصص</DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleCustomParcelFormSubmit} className="space-y-2">
-            <Input placeholder="اسم الحجم" value={customParcel.title} onChange={e => setCustomParcel({ ...customParcel, title: e.target.value })} required />
+          <form onSubmit={handleCustomParcelFormSubmit} className="space-y-2  grid grid-cols-3 gap-4 ">
             <Input placeholder="الطول (سم)" type="number" value={customParcel.length} onChange={e => setCustomParcel({ ...customParcel, length: e.target.value })} required />
             <Input placeholder="العرض (سم)" type="number" value={customParcel.width} onChange={e => setCustomParcel({ ...customParcel, width: e.target.value })} required />
             <Input placeholder="الارتفاع (سم)" type="number" value={customParcel.height} onChange={e => setCustomParcel({ ...customParcel, height: e.target.value })} required />
-            <Input placeholder="الوزن الأقصى (كجم)" type="number" value={customParcel.maxWeight} onChange={e => setCustomParcel({ ...customParcel, maxWeight: e.target.value })} />
-            <Input placeholder="السعر (اختياري)" type="number" value={customParcel.price} onChange={e => setCustomParcel({ ...customParcel, price: e.target.value })} />
-            <Input placeholder="الوصف (اختياري)" value={customParcel.description} onChange={e => setCustomParcel({ ...customParcel, description: e.target.value })} />
-            <DialogFooter>
-              <Button type="submit" className="bg-blue-500 text-white" disabled={isCreatingParcel}>{isCreatingParcel ? 'جاري الإضافة...' : 'إضافة'}</Button>
+          
+            <DialogFooter className="   ">
+              <Button type="submit" className="bg-blue-500 text-white  w-[20rem]" disabled={isCreatingParcel}>{isCreatingParcel ? 'جاري الإضافة...' : 'إضافة'}</Button>
             </DialogFooter>
           </form>
         </DialogContent>

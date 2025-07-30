@@ -99,7 +99,7 @@ export function RegionMap({ data, height = 400 }: RegionMapProps) {
           }}
         >
           <div className="font-bold text-[#3498db]">{hoveredRegion}</div>
-          <div className="text-[#6d6a67]">{data.find((r) => r.name === hoveredRegion)?.value} شحنة</div>
+          <div className="text-gry">{data.find((r) => r.name === hoveredRegion)?.value} شحنة</div>
         </div>
       )}
     </div>

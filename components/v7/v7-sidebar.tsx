@@ -568,7 +568,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
               <Shield className="h-6 w-6 text-[#3498db]" />
               <span className="text-base font-medium">{currentTranslations.needHelp}</span>
             </div>
-            <p className="mb-3 text-sm text-[#6d6a67]">{currentTranslations.supportTeam}</p>
+            <p className="mb-3 text-sm text-gry">{currentTranslations.supportTeam}</p>
             <Button size="sm" className="w-full v7-neu-button-support" onClick={() => handleNavigation("/support")}>
               <Headphones className="mr-2 h-5 w-5" />
               {currentTranslations.contactUs}

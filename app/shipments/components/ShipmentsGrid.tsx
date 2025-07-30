@@ -79,7 +79,7 @@ export const ShipmentsGrid: React.FC<ShipmentsGridProps> = ({
     <>
       {/* Bulk actions bar */}
       {selectedShipmentId && selectedShipmentId !== "all" && (
-        <div className="mb-4 p-2 bg-blue-50 rounded-md flex items-center justify-between">
+        <div className=" mb-4 p-2 bg-blue-50 rounded-md flex items-center justify-between">
           <span className="text-sm font-medium text-blue-700">تم تحديد شحنة</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -117,7 +117,7 @@ export const ShipmentsGrid: React.FC<ShipmentsGridProps> = ({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => handleBulkAction("cancel")}
-                className="text-red-600 text-[#294D8B] hover:bg-[#e4e9f2] cursor-pointer"
+                className="text-red-600  hover:bg-[#e4e9f2] cursor-pointer"
               >
                 <XCircle className="h-4 w-4 ml-2 text-red-600" />
                 <span>إلغاء المحدد</span>
@@ -132,15 +132,15 @@ export const ShipmentsGrid: React.FC<ShipmentsGridProps> = ({
       <RadioGroup
         value={selectedShipmentId === 'all' ? 'all' : selectedShipmentId || ''}
         onValueChange={val => setSelectedShipmentId(val === 'all' ? 'all' : val)}
-        className="flex flex-wrap -mx-2 justify-center"
+        className="flex flex-wrap -mx-2 justify-center "
       >
         {/* Select All option as a radio button inside RadioGroup */}
-        <div className="flex items-center w-full mb-4 px-2">
+        <div className="flex items-center justify-end w-full mb-4 px-2 ">
           <RadioGroupItem
             value="all"
             id="shipment-all"
             aria-label="تحديد كل الشحنات"
-            className={allSelected ? 'ring-2 ring-blue-500 mr-2' : 'mr-2'}
+            className={allSelected ? 'ring-2  ring-blue-500 mr-2' : 'mr-2'}
           />
           <Button
             type="button"
@@ -157,17 +157,16 @@ export const ShipmentsGrid: React.FC<ShipmentsGridProps> = ({
             key={shipment._id}
             className="w-full flex items-start justify-center mb-6"
           >
-            <div className="flex-shrink-0 mt-4 m-4">
-              <RadioGroupItem
+                        <div className="flex-grow    w-full relative">
+              <V7ShipmentCard shipment={shipment} selectedShipmentId={selectedShipmentId} allSelected={allSelected} />
+             <RadioGroupItem
                 value={shipment._id}
                 id={`shipment-${shipment._id}`}
                 aria-label={`تحديد الشحنة ${shipment._id}`}
                 checked={allSelected || selectedShipmentId === shipment._id}
-                className={`${(allSelected || selectedShipmentId === shipment._id) ? 'ring-2 ring-blue-500' : ''}`}
-              />
-            </div>
-            <div className="flex-grow max-w-5xl w-full">
-              <V7ShipmentCard shipment={shipment} />
+                className={` absolute top-12   right-2 ${(allSelected || selectedShipmentId === shipment._id) ? 'ring-2 ring-blue-500' : ''}`}
+                />
+                
             </div>
           </div>
         ))}

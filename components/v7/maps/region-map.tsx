@@ -200,7 +200,7 @@ export function RegionMap() {
   if (!mounted) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-[#f0f4f8] rounded-lg">
-        <div className="text-[#6d6a67]">جاري تحميل التقرير...</div>
+        <div className="text-gry">جاري تحميل التقرير...</div>
       </div>
     )
   }
@@ -472,7 +472,7 @@ export function RegionMap() {
               <div className="h-[300px] md:h-[400px] w-full">
                 {/* رسم بياني شريطي تفاعلي */}
                 <div className="flex h-full">
-                  <div className="w-12 flex flex-col justify-between text-xs text-[#6d6a67] py-2">
+                  <div className="w-12 flex flex-col justify-between text-xs text-gry py-2">
                     <div>35</div>
                     <div>30</div>
                     <div>25</div>
@@ -494,7 +494,7 @@ export function RegionMap() {
                         >
                           <div className="absolute inset-0 bg-gradient-to-t from-[#2980b9] to-transparent opacity-30"></div>
                         </div>
-                        <div className="text-xs mt-1 text-[#6d6a67] whitespace-nowrap overflow-hidden text-ellipsis w-12 text-center">
+                        <div className="text-xs mt-1 text-gry whitespace-nowrap overflow-hidden text-ellipsis w-12 text-center">
                           {windowWidth > 768 ? region.name : region.name.substring(0, 6) + "..."}
                         </div>
                       </div>
@@ -562,7 +562,7 @@ export function RegionMap() {
         </div>
       </Tabs>
 
-      <div className="mt-4 text-xs text-[#6d6a67] text-center">
+      <div className="mt-4 text-xs text-gry text-center">
         آخر تحديث: {new Date().toLocaleDateString("ar-SA")} - إجمالي الشحنات:{" "}
         {filteredData.reduce((sum, region) => sum + region.value, 0)}
       </div>

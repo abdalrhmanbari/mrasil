@@ -127,10 +127,10 @@ const ReturnsTable: React.FC<ReturnsTableProps> = ({
                   />
                 </td>
                 <td className="px-4 py-3 font-bold text-[#294D8B] text-lg">{item._id}</td>
-                <td className="px-4 py-3 text-[#6d6a67] font-medium text-lg">{item.type === 'return' ? 'استرجاع' : item.type}</td>
-                <td className="px-4 py-3 text-[#6d6a67] font-medium text-lg">{item.requestNote}</td>
-                <td className="px-4 py-3 text-[#6d6a67] font-medium text-lg">{new Date(item.createdAt).toLocaleString('ar-EG')}</td>
-                <td className="px-4 py-3 text-[#6d6a67] font-medium text-lg">{item.shipment?.company || '-'}</td>
+                <td className="px-4 py-3 text-gry font-medium text-lg">{item.type === 'return' ? 'استرجاع' : item.type}</td>
+                <td className="px-4 py-3 text-gry font-medium text-lg">{item.requestNote}</td>
+                <td className="px-4 py-3 text-gry font-medium text-lg">{new Date(item.createdAt).toLocaleString('ar-EG')}</td>
+                <td className="px-4 py-3 text-gry font-medium text-lg">{item.shipment?.company || '-'}</td>
                 <td className="px-4 py-3">
                   <div className="flex flex-row items-center gap-4 justify-end">
                     <button

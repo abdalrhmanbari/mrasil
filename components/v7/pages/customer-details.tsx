@@ -181,14 +181,14 @@ export function CustomerDetails({ id }: CustomerDetailsProps) {
                 </CardHeader>
                 <CardContent className="p-3 md:p-4 pt-0 space-y-3 md:space-y-4 bg-[#EFF2F7]">
                   <div>
-                    <p className="text-xs md:text-sm text-[#6d6a67]">البريد الإلكتروني</p>
+                    <p className="text-xs md:text-sm text-gry">البريد الإلكتروني</p>
                     <p className="font-medium text-sm md:text-base flex items-center gap-2">
                       <Mail className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#3498db]" />
                       {customer.email}
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs md:text-sm text-[#6d6a67]">رقم الهاتف</p>
+                    <p className="text-xs md:text-sm text-gry">رقم الهاتف</p>
                     <p className="font-medium text-sm md:text-base flex items-center gap-2">
                       <Phone className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#3498db]" />
                       {customer.phone}
@@ -206,15 +206,15 @@ export function CustomerDetails({ id }: CustomerDetailsProps) {
                 </CardHeader>
                 <CardContent className="p-3 md:p-4 pt-0 space-y-3 md:space-y-4 bg-[#EFF2F7]">
                   <div>
-                    <p className="text-xs md:text-sm text-[#6d6a67]">المدينة</p>
+                    <p className="text-xs md:text-sm text-gry">المدينة</p>
                     <p className="font-medium text-sm md:text-base">{customer.city}</p>
                   </div>
                   <div>
-                    <p className="text-xs md:text-sm text-[#6d6a67]">العنوان التفصيلي</p>
+                    <p className="text-xs md:text-sm text-gry">العنوان التفصيلي</p>
                     <p className="font-medium text-sm md:text-base">{customer.address}</p>
                   </div>
                   <div>
-                    <p className="text-xs md:text-sm text-[#6d6a67]">الرمز البريدي</p>
+                    <p className="text-xs md:text-sm text-gry">الرمز البريدي</p>
                     <p className="font-medium text-sm md:text-base">{customer.postalCode}</p>
                   </div>
                 </CardContent>
@@ -230,16 +230,16 @@ export function CustomerDetails({ id }: CustomerDetailsProps) {
                 <CardContent className="p-3 md:p-4 pt-0 space-y-3 md:space-y-4 bg-[#EFF2F7]">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                     <div>
-                      <p className="text-xs md:text-sm text-[#6d6a67]">إجمالي الطلبات</p>
+                      <p className="text-xs md:text-sm text-gry">إجمالي الطلبات</p>
                       <p className="font-medium text-lg md:text-xl text-[#3498db]">{customer.totalOrders}</p>
                     </div>
                     <div>
-                      <p className="text-xs md:text-sm text-[#6d6a67]">إجمالي المشتريات</p>
+                      <p className="text-xs md:text-sm text-gry">إجمالي المشتريات</p>
                       <p className="font-medium text-lg md:text-xl text-[#3498db]">{customer.totalSpent} ريال</p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-xs md:text-sm text-[#6d6a67]">آخر طلب</p>
+                    <p className="text-xs md:text-sm text-gry">آخر طلب</p>
                     <p className="font-medium text-sm md:text-base">{customer.lastOrderDate}</p>
                   </div>
                 </CardContent>
@@ -255,22 +255,22 @@ export function CustomerDetails({ id }: CustomerDetailsProps) {
                     <table className="w-full">
                       <thead>
                         <tr className="bg-[#f0f4f8] border-b">
-                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-[#6d6a67]">
+                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-gry">
                             رقم الطلب
                           </th>
-                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-[#6d6a67]">
+                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-gry">
                             التاريخ
                           </th>
-                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-[#6d6a67]">
+                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-gry">
                             عدد المنتجات
                           </th>
-                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-[#6d6a67]">
+                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-gry">
                             المبلغ
                           </th>
-                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-[#6d6a67]">
+                          <th className="py-2 md:py-3 px-2 md:px-4 text-right font-medium text-xs text-gry">
                             الحالة
                           </th>
-                          <th className="py-2 md:py-3 px-2 md:px-4 text-center font-medium text-xs text-[#6d6a67]">
+                          <th className="py-2 md:py-3 px-2 md:px-4 text-center font-medium text-xs text-gry">
                             الإجراءات
                           </th>
                         </tr>

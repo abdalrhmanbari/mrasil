@@ -34,7 +34,7 @@ export function V7LoadingScreen({ title = "جاري تحميل لوحة التح
         ></div>
       </div>
 
-      <div className="mt-4 text-sm text-[#6d6a67]">{title}</div>
+      <div className="mt-4 text-sm text-gry">{title}</div>
     </div>
   )
 }

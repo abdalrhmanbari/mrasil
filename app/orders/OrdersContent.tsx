@@ -47,7 +47,7 @@ interface Order {
   __v: number;
 }
 
-export default function OrdersContent() {
+export  function OrdersContent() {
   const router = useRouter()
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null)
   const { data, isLoading, refetch } = useGetAllOrdersQuery()
@@ -121,7 +121,7 @@ export default function OrdersContent() {
         break
       case "cancel":
         alert(`تم إلغاء ${selectedOrder ? 1 : 0} طلب`)
-         break
+          break
       default:
         break
     }
@@ -159,7 +159,7 @@ export default function OrdersContent() {
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-base font-semibold text-[#6d6a67] mb-1">إجمالي الطلبات</p>
+                  <p className="text-base font-medium text-gry mb-1">إجمالي الطلبات</p>
                   <h3 className="text-3xl font-extrabold text-[#3498db] mt-1">{totalOrders}</h3>
                 </div>
                 <div className="v7-neu-icon-lg ml-2">
@@ -170,7 +170,7 @@ export default function OrdersContent() {
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات مكتملة</p>
+                  <p className="text-base font-medium text-gry mb-1">طلبات مكتملة</p>
                   <h3 className="text-3xl font-extrabold text-[#2ecc71] mt-1">{isLoading ? '...' : completedOrdersCount}</h3>
                 </div>
                 <div className="v7-neu-icon-lg ml-2">
@@ -181,7 +181,7 @@ export default function OrdersContent() {
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات قيد التنفيذ</p>
+                  <p className="text-base font-medium text-gry mb-1">طلبات قيد التنفيذ</p>
                   <h3 className="text-3xl font-extrabold text-[#294D8B] mt-1">{isLoading ? '...' : pendingOrdersCount}</h3>
                 </div>
                 <div className="v7-neu-icon-lg ml-2">
@@ -192,7 +192,7 @@ export default function OrdersContent() {
             <div className="v7-neu-card p-2 flex flex-col justify-center min-h-[60px] transition-all duration-300 hover:shadow-lg">
               <div className="flex items-center justify-between gap-2">
                 <div className="flex-1">
-                  <p className="text-base font-semibold text-[#6d6a67] mb-1">طلبات ملغاة</p>
+                  <p className="text-base font-medium text-gry mb-1">طلبات ملغاة</p>
                   <h3 className="text-3xl font-extrabold text-[#e74c3c] mt-1">{isLoading ? '...' : canceledOrdersCount}</h3>
                 </div>
                 <div className="v7-neu-icon-lg ml-2">
@@ -208,33 +208,34 @@ export default function OrdersContent() {
             className="v7-neu-button-accent"
             onClick={() => router.push('/orders/create')}
           >
-            <Plus className="h-4 w-4 ml-2" />
+            <Plus className="h-4 w-8 ml-2" />
             إنشاء طلب جديد
           </Button>
         </div>       
         <div className="v7-neu-card overflow-hidden v7-fade-in">
           <Tabs defaultValue="all" className="w-full">            
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border-b">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 ">
               <TabsList className="v7-neu-tabs">
-                <TabsTrigger value="all" className="v7-neu-tab">
+                <TabsTrigger value="all" className="v7-neu-tab text-lg text-gry">
                   جميع الطلبات
                 </TabsTrigger>
-                <TabsTrigger value="active" className="v7-neu-tab">
+                <TabsTrigger value="active" className="v7-neu-tab text-lg text-gry">
                   قيد التنفيذ
                 </TabsTrigger>
-                <TabsTrigger value="completed" className="v7-neu-tab">
+                <TabsTrigger value="completed" className="v7-neu-tab text-lg text-gry">
                   مكتملة
                 </TabsTrigger>
-                <TabsTrigger value="cancelled" className="v7-neu-tab">
+                <TabsTrigger value="cancelled" className="v7-neu-tab text-lg text-gry">
                   ملغاة
                 </TabsTrigger>
               </TabsList>
               <div className="flex gap-2">
-                <div className="relative v7-neu-input-container flex-1 min-w-[200px]">
-                  <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
-                  <Input
-                    placeholder="البحث عن بريد إلكتروني أو رقم جوال..."
-                    className="v7-neu-input w-full pr-12"
+                <div className="relative v7-neu-input-container flex-1 min-w-[240px]">
+                  <Search className="absolute right-4 top-1/2 h-8 w-4 -translate-y-1/2 text-gry"   />
+                  <Input 
+                   dir="rtl"
+                    placeholder=" البحث عن بريد إلكتروني أو رقم جوال ...  "
+                    className="v7-neu-input w-full  text-gry  text-base "
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                   />
@@ -243,7 +244,7 @@ export default function OrdersContent() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
                       <Filter className="h-4 w-4 md:mr-2" />
-                      <span className="sr-only md:not-sr-only">تصفية</span>
+                      <span className="sr-only md:not-sr-only text-lg">تصفية</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="v7-neu-dropdown min-w-[180px] border border-[#E4E9F2] shadow-lg bg-white rounded-lg">
@@ -257,7 +258,7 @@ export default function OrdersContent() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="v7-neu-button-sm hover:bg-[#e4e9f2] transition-colors duration-200">
                       <ArrowUpDown className="h-4 w-4 md:mr-2" />
-                      <span className="sr-only md:not-sr-only">ترتيب</span>
+                      <span className="sr-only md:not-sr-only text-lg">ترتيب</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="v7-neu-dropdown min-w-[180px] border border-[#E4E9F2] shadow-lg bg-white rounded-lg">
@@ -268,37 +269,38 @@ export default function OrdersContent() {
                 </DropdownMenu>
               </div>
             </div>        
-            <TabsContent value="all" className="mt-0">
-              <div className="overflow-x-auto whitespace-nowrap">
-                <table className="w-full text-sm border-separate border-spacing-0">
-                  <thead>
-                    <tr className="v7-neu-table-header text-base"> {/* Increased font size */}
-                      <th className="p-2 sticky left-0 bg-[#f8fafc] z-10 text-center">اختيار</th>
+            <TabsContent value="all" className="mt-2  " >
+              <div className="overflow-x-auto whitespace-nowrap ">
+                <table className="w-full text-sm  ">
+                  <thead className=" ">
+                    <tr className="v7-neu-table-header text-base "> {/* Increased font size */}
+                      <th className="p-2 sticky left-0  z-10 text-center">اختيار</th>
                       <th className="p-2 px-4 whitespace-nowrap">رقم الطلب</th>
                       <th className="p-2 px-4 whitespace-nowrap">العميل</th>
                       <th className="p-2 px-4 whitespace-nowrap">المدينة/الدولة</th>
                       <th className="p-2 px-4 whitespace-nowrap">رقم الهاتف</th>
                       <th className="p-2 px-4 whitespace-nowrap">البريد الإلكتروني</th>
-                      <th className="p-2 px-4 whitespace-nowrap">العنوان</th>
+                      {/* <th className="p-2 px-4 whitespace-nowrap">العنوان</th> */}
                       <th className="p-2 px-4 whitespace-nowrap">المنصة</th> {/* New column */}
-                      <th className="p-2 px-4 whitespace-nowrap">عدد الصناديق</th> {/* New column */}
+                      {/* <th className="p-2 px-4 whitespace-nowrap">عدد الصناديق</th> New column */}
                       <th className="p-2 px-4 whitespace-nowrap">الوزن (كجم)</th> {/* New column */}
                       <th className="p-2 px-4 whitespace-nowrap">طريقة الدفع</th>
                       <th className="p-2 px-4 whitespace-nowrap">التاريخ</th>
-                      <th className="p-2 px-4 whitespace-nowrap">حالة الطلب</th>
+                      {/* <th className="p-2 px-4 whitespace-nowrap">حالة الطلب</th> */}
                       <th className="p-2 px-4 whitespace-nowrap">تحديث الحالة</th>
                       <th className="p-2 px-4 whitespace-nowrap">الإجراءات</th>
                     </tr>
                   </thead>
-                  <tbody>                    {filteredOrders.map((order) => (
+                  <tbody className="text-center" >                    
+                    {filteredOrders.map((order) => (
                       <tr
                         key={order._id}
-                        className={`v7-neu-table-row cursor-pointer text-base ${selectedOrder === order._id ? 'bg-blue-50' : ''}`}
+                        className={`v7-neu-table-row cursor-pointer text-base border-none ${selectedOrder === order._id ? 'bg-blue-50' : ''}`}
                         onClick={() => handleSelectOrder(order._id)}
                         tabIndex={0}
                         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') handleSelectOrder(order._id); }}
                       >
-                        <td className="p-2 sticky left-0 bg-white z-10 text-center" onClick={e => e.stopPropagation()}>
+                        <td className="p-2 sticky left-0  z-10 text-center border-none" onClick={e => e.stopPropagation()}>
                           <input
                             type="radio"
                             name="selectedOrder"
@@ -308,45 +310,26 @@ export default function OrdersContent() {
                             className="accent-[#294D8B] w-4 h-4 rounded-full border-2 border-[#294D8B] focus:ring-2 focus:ring-[#294D8B]"
                           />
                         </td>
-                        <td className="p-2 px-4 whitespace-nowrap">{order._id}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientName || '-'}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">{`${order.clientAddress?.city || '-'}، ${order.clientAddress?.country || '-'}`}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientPhone || '-'}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientEmail || '-'}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientAddress || '-'}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">{order.platform || '-'}</td> {/* New cell */}
-                        <td className="p-2 px-4 whitespace-nowrap">{order.number_of_boxes ?? '-'}</td> {/* New cell */}
-                        <td className="p-2 px-4 whitespace-nowrap">{order.weight ?? '-'}</td> {/* New cell */}
-                        <td className="p-2 px-4 whitespace-nowrap">{order.payment_method}</td>
-                        <td className="p-2 px-4 whitespace-nowrap">
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order._id}</td>
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order.clientAddress?.clientName || '-'}</td>
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{`${order.clientAddress?.city || '-'}، ${order.clientAddress?.country || '-'}`}</td>
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order.clientAddress?.clientPhone || '-'}</td>
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order.clientAddress?.clientEmail || '-'}</td>
+                        {/* <td className="p-2 px-4 whitespace-nowrap">{order.clientAddress?.clientAddress || '-'}</td> */}
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order.platform || '-'}</td> {/* New cell */}
+                        {/* <td className="p-2 px-4 whitespace-nowrap">{order.number_of_boxes ?? '-'}</td> New cell */}
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order.weight ?? '-'}</td> {/* New cell */}
+                        <td className="p-2 px-4 whitespace-nowrap border-none">{order.payment_method === "Prepaid" ? "دفع مسبق" : "دفع عند الأستلام" }</td>
+                        <td className="p-2 px-4 whitespace-nowrap border-none">
                           <div className="flex items-center gap-1">
-                            <Calendar className="h-3.5 w-3.5 text-[#6d6a67] flex-shrink-0" />
-                            <span>{moment(order.createdAt).locale('ar-sa').format('DD MMM YYYY')}</span>
+                            <Calendar className="h-3.5 w-3.5 text-gry flex-shrink-0" />
+                            <span>{moment(order.createdAt).locale('en-sa').format('DD/MM/YYYY')}</span>
                           </div>
                         </td>
-                        <td className="p-2 px-4 whitespace-nowrap">
+                        <td className="p-2 px-4 whitespace-nowrap border-none">
                           <OrderStatusBadge status={order.status?.name} />
                         </td>
-                        <td className="p-2 px-4 whitespace-nowrap">
-                          <select
-                            className="border rounded px-2 py-1 text-sm"
-                            value={selectedStatusOrderId === order._id ? selectedStatusValue || '' : ''}
-                            onClick={e => e.stopPropagation()}
-                            onChange={e => {
-                              const value = e.target.value;
-                              if (!value) return;
-                              setSelectedStatusOrderId(order._id);
-                              setSelectedStatusValue(value);
-                              setStatusModalOpen(true);
-                            }}
-                          >
-                            <option value="">تحديث الآن</option>
-                            <option value="completed">مكتمل</option>
-                            <option value="cancelled">ملغى</option>
-                            <option value="pending">معلق</option>
-                          </select>
-                        </td>
-                        <td className="p-2 px-4 whitespace-nowrap">
+                        <td className="p-2 px-4 whitespace-nowrap border-none">
                           <div className="flex items-center gap-1">
                             <Button
                               variant="outline"
@@ -380,8 +363,8 @@ export default function OrdersContent() {
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t">
-                <div className="text-sm text-[#6d6a67]">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 ">
+                <div className="text-sm text-gry">
                   عرض <span className="font-medium">1</span> إلى <span className="font-medium">10</span> من أصل{" "}
                   <span className="font-medium">248</span> طلب
                 </div>
@@ -410,7 +393,7 @@ export default function OrdersContent() {
                 <Clock className="h-8 w-8 text-[#f39c12]" />
               </div>
               <h3 className="text-lg font-bold mb-2">الطلبات قيد التنفيذ</h3>
-              <p className="text-[#6d6a67] mb-4">يمكنك متابعة جميع الطلبات قيد التنفيذ هنا</p>
+              <p className="text-gry mb-4">يمكنك متابعة جميع الطلبات قيد التنفيذ هنا</p>
               <Button className="v7-neu-button-accent">عرض الطلبات قيد التنفيذ</Button>
             </TabsContent>
             <TabsContent value="completed" className="mt-0 p-6 text-center">
@@ -418,7 +401,7 @@ export default function OrdersContent() {
                 <CheckCircle className="h-8 w-8 text-[#2ecc71]" />
               </div>
               <h3 className="text-lg font-bold mb-2">الطلبات المكتملة</h3>
-              <p className="text-[#6d6a67] mb-4">يمكنك عرض سجل الطلبات المكتملة هنا</p>
+              <p className="text-gry mb-4">يمكنك عرض سجل الطلبات المكتملة هنا</p>
               <Button className="v7-neu-button-accent">عرض الطلبات المكتملة</Button>
             </TabsContent>
 
@@ -427,7 +410,7 @@ export default function OrdersContent() {
                 <XCircle className="h-8 w-8 text-[#e74c3c]" />
               </div>
               <h3 className="text-lg font-bold mb-2">الطلبات الملغاة</h3>
-              <p className="text-[#6d6a67] mb-4">يمكنك عرض سجل الطلبات الملغاة هنا</p>
+              <p className="text-gry mb-4">يمكنك عرض سجل الطلبات الملغاة هنا</p>
               <Button className="v7-neu-button-accent">عرض الطلبات الملغاة</Button>
             </TabsContent>
           </Tabs>

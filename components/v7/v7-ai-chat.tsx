@@ -747,7 +747,7 @@ export function V7AIChat({ isOpen, onClose }: V7AIChatProps) {
             className={`rounded-full ${
               isDark
                 ? "bg-[#1e263a] border border-[#2a3349] text-gray-300 hover:bg-[#252e45]"
-                : "v7-neu-button-sm text-[#6d6a67] hover:text-[#3498db]"
+                : "v7-neu-button-sm text-gry hover:text-[#3498db]"
             }`}
           >
             <Minimize2 className="w-5 h-5" />
@@ -760,7 +760,7 @@ export function V7AIChat({ isOpen, onClose }: V7AIChatProps) {
             className={`rounded-full ${
               isDark
                 ? "bg-[#1e263a] border border-[#2a3349] text-gray-300 hover:bg-[#252e45]"
-                : "v7-neu-button-sm text-[#6d6a67] hover:text-[#3498db]"
+                : "v7-neu-button-sm text-gry hover:text-[#3498db]"
             }`}
           >
             <X className="w-5 h-5" />

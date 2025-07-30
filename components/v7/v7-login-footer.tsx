@@ -15,11 +15,11 @@ export function V7LoginFooter() {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-bold text-[#294D8B]">مراسيل</span>
-              <span className="text-xs text-[#6d6a67]">خدمات الشحن المتطورة</span>
+              <span className="text-xs text-gry">خدمات الشحن المتطورة</span>
             </div>
           </div>
           
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-sm text-[#6d6a67]">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-sm text-gry">
             <Link href="/help" className="hover:text-[#294D8B] transition-colors">
               المساعدة
             </Link>
@@ -34,7 +34,7 @@ export function V7LoginFooter() {
             </Link>
           </div>
           
-          <div className="text-sm text-[#6d6a67] mt-4 md:mt-0">
+          <div className="text-sm text-gry mt-4 md:mt-0">
             © {currentYear} مراسيل. جميع الحقوق محفوظة
           </div>
         </div>

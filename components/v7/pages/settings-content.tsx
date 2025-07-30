@@ -181,7 +181,7 @@ export function SettingsContent() {
                     <Upload className="h-4 w-4" />
                     <span>تغيير الصورة</span>
                   </Button>
-                  <p className="text-xs text-[#6d6a67] mt-2">الحد الأقصى لحجم الصورة: 5 ميجابايت</p>
+                  <p className="text-xs text-gry mt-2">الحد الأقصى لحجم الصورة: 5 ميجابايت</p>
                 </div>
               </div>
               <div className="md:w-2/3">
@@ -250,12 +250,12 @@ export function SettingsContent() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="darkMode">الوضع المظلم</Label>
-                  <p className="text-xs text-[#6d6a67]">تفعيل الوضع المظلم للتطبيق</p>
+                  <p className="text-xs text-gry">تفعيل الوضع المظلم للتطبيق</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Sun className="h-4 w-4 text-[#6d6a67]" />
+                  <Sun className="h-4 w-4 text-gry" />
                   <Switch id="darkMode" />
-                  <Moon className="h-4 w-4 text-[#6d6a67]" />
+                  <Moon className="h-4 w-4 text-gry" />
                 </div>
               </div>
               <div className="flex justify-end">
@@ -321,7 +321,7 @@ export function SettingsContent() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label htmlFor="twoFactor">تفعيل المصادقة الثنائية</Label>
-                    <p className="text-xs text-[#6d6a67]">تأمين حسابك بطبقة إضافية من الحماية</p>
+                    <p className="text-xs text-gry">تأمين حسابك بطبقة إضافية من الحماية</p>
                   </div>
                   <Switch id="twoFactor" />
                 </div>
@@ -333,14 +333,14 @@ export function SettingsContent() {
                   <div className="flex items-center justify-between p-3 bg-[#f0f4f8] rounded-lg">
                     <div>
                       <p className="font-medium">الجهاز الحالي</p>
-                      <p className="text-xs text-[#6d6a67]">Chrome على Windows • الرياض، المملكة العربية السعودية</p>
+                      <p className="text-xs text-gry">Chrome على Windows • الرياض، المملكة العربية السعودية</p>
                     </div>
                     <Badge className="bg-green-100 text-green-800 hover:bg-green-100">نشط الآن</Badge>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-[#f0f4f8] rounded-lg">
                     <div>
                       <p className="font-medium">iPhone 13</p>
-                      <p className="text-xs text-[#6d6a67]">Safari على iOS • آخر نشاط: منذ 2 يوم</p>
+                      <p className="text-xs text-gry">Safari على iOS • آخر نشاط: منذ 2 يوم</p>
                     </div>
                     <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50">
                       إنهاء الجلسة
@@ -365,21 +365,21 @@ export function SettingsContent() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="shipmentUpdates">تحديثات الشحنات</Label>
-                      <p className="text-xs text-[#6d6a67]">إشعارات عند تحديث حالة الشحنة</p>
+                      <p className="text-xs text-gry">إشعارات عند تحديث حالة الشحنة</p>
                     </div>
                     <Switch id="shipmentUpdates" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="deliveryNotifications">إشعارات التوصيل</Label>
-                      <p className="text-xs text-[#6d6a67]">إشعارات عند توصيل الشحنة</p>
+                      <p className="text-xs text-gry">إشعارات عند توصيل الشحنة</p>
                     </div>
                     <Switch id="deliveryNotifications" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="delayNotifications">إشعارات التأخير</Label>
-                      <p className="text-xs text-[#6d6a67]">إشعارات عند تأخير الشحنة</p>
+                      <p className="text-xs text-gry">إشعارات عند تأخير الشحنة</p>
                     </div>
                     <Switch id="delayNotifications" defaultChecked />
                   </div>
@@ -392,21 +392,21 @@ export function SettingsContent() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="paymentNotifications">إشعارات الدفع</Label>
-                      <p className="text-xs text-[#6d6a67]">إشعارات عند إتمام عمليات الدفع</p>
+                      <p className="text-xs text-gry">إشعارات عند إتمام عمليات الدفع</p>
                     </div>
                     <Switch id="paymentNotifications" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="securityNotifications">إشعارات الأمان</Label>
-                      <p className="text-xs text-[#6d6a67]">إشعارات عند تسجيل الدخول من جهاز جديد</p>
+                      <p className="text-xs text-gry">إشعارات عند تسجيل الدخول من جهاز جديد</p>
                     </div>
                     <Switch id="securityNotifications" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="marketingNotifications">إشعارات تسويقية</Label>
-                      <p className="text-xs text-[#6d6a67]">إشعارات عن العروض والتحديثات</p>
+                      <p className="text-xs text-gry">إشعارات عن العروض والتحديثات</p>
                     </div>
                     <Switch id="marketingNotifications" />
                   </div>
@@ -419,21 +419,21 @@ export function SettingsContent() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="emailNotifications">البريد الإلكتروني</Label>
-                      <p className="text-xs text-[#6d6a67]">استلام الإشعارات عبر البريد الإلكتروني</p>
+                      <p className="text-xs text-gry">استلام الإشعارات عبر البريد الإلكتروني</p>
                     </div>
                     <Switch id="emailNotifications" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="smsNotifications">الرسائل النصية</Label>
-                      <p className="text-xs text-[#6d6a67]">استلام الإشعارات عبر الرسائل النصية</p>
+                      <p className="text-xs text-gry">استلام الإشعارات عبر الرسائل النصية</p>
                     </div>
                     <Switch id="smsNotifications" defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="pushNotifications">إشعارات الجوال</Label>
-                      <p className="text-xs text-[#6d6a67]">استلام الإشعارات على تطبيق الجوال</p>
+                      <p className="text-xs text-gry">استلام الإشعارات على تطبيق الجوال</p>
                     </div>
                     <Switch id="pushNotifications" defaultChecked />
                   </div>
@@ -467,7 +467,7 @@ export function SettingsContent() {
                       </div>
                       <div>
                         <p className="font-medium">**** **** **** 4582</p>
-                        <p className="text-xs text-[#6d6a67]">تنتهي في 05/26</p>
+                        <p className="text-xs text-gry">تنتهي في 05/26</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -484,7 +484,7 @@ export function SettingsContent() {
                       </div>
                       <div>
                         <p className="font-medium">**** **** **** 7891</p>
-                        <p className="text-xs text-[#6d6a67]">تنتهي في 11/25</p>
+                        <p className="text-xs text-gry">تنتهي في 11/25</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -513,7 +513,7 @@ export function SettingsContent() {
                       </div>
                       <div>
                         <p className="font-medium">المحفظة الإلكترونية</p>
-                        <p className="text-xs text-[#6d6a67]">الرصيد الحالي: 564.75 ريال</p>
+                        <p className="text-xs text-gry">الرصيد الحالي: 564.75 ريال</p>
                       </div>
                     </div>
                     <Button variant="outline" size="sm" className="v7-neu-button-sm">
@@ -527,7 +527,7 @@ export function SettingsContent() {
                       </div>
                       <div>
                         <p className="font-medium">الدفع عند الاستلام</p>
-                        <p className="text-xs text-[#6d6a67]">متاح لجميع الشحنات المحلية</p>
+                        <p className="text-xs text-gry">متاح لجميع الشحنات المحلية</p>
                       </div>
                     </div>
                     <Switch defaultChecked />
@@ -541,7 +541,7 @@ export function SettingsContent() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label htmlFor="invoiceEmail">إرسال الفواتير بالبريد الإلكتروني</Label>
-                      <p className="text-xs text-[#6d6a67]">استلام الفواتير عبر البريد الإلكتروني</p>
+                      <p className="text-xs text-gry">استلام الفواتير عبر البريد الإلكتروني</p>
                     </div>
                     <Switch id="invoiceEmail" defaultChecked />
                   </div>

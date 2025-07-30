@@ -115,16 +115,16 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
             </div>
             <div className="flex flex-col">
               <span className="text-base sm:text-lg font-bold text-[#294D8B]">مراسيل</span>
-              <span className="text-[10px] sm:text-xs text-[#6d6a67]">خدمات الشحن المتطورة</span>
+              <span className="text-[10px] sm:text-xs text-gry">خدمات الشحن المتطورة</span>
             </div>
           </Link>
         </div>
         <div className="flex items-center gap-1 sm:gap-3 md:gap-4">
           <Button variant="ghost" size="icon" className="v7-neu-button-sm">
-            <Globe className="h-4 sm:h-5 w-4 sm:w-5 text-[#6d6a67]" />
+            <Globe className="h-4 sm:h-5 w-4 sm:w-5 text-gry" />
           </Button>
           <Button variant="ghost" size="icon" className="v7-neu-button-sm">
-            <Moon className="h-4 sm:h-5 w-4 sm:w-5 text-[#6d6a67]" />
+            <Moon className="h-4 sm:h-5 w-4 sm:w-5 text-gry" />
           </Button>
         </div>
       </header>
@@ -150,7 +150,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
           </div>
           <div className="flex flex-col">
             <span className="text-base sm:text-xl font-bold text-[#294D8B]">مراسيل</span>
-            <span className="text-[10px] sm:text-xs text-[#6d6a67]">خدمات الشحن المتطورة</span>
+            <span className="text-[10px] sm:text-xs text-gry">خدمات الشحن المتطورة</span>
           </div>
         </Link>
       </div>
@@ -159,9 +159,9 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
         <div className={`relative transition-all duration-300 ${searchFocused ? "scale-105" : ""}`}
           dir={language === 'ar' ? 'rtl' : 'ltr'}>
           {language === 'ar' ? (
-            <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
+            <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
           ) : (
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
           )}
           <input
             type="search"
@@ -184,7 +184,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
               className={`relative ${
                 currentTheme === "dark"
                   ? "bg-[#1e263a] border border-[#2a3349] text-[#8b5cf6] hover:bg-[#252e45] hover:text-[#a78bfa]"
-                  : "v7-neu-button-sm text-[#6d6a67] hover:text-[#3498db]"
+                  : "v7-neu-button-sm text-gry hover:text-[#3498db]"
               }`}
               title="تغيير اللغة"
               aria-label="تغيير اللغة"
@@ -231,7 +231,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
               className={`relative ${
                 currentTheme === "dark"
                   ? "bg-[#1e263a] border border-[#2a3349] text-[#8b5cf6] hover:bg-[#252e45] hover:text-[#a78bfa]"
-                  : "v7-neu-button-sm text-[#6d6a67] hover:text-[#3498db]"
+                  : "v7-neu-button-sm text-gry hover:text-[#3498db]"
               }`}
               title={currentTheme === "light" ? "تفعيل الوضع الليلي" : "تفعيل الوضع النهاري"}
               aria-label="تبديل السمة"
@@ -312,7 +312,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
                   <span className="text-xs font-medium text-[#294D8B]">{unreadCountLoading ? "..." : unreadCountData?.unreadCount || 0} جديدة</span>
                 </div>
               </div>
-              <p className="text-xs text-[#6d6a67] mt-1">
+              <p className="text-xs text-gry mt-1">
                 {(!notificationsLoading && notificationsData?.data?.length) &&
                   `آخر تحديث: ${timeSince(notificationsData.data[notificationsData.data.length - 1].timestamp)}`
                 }
@@ -320,7 +320,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
             </div>
             <div className="max-h-[250px] sm:max-h-[300px] overflow-auto">
               {notificationsLoading ? (
-                <div className="p-4 text-center text-[#6d6a67]">جاري التحميل...</div>
+                <div className="p-4 text-center text-gry">جاري التحميل...</div>
               ) : notificationsData?.data?.length ? (
                 notificationsData.data.map((notification) => (
                   <DropdownMenuItem
@@ -332,12 +332,12 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
                     disabled={notification.readStatus}
                   >
                     <div className="font-medium text-[#294D8B]">{notification.type}</div>
-                    <div className="text-sm text-[#6d6a67]">{notification.message}</div>
-                    <div className="mt-1 text-xs text-[#6d6a67]">{timeSince(notification.timestamp)}</div>
+                    <div className="text-sm text-gry">{notification.message}</div>
+                    <div className="mt-1 text-xs text-gry">{timeSince(notification.timestamp)}</div>
                   </DropdownMenuItem>
                 ))
               ) : (
-                <div className="p-4 text-center text-[#6d6a67]">لا توجد إشعارات جديدة</div>
+                <div className="p-4 text-center text-gry">لا توجد إشعارات جديدة</div>
               )}
             </div>
             <DropdownMenuSeparator />
@@ -394,7 +394,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
           <div className="bg-white dark:bg-[#1e263a] w-full max-w-md rounded-xl shadow-lg p-4 animate-in fade-in slide-in-from-top-4 duration-300">
             <div className="flex items-center gap-2 mb-2">
               <div className="relative flex-1">
-                <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
+                <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
                 <input
                   type="search"
                   placeholder="البحث عن شحناتك..."
@@ -403,11 +403,11 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
                   aria-label="البحث عن شحناتك"
                 />
               </div>
-              <Button variant="ghost" size="sm" onClick={() => setMobileSearchOpen(false)} className="text-[#6d6a67]">
+              <Button variant="ghost" size="sm" onClick={() => setMobileSearchOpen(false)} className="text-gry">
                 إلغاء
               </Button>
             </div>
-            <div className="mt-4 text-xs sm:text-sm text-[#6d6a67]">
+            <div className="mt-4 text-xs sm:text-sm text-gry">
               <p>اقتراحات البحث:</p>
               <div className="mt-2 grid grid-cols-2 gap-2">
                 <Button

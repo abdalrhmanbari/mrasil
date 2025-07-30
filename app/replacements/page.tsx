@@ -150,7 +150,7 @@ export default function ReplacementsPage() {
           <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-3xl font-bold text-[#294D8B] dark:text-blue-400">ادارة الاستبدال</h1>
-              <p className="text-[#6d6a67] text-xl dark:text-gray-400">إدارة طلبات الاستبدال  وتتبع حالتها</p>
+              <p className="text-gry text-xl dark:text-gray-400">إدارة طلبات الاستبدال  وتتبع حالتها</p>
             </div>
           </div>
           <div className="flex flex-wrap  gap-3 mb-6 justify-end">
@@ -189,7 +189,7 @@ export default function ReplacementsPage() {
                   <div className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-[#6d6a67]">إجمالي الاستبدالات</p>
+                        <p className="text-sm text-gry">إجمالي الاستبدالات</p>
                         <h3 className="text-2xl font-bold text-[#294D8B]">{total}</h3>
                       </div>
                       <div className="v7-neu-icon-lg">
@@ -202,7 +202,7 @@ export default function ReplacementsPage() {
                   <div className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-[#6d6a67]">قيد المراجعة</p>
+                        <p className="text-sm text-gry">قيد المراجعة</p>
                         <h3 className="text-2xl font-bold text-[#f39c12]">0</h3>
                       </div>
                       <div className="v7-neu-icon-lg">
@@ -215,7 +215,7 @@ export default function ReplacementsPage() {
                   <div className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-[#6d6a67]">تمت الموافقة</p>
+                        <p className="text-sm text-gry">تمت الموافقة</p>
                         <h3 className="text-2xl font-bold text-[#2ecc71]">0</h3>
                       </div>
                       <div className="v7-neu-icon-lg">
@@ -228,7 +228,7 @@ export default function ReplacementsPage() {
                   <div className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-[#6d6a67]">مرفوضة</p>
+                        <p className="text-sm text-gry">مرفوضة</p>
                         <h3 className="text-2xl font-bold text-[#e74c3c]">0</h3>
                       </div>
                       <div className="v7-neu-icon-lg">
@@ -257,7 +257,7 @@ export default function ReplacementsPage() {
                 <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
                   {/* Search filter */}
                   <div className="relative flex-1 min-w-[200px] v7-neu-input-container">
-                    <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#6d6a67]" />
+                    <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gry" />
                     <input
                       type="text"
                       placeholder="بحث عن رقم الاستبدال أو المنتج..."

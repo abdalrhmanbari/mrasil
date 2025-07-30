@@ -140,7 +140,7 @@ export default function CustomizeReplacementPage() {
                 </Button>
                 <h1 className="text-2xl font-bold text-[#294D8B]">تخصيص صفحة الاستبدال للعميل</h1>
               </div>
-              <p className="text-sm text-[#6d6a67]">قم بتخصيص صفحة الاستبدال التي سيراها عملاؤك</p>
+              <p className="text-sm text-gry">قم بتخصيص صفحة الاستبدال التي سيراها عملاؤك</p>
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -784,7 +784,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">رقم الطلب</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل بإدخال رقم الطلب</p>
+                          <p className="text-xs text-gry">السماح للعميل بإدخال رقم الطلب</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="orderRequired" className="text-xs">
@@ -800,7 +800,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">اختيار المنتج الأصلي</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل باختيار المنتج المراد استبداله</p>
+                          <p className="text-xs text-gry">السماح للعميل باختيار المنتج المراد استبداله</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="productRequired" className="text-xs">
@@ -820,7 +820,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">اختيار المنتج البديل</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل باختيار المنتج البديل</p>
+                          <p className="text-xs text-gry">السماح للعميل باختيار المنتج البديل</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="replacementProductRequired" className="text-xs">
@@ -836,7 +836,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">سبب الاستبدال</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل بتحديد سبب الاستبدال</p>
+                          <p className="text-xs text-gry">السماح للعميل بتحديد سبب الاستبدال</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="reasonRequired" className="text-xs">
@@ -852,7 +852,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">المرفقات</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل بإرفاق صور للمنتج</p>
+                          <p className="text-xs text-gry">السماح للعميل بإرفاق صور للمنتج</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="attachmentsRequired" className="text-xs">
@@ -868,7 +868,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">معلومات الاتصال</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل بإدخال معلومات الاتصال</p>
+                          <p className="text-xs text-gry">السماح للعميل بإدخال معلومات الاتصال</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="contactInfoRequired" className="text-xs">
@@ -884,7 +884,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">عنوان الاستبدال</Label>
-                          <p className="text-xs text-[#6d6a67]">السماح للعميل باختيار عنوان استلام المنتج البديل</p>
+                          <p className="text-xs text-gry">السماح للعميل باختيار عنوان استلام المنتج البديل</p>
                         </div>
                         <div className="flex items-center gap-4">
                           <Label htmlFor="replacementAddressRequired" className="text-xs">
@@ -984,14 +984,14 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">التحقق من رقم الطلب</Label>
-                          <p className="text-xs text-[#6d6a67]">التحقق من صحة رقم الطلب قبل السماح بالاستبدال</p>
+                          <p className="text-xs text-gry">التحقق من صحة رقم الطلب قبل السماح بالاستبدال</p>
                         </div>
                         <Switch defaultChecked />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">التحقق من فترة الاستبدال</Label>
-                          <p className="text-xs text-[#6d6a67]">
+                          <p className="text-xs text-gry">
                             التحقق من أن المنتج ضمن فترة الاستبدال المسموحة (14 يوم)
                           </p>
                         </div>
@@ -1000,7 +1000,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">حساب فرق السعر</Label>
-                          <p className="text-xs text-[#6d6a67]">
+                          <p className="text-xs text-gry">
                             حساب فرق السعر بين المنتج الأصلي والمنتج البديل تلقائياً
                           </p>
                         </div>
@@ -1009,7 +1009,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">إشعارات البريد الإلكتروني</Label>
-                          <p className="text-xs text-[#6d6a67]">
+                          <p className="text-xs text-gry">
                             إرسال إشعار بالبريد الإلكتروني للعميل عند استلام طلب الاستبدال
                           </p>
                         </div>
@@ -1018,7 +1018,7 @@ export default function CustomizeReplacementPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <Label className="text-sm font-medium">إشعارات الرسائل النصية</Label>
-                          <p className="text-xs text-[#6d6a67]">
+                          <p className="text-xs text-gry">
                             إرسال إشعار برسالة نصية للعميل عند استلام طلب الاستبدال
                           </p>
                         </div>
@@ -1032,7 +1032,7 @@ export default function CustomizeReplacementPage() {
                   <div className="v7-neu-card p-6 rounded-xl">
                     <h3 className="text-lg font-medium mb-4">تضمين الصفحة</h3>
                     <div className="space-y-4">
-                      <p className="text-sm text-[#6d6a67]">
+                      <p className="text-sm text-gry">
                         يمكنك تضمين صفحة الاستبدال في موقعك الإلكتروني باستخدام الكود التالي
                       </p>
                       <div className="relative">
@@ -1069,7 +1069,7 @@ export default function CustomizeReplacementPage() {
                   <div className="v7-neu-card p-6 rounded-xl">
                     <h3 className="text-lg font-medium mb-4">واجهة برمجة التطبيقات (API)</h3>
                     <div className="space-y-4">
-                      <p className="text-sm text-[#6d6a67]">
+                      <p className="text-sm text-gry">
                         يمكنك استخدام واجهة برمجة التطبيقات (API) للتكامل مع أنظمتك الأخرى
                       </p>
                       <div className="relative">

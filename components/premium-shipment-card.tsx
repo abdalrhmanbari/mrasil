@@ -20,6 +20,7 @@ export function PremiumShipmentCard({ id, from, to, status, date, time }: Premiu
           bgColor: "bg-green-100",
           textColor: "text-green-600",
           borderColor: "border-green-200",
+          
         }
       case "transit":
         return {

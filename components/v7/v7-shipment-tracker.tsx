@@ -59,12 +59,12 @@ export function V7ShipmentTracker({ theme }: V7ShipmentTrackerProps) {
 
           <div className="mb-4 flex items-center justify-between text-sm">
             <div className="flex items-center gap-1">
-              <MapPin className="h-4 w-4 text-[#6d6a67]" />
+              <MapPin className="h-4 w-4 text-gry" />
               <span>الرياض</span>
             </div>
             <div className="h-px w-16 bg-gray-300"></div>
             <div className="flex items-center gap-1">
-              <MapPin className="h-4 w-4 text-[#6d6a67]" />
+              <MapPin className="h-4 w-4 text-gry" />
               <span>جدة</span>
             </div>
           </div>
@@ -78,7 +78,7 @@ export function V7ShipmentTracker({ theme }: V7ShipmentTrackerProps) {
               </div>
               <div>
                 <div className="text-sm font-medium">تم استلام الشحنة</div>
-                <div className="text-xs text-[#6d6a67]">15 أبريل، 10:30 ص</div>
+                <div className="text-xs text-gry">15 أبريل، 10:30 ص</div>
               </div>
             </div>
 
@@ -88,7 +88,7 @@ export function V7ShipmentTracker({ theme }: V7ShipmentTrackerProps) {
               </div>
               <div>
                 <div className="text-sm font-medium">غادرت المستودع</div>
-                <div className="text-xs text-[#6d6a67]">15 أبريل، 2:45 م</div>
+                <div className="text-xs text-gry">15 أبريل، 2:45 م</div>
               </div>
             </div>
 
@@ -98,7 +98,7 @@ export function V7ShipmentTracker({ theme }: V7ShipmentTrackerProps) {
               </div>
               <div>
                 <div className="text-sm font-medium">جاري التوصيل</div>
-                <div className="text-xs text-[#6d6a67]">16 أبريل، 9:15 ص</div>
+                <div className="text-xs text-gry">16 أبريل، 9:15 ص</div>
               </div>
             </div>
 
@@ -107,8 +107,8 @@ export function V7ShipmentTracker({ theme }: V7ShipmentTrackerProps) {
                 <Package className="h-4 w-4 text-gray-400" />
               </div>
               <div>
-                <div className="text-sm font-medium text-[#6d6a67]">تم التسليم</div>
-                <div className="text-xs text-[#6d6a67]">قريباً</div>
+                <div className="text-sm font-medium text-gry">تم التسليم</div>
+                <div className="text-xs text-gry">قريباً</div>
               </div>
             </div>
           </div>
@@ -117,8 +117,8 @@ export function V7ShipmentTracker({ theme }: V7ShipmentTrackerProps) {
 
       {!isTracking && (
         <div className="flex flex-col items-center justify-center rounded-xl v7-neu-card-inset p-6 text-center">
-          <Package className="mb-2 h-10 w-10 text-[#6d6a67]" />
-          <p className="text-sm text-[#6d6a67]">أدخل رقم الشحنة لمعرفة حالتها وموقعها الحالي</p>
+          <Package className="mb-2 h-10 w-10 text-gry" />
+          <p className="text-sm text-gry">أدخل رقم الشحنة لمعرفة حالتها وموقعها الحالي</p>
         </div>
       )}
     </div>

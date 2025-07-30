@@ -31,13 +31,13 @@ export function V7WelcomeBanner({ theme }: V7WelcomeBannerProps) {
       <div className="relative z-10 flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-2xl font-bold tracking-tight md:text-3xl text-[#294D8B]">مرحباً، {name}</h1>
-          <p className="text-[#6d6a67]">مرحباً بك في لوحة تحكم مراسيل المطورة</p>
+          <p className="text-gry">مرحباً بك في لوحة تحكم مراسيل المطورة</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Button className="v7-neu-button gap-2" onClick={() => router.push("/reports")}>
+          {/* <Button className="v7-neu-button gap-2" onClick={() => router.push("/reports")}>
             <TrendingUp className="h-5 w-5" />
             <span>تقرير الأداء</span>
-          </Button>
+          </Button> */}
           <Button className="v7-neu-button-accent gap-2" onClick={() => router.push("/create-shipment")}>
             <Plus className="h-5 w-5" />
             <span>إنشاء شحنة جديدة</span>

@@ -154,9 +154,9 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
   return (
     <>
       <Card className={`${cardClass} v7-neu-card border-none overflow-hidden h-full`}>
-        <CardContent className="p-5 h-full flex flex-col">
+        <CardContent className="py-1 h-full flex flex-col">
           <div className="flex items-center justify-between mb-3">
-            <h3 className={`font-bold text-3xl ${textColor}`}>{title}</h3>
+            <h3 className={`font-bold text-2xl ${textColor}`}>{title}</h3>
             <div
               className={`v7-neu-icon ${bgColor} p-3 rounded-lg shadow-md flex items-center justify-center relative overflow-hidden`}
               style={{
@@ -170,12 +170,12 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
             </div>
           </div>
           {/* Stats fill the card vertically with space between */}
-          <div className="flex flex-col flex-1 justify-between min-h-[180px]">
+          <div className="flex flex-col gap-2 flex-1 justify-between ">
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col flex-1 justify-center">
                 <div className="flex items-center justify-between mb-1">
                   <span className={`text-xl font-medium ${labelTextColor}`}>{stat.label}</span>
-                  <span className={`font-bold text-2xl ${isDark ? "text-white" : "text-gray-800"}`}>{stat.value}</span>
+                  <span className={`font-bold text-xl ${isDark ? "text-white" : "text-gray-800"}`}>{stat.value}</span>
                 </div>
                 {stat.progress !== undefined && (
                   <div className={`w-full h-2.5 ${progressBgColor} rounded-full overflow-hidden`}>

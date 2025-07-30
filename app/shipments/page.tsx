@@ -391,10 +391,10 @@ export default function ShipmentsPage() {
         <div className="space-y-8 pb-20">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-[#294D8B]">شحناتي</h1>
-              <p className="text-sm text-[#6d6a67]">إدارة ومتابعة جميع شحناتك</p>
+              <h1 className="text-4xl font-bold text-[#294D8B]">شحناتي</h1>
+              <p className="text-base text-[#6d6a67]">إدارة ومتابعة جميع شحناتك</p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 ">
               <Link href="/create-shipment">
                 <Button className="v7-neu-button">
                   <Plus className="ml-2 h-4 w-4" />
@@ -416,7 +416,7 @@ export default function ShipmentsPage() {
               color="success"
               theme="light"
             />
-            <V7ShipmentStatus title="جاري التوصيل" count={transitCount} icon={Truck} color="warning" theme="light" />
+            <V7ShipmentStatus title="جاري التوصيل" count={transitCount} icon={Truck} color="warning" theme="light"  />
             <V7ShipmentStatus title="جاهز للشحن" count={readyCount} icon={Package} color="info" theme="light" />
             <V7ShipmentStatus
               title="قيد المعالجة"
@@ -431,27 +431,28 @@ export default function ShipmentsPage() {
             <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <TabsList className="v7-neu-tabs">
-                  <TabsTrigger value="all" className="v7-neu-tab">
+                  <TabsTrigger value="all" className="v7-neu-tab  text-lg text-gry">
                     جميع الشحنات
                   </TabsTrigger>
-                  <TabsTrigger value="active" className="v7-neu-tab">
+                  <TabsTrigger value="active" className="v7-neu-tab  text-lg text-gry ">
                     النشطة
                   </TabsTrigger>
-                  <TabsTrigger value="delivered" className="v7-neu-tab">
+                  <TabsTrigger value="delivered" className="v7-neu-tab  text-lg text-gry ">
                     المسلمة
                   </TabsTrigger>
-                  <TabsTrigger value="processing" className="v7-neu-tab">
+                  <TabsTrigger value="processing" className="v7-neu-tab  text-lg text-gry ">
                     قيد المعالجة
                   </TabsTrigger>
                 </TabsList>
 
                 <div className="flex gap-2">
-                  <div className="relative v7-neu-input-container flex-1 min-w-[200px]">
+                  <div className="relative v7-neu-input-container flex-1 min-w-[240px]">
                     <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
                     <input
+                    dir="rtl"
                       type="search"
-                      placeholder="البحث برقم الشحنة..."
-                      className="v7-neu-input w-full pr-12"
+                      placeholder="البحث برقم الشحنة ... " 
+                      className="v7-neu-input w-full pr-12 pe-4 text-gry  text-base "
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -507,7 +508,7 @@ export default function ShipmentsPage() {
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" className="v7-neu-button-sm">
+                      <Button variant="outline" className="v7-neu-button-sm ">
                         <ArrowUpDown className="h-4 w-4 md:mr-2" />
                         <span className="sr-only md:not-sr-only">ترتيب</span>
                       </Button>

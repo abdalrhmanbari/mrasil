@@ -26,7 +26,7 @@ const RegionMapWithNoSSR = dynamic(() => import("@/components/v7/maps/region-map
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center bg-[#f0f4f8] rounded-lg">
-      <div className="text-[#6d6a67]">جاري تحميل الخريطة...</div>
+      <div className="text-gry">جاري تحميل الخريطة...</div>
     </div>
   ),
 })
@@ -99,7 +99,7 @@ export function ReportsContent() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div>
             <h3 className="text-xl font-bold text-[#3498db]">تقارير الأداء</h3>
-            <p className="text-sm text-[#6d6a67]">تحليل أداء الشحنات والمبيعات</p>
+            <p className="text-sm text-gry">تحليل أداء الشحنات والمبيعات</p>
           </div>
           <div className="flex gap-4">
             <Select defaultValue="month" onValueChange={setTimeRange}>
@@ -162,7 +162,7 @@ export function ReportsContent() {
               <Card className="v7-neu-card-sm">
                 <CardHeader className="pb-3 border-b border-[#e6edf3] px-4 pt-4 bg-[#edf2f7] v7-neu-card-header min-h-[90px] flex flex-col justify-center">
                   <CardTitle className="text-lg font-semibold text-[#3498db]">إجمالي الشحنات</CardTitle>
-                  <CardDescription className="text-[#6d6a67] mt-1">آخر 30 يوم</CardDescription>
+                  <CardDescription className="text-gry mt-1">آخر 30 يوم</CardDescription>
                 </CardHeader>
                 <CardContent className="p-3 bg-[#edf2f7] v7-neu-card-inner h-[70px] flex flex-col justify-center">
                   <div className="text-2xl font-bold text-[#3498db]">82</div>
@@ -173,7 +173,7 @@ export function ReportsContent() {
               <Card className="v7-neu-card-sm">
                 <CardHeader className="pb-3 border-b border-[#e6edf3] px-4 pt-4 bg-[#edf2f7] v7-neu-card-header min-h-[90px] flex flex-col justify-center">
                   <CardTitle className="text-lg font-semibold text-[#3498db]">متوسط وقت التوصيل</CardTitle>
-                  <CardDescription className="text-[#6d6a67] mt-1">آخر 30 يوم</CardDescription>
+                  <CardDescription className="text-gry mt-1">آخر 30 يوم</CardDescription>
                 </CardHeader>
                 <CardContent className="p-3 bg-[#edf2f7] v7-neu-card-inner h-[70px] flex flex-col justify-center">
                   <div className="text-2xl font-bold text-[#3498db]">1.8 يوم</div>
@@ -184,7 +184,7 @@ export function ReportsContent() {
               <Card className="v7-neu-card-sm">
                 <CardHeader className="pb-3 border-b border-[#e6edf3] px-4 pt-4 bg-[#edf2f7] v7-neu-card-header min-h-[90px] flex flex-col justify-center">
                   <CardTitle className="text-lg font-semibold text-[#3498db]">الإيرادات</CardTitle>
-                  <CardDescription className="text-[#6d6a67] mt-1">آخر 30 يوم</CardDescription>
+                  <CardDescription className="text-gry mt-1">آخر 30 يوم</CardDescription>
                 </CardHeader>
                 <CardContent className="p-3 bg-[#edf2f7] v7-neu-card-inner h-[70px] flex flex-col justify-center">
                   <div className="text-2xl font-bold text-[#3498db]">3,450 ريال</div>
@@ -195,7 +195,7 @@ export function ReportsContent() {
               <Card className="v7-neu-card-sm">
                 <CardHeader className="pb-3 border-b border-[#e6edf3] px-4 pt-4 bg-[#edf2f7] v7-neu-card-header min-h-[90px] flex flex-col justify-center">
                   <CardTitle className="text-lg font-semibold text-[#3498db]">رضا العملاء</CardTitle>
-                  <CardDescription className="text-[#6d6a67] mt-1">آخر 30 يوم</CardDescription>
+                  <CardDescription className="text-gry mt-1">آخر 30 يوم</CardDescription>
                 </CardHeader>
                 <CardContent className="p-3 bg-[#edf2f7] v7-neu-card-inner h-[70px] flex flex-col justify-center">
                   <div className="text-2xl font-bold text-[#3498db]">96%</div>
@@ -211,7 +211,7 @@ export function ReportsContent() {
                     <LineChartIcon className="h-5 w-5 text-[#3498db]" />
                     <span>اتجاهات الشحن</span>
                   </CardTitle>
-                  <CardDescription className="text-[#6d6a67]">عدد الشحنات خلال آخر 30 يوم</CardDescription>
+                  <CardDescription className="text-gry">عدد الشحنات خلال آخر 30 يوم</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6">
                   <V7ShipmentLineChart data={shipmentData} />
@@ -224,7 +224,7 @@ export function ReportsContent() {
                     <MapIcon className="h-5 w-5 text-[#3498db]" />
                     <span>توزيع الشحنات</span>
                   </CardTitle>
-                  <CardDescription className="text-[#6d6a67]">توزيع الشحنات حسب المناطق</CardDescription>
+                  <CardDescription className="text-gry">توزيع الشحنات حسب المناطق</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6 h-[400px] relative">
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg overflow-hidden v7-neu-card-inner">
@@ -245,7 +245,7 @@ export function ReportsContent() {
                     <BarChartIcon className="h-5 w-5 text-[#3498db]" />
                     <span>تحليل الشحنات</span>
                   </CardTitle>
-                  <CardDescription className="text-[#6d6a67]">تحليل تفصيلي لأداء الشحنات</CardDescription>
+                  <CardDescription className="text-gry">تحليل تفصيلي لأداء الشحنات</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6">
                   <BarChart data={shipmentData} dataKey="شحنات" />
@@ -258,7 +258,7 @@ export function ReportsContent() {
                     <PieChartIcon className="h-5 w-5 text-[#3498db]" />
                     <span>أنواع الشحنات</span>
                   </CardTitle>
-                  <CardDescription className="text-[#6d6a67]">توزيع الشحنات حسب النوع</CardDescription>
+                  <CardDescription className="text-gry">توزيع الشحنات حسب النوع</CardDescription>
                 </CardHeader>
                 <CardContent className="p-6">
                   <PieChart data={shipmentTypeData} dataKey="value" />
@@ -272,7 +272,7 @@ export function ReportsContent() {
                   <LineChartIcon className="h-5 w-5 text-[#3498db]" />
                   <span>تكلفة الشحن حسب المسافة</span>
                 </CardTitle>
-                <CardDescription className="text-[#6d6a67]">العلاقة بين المسافة وتكلفة الشحن</CardDescription>
+                <CardDescription className="text-gry">العلاقة بين المسافة وتكلفة الشحن</CardDescription>
               </CardHeader>
               <CardContent className="p-6">
                 <ScatterChart data={shippingCostData} xAxisDataKey="مسافة" yAxisDataKey="تكلفة" />
@@ -287,7 +287,7 @@ export function ReportsContent() {
                   <LineChartIcon className="h-5 w-5 text-[#3498db]" />
                   <span>التحليل المالي</span>
                 </CardTitle>
-                <CardDescription className="text-[#6d6a67]">تحليل تفصيلي للأداء المالي</CardDescription>
+                <CardDescription className="text-gry">تحليل تفصيلي للأداء المالي</CardDescription>
               </CardHeader>
               <CardContent className="p-6">
                 <PaymentLineChart data={monthlyPaymentData} />
@@ -302,7 +302,7 @@ export function ReportsContent() {
                   <BarChartIcon className="h-5 w-5 text-[#3498db]" />
                   <span>العملاء الجدد</span>
                 </CardTitle>
-                <CardDescription className="text-[#6d6a67]">عدد العملاء الجدد شهرياً</CardDescription>
+                <CardDescription className="text-gry">عدد العملاء الجدد شهرياً</CardDescription>
               </CardHeader>
               <CardContent className="p-6">
                 <div className="h-[400px]">

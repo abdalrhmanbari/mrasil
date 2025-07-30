@@ -35,7 +35,7 @@ export default function CreateReplacementPage() {
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-bold">إنشاء طلب استبدال</h1>
-          <p className="text-[#6d6a67]">إنشاء طلب استبدال جديد للمنتجات</p>
+          <p className="text-gry">إنشاء طلب استبدال جديد للمنتجات</p>
         </div>
         <Button variant="outline" className="v7-neu-button" onClick={() => router.push(routes.replacements)}>
           <X className="mr-2 h-4 w-4" />
@@ -207,23 +207,23 @@ export default function CreateReplacementPage() {
                   <h3 className="mb-3 text-lg font-medium">معلومات المنتج الأصلي</h3>
                   <div className="grid gap-2">
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">رقم الطلب:</span>
+                      <span className="text-gry">رقم الطلب:</span>
                       <span className="font-medium">ORD-2023-5678</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">اسم المنتج:</span>
+                      <span className="text-gry">اسم المنتج:</span>
                       <span className="font-medium">سماعات بلوتوث</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">رمز المنتج:</span>
+                      <span className="text-gry">رمز المنتج:</span>
                       <span className="font-medium">BT-HEADSET-001</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">سعر المنتج:</span>
+                      <span className="text-gry">سعر المنتج:</span>
                       <span className="font-medium">250 ريال</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">سبب الاستبدال:</span>
+                      <span className="text-gry">سبب الاستبدال:</span>
                       <span className="font-medium">منتج معيب</span>
                     </div>
                   </div>
@@ -233,23 +233,23 @@ export default function CreateReplacementPage() {
                   <h3 className="mb-3 text-lg font-medium">معلومات المنتج البديل</h3>
                   <div className="grid gap-2">
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">اسم المنتج:</span>
+                      <span className="text-gry">اسم المنتج:</span>
                       <span className="font-medium">سماعات بلوتوث - موديل متطور</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">رمز المنتج:</span>
+                      <span className="text-gry">رمز المنتج:</span>
                       <span className="font-medium">BT-HEADSET-PRO</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">سعر المنتج:</span>
+                      <span className="text-gry">سعر المنتج:</span>
                       <span className="font-medium">300 ريال</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">فرق السعر:</span>
+                      <span className="text-gry">فرق السعر:</span>
                       <span className="font-medium text-[#294D8B]">+50 ريال</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#6d6a67]">طريقة الدفع:</span>
+                      <span className="text-gry">طريقة الدفع:</span>
                       <span className="font-medium">بطاقة ائتمان</span>
                     </div>
                   </div>
@@ -281,7 +281,7 @@ export default function CreateReplacementPage() {
               )}
 
               {step < 3 ? (
-                <Button type="button" className="v7-neu-button-accent" onClick={handleNext}>
+                <Button type="button" className="v7-neu-button-accent " onClick={handleNext}>
                   التالي
                   <ArrowRight className="mr-2 h-4 w-4" />
                 </Button>

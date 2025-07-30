@@ -56,7 +56,7 @@ export function V7QuickActions({ theme }: V7QuickActionsProps) {
     <div className="v7-neu-card p-3 sm:p-4 md:p-6 rounded-xl v7-fade-in" style={{ transitionDelay: "0.4s" }}>
       <div className="mb-2 sm:mb-3 md:mb-4">
         <h3 className="text-base sm:text-lg md:text-xl font-bold text-[#294D8B]">إجراءات سريعة</h3>
-        <p className="text-[10px] sm:text-xs text-[#6d6a67]">الوصول السريع للخدمات الشائعة</p>
+        <p className="text-[10px] sm:text-xs text-gry">الوصول السريع للخدمات الشائعة</p>
       </div>
       <div className="grid grid-cols-3 gap-1.5 sm:gap-2 md:gap-3">
         {actions.map((action, i) => (

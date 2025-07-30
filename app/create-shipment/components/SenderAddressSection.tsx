@@ -95,7 +95,7 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
         <div className="v7-neu-icon-sm">
           <Building className="h-5 w-5 text-[#3498db]" />
         </div>
-        <h3 className="text-xl font-bold text-gray-800">اختر عنوان المرسل</h3>
+        <h3 className="text-3xl font-bold text-gray-800">اختر عنوان المرسل</h3>
       </div>
       <div className="flex flex-col md:flex-row gap-3 mb-4">
         <div className="relative flex-1">
@@ -114,7 +114,7 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
         <button
           type="button"
           onClick={() => setOpenAddSenderModal(true)}
-          className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-4 py-2 rounded-lg text-white font-bold flex items-center gap-2"
+          className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-8 py-2 rounded-lg text-white font-bold flex items-center gap-2"
         >
           + عنوان  مرسل جديد
         </button>
@@ -170,17 +170,17 @@ export function SenderAddressSection({ selectedSender, setSelectedSender, setVal
               </Button>
             </div>
             <div className="flex flex-col gap-3 pt-2">
-              <div className="font-bold text-lg">{card.name}</div>
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="font-bold text-2xl">{card.name}</div>
+              <div className="flex items-center gap-2 text-lg text-gray-700">
                 <Phone className="h-4 w-4 text-[#3498db]" />
                 <span>{card.mobile}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="flex items-center gap-2 text-lg text-gray-700">
                 <MapPin className="h-4 w-4 text-[#3498db]" />
                 <span>{card.city}</span>
               </div>
-              {card.address && <div className="text-sm text-gray-700">{card.address}</div>}
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+              {card.address && <div className="text-lg text-gray-700">{card.address}</div>}
+              <div className="flex items-center gap-2 text-base text-gray-500">
                 <Mail className="h-4 w-4 text-[#3498db]" />
                 <span>{card.email}</span>
               </div>

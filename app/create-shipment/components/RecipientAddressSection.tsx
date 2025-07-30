@@ -127,7 +127,7 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
   return (
     <motion.div variants={staggerChildren}>
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-[#1a365d]">اختر المستلم</h2>
+        <h2 className="text-3xl font-semibold text-[#1a365d]">اختر المستلم</h2>
       </div>
       <div className="flex flex-row items-center gap-3 mb-4">
         <div className="relative flex-1">
@@ -139,14 +139,14 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
             placeholder="ابحث ضمن عناوين العملاء"
             value={searchRecipient}
             onChange={e => setSearchRecipient(e.target.value)}
-            className="pr-16   m-v7-neu-input"
+            className="pr-16    m-v7-neu-input"
             style={{ direction: 'rtl', fontFamily: 'inherit' }}
           />
         </div>
         <Button
           type="button"
           onClick={() => setOpenRecipientModal(true)}
-          className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-4 py-2 rounded-lg text-white font-bold flex items-center gap-2"
+          className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-8 py-2 rounded-lg text-white font-bold flex items-center gap-2"
         >
            + عنوان  مستلم جديد
         </Button>
@@ -196,22 +196,22 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
               </Button>
             </div>
             <div className="flex flex-col gap-3 pt-2">
-              <div className="font-bold text-lg">{card.clientName}</div>
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="font-bold text-2xl">{card.clientName}</div>
+              <div className="flex items-center gap-2 text-lg text-gray-700">
                 <Phone className="h-4 w-4 text-[#3498db]" />
                 <span>{card.clientPhone}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="flex items-center gap-2 text-lg text-gray-700">
                 <MapPin className="h-4 w-4 text-[#3498db]" />
                 <span>{card.city}{card.clientAddress ? `، ${card.clientAddress}` : ''}</span>
               </div>
               {card.district && (
-                <div className="flex items-center gap-2 text-sm text-gray-700">
+                <div className="flex items-center gap-2 text-lg text-gray-700">
                   <span className="font-bold">الحي/المنطقة:</span>
                   <span>{card.district}</span>
                 </div>
               )}
-              <div className="flex items-center gap-2 text-sm text-gray-500">
+              <div className="flex items-center gap-2 text-lg text-gray-500">
                 <Mail className="h-4 w-4 text-[#3498db]" />
                 <span>{card.clientEmail}</span>
               </div>

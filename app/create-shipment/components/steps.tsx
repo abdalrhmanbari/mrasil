@@ -28,8 +28,8 @@ import { AddRecipientForm } from "../components/AddRecipientForm"
 import { SenderAddressSection } from "./SenderAddressSection"
 import { RecipientAddressSection } from "./RecipientAddressSection"
 import { ParcelSizeSection } from "./ParcelSizeSection"
-import { CarrierCard } from "./CarrierCard";
-import { OrderSummaryAndFragileTips } from "./OrderSummaryAndFragileTips";
+import  CarrierCard  from "./CarrierCard";
+import  {OrderSummaryAndFragileTips}  from "./OrderSummaryAndFragileTips";
 
 const cities = [
   "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",
@@ -220,7 +220,7 @@ export function CreateShipmentSteps() {
 
   return (
     <FormProvider {...methods}>
-      <div className="space-y-8">
+      <div className="space-y-8 ">
         <div className="space-y-8 pb-20 max-w-6xl mx-auto">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -232,35 +232,37 @@ export function CreateShipmentSteps() {
           </div>
         </div>
 
-        <div className="v7-neu-card p-8 md:p-10 rounded-2xl bg-[#EFF2F7] shadow-[0_10px_50px_-12px_rgba(52,152,219,0.25)] border border-[#3498db]/15 relative overflow-hidden">
+        <div className="v7-neu-card p-8    md:p-10 rounded-2xl bg-[#EFF2F7] shadow-[0_10px_50px_-12px_rgba(52,152,219,0.25)] border border-[#3498db]/15 relative overflow-hidden">
           <div className="relative">
             {/* Progress Steps */}
             <div className="mb-10">
-              <div className="flex justify-between relative">
+              <div className="flex items-center justify-between relative">
                 {/* Connection line between steps */}
-                <div className="absolute top-7 left-0 right-0 h-1 bg-gray-200"></div>
+                <div className="absolute top-7 left-0  right-10 h-1 bg-gray-200 max-w-[80rem] "></div>
                 {/* Progress line */}
                 <div
-                  className="absolute top-7 rtl:right-0 ltr:left-0"
+                  className="absolute top-7 rtl:right-1 ltr:left-0 "
                   style={{
-                    width: `${(step - 1) * 50}%`,
+                    width: `${(step - 1) * 50}%  `,
                     height: '4px',
-                    background: 'linear-gradient(to left, #3498db, #2980b9)',
+                    background: 'linear-gradient(to left, #3498db, #2980b9) ',
                     borderRadius: '2px',
-                    transition: 'all 0.5s'
+                    transition: 'all 0.5s',
+                    overflow:"hidden"
+            
                   }}
                 />
 
                 {/* Step 1 */}
                 <div
-                  className={`flex flex-col items-center relative z-10 ${step >= 1 ? "text-[#3498db]" : "text-[#6d6a67]"}`}
+                  className={`flex flex-col items-center   relative z-10 ${step >= 1 ? "text-[#3498db]" : "text-gry"}`}
                 >
                   <div
-                    className={`h-14 w-14 rounded-full flex items-center justify-center transition-all duration-500 ${
+                    className={`h-14 w-14 rounded-full flex items-center justify-center transition-all duration-500   ${
                       step === 1
-                        ? "bg-gradient-to-br from-[#3498db]/80 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
+                        ? "bg-gradient-to-br from-[#3498db]/95 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
                         : step > 1
-                          ? "bg-gradient-to-br from-[#3498db]/80 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
+                          ? "bg-gradient-to-br from-[#3498db]/95 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
                           : "v7-neu-icon-sm"
                     }`}
                   >
@@ -271,14 +273,14 @@ export function CreateShipmentSteps() {
 
                 {/* Step 2 */}
                 <div
-                  className={`flex flex-col items-center relative z-10 ${step >= 2 ? "text-[#3498db]" : "text-[#6d6a67]"}`}
+                  className={`flex flex-col items-center relative z-10 ${step >= 2 ? "text-[#3498db]" : "text-gry"}`}
                 >
                   <div
                     className={`h-14 w-14 rounded-full flex items-center justify-center transition-all duration-500 ${
                       step === 2
-                        ? "bg-gradient-to-br from-[#3498db]/80 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
+                        ? "bg-gradient-to-br from-[#3498db]/95 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
                         : step > 2
-                          ? "bg-gradient-to-br from-[#3498db]/80 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
+                          ? "bg-gradient-to-br from-[#3498db]/95 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
                           : "v7-neu-icon-sm"
                     }`}
                   >
@@ -289,12 +291,12 @@ export function CreateShipmentSteps() {
 
                 {/* Step 3 */}
                 <div
-                  className={`flex flex-col items-center relative z-10 ${step >= 3 ? "text-[#3498db]" : "text-[#6d6a67]"}`}
+                  className={`flex flex-col items-center relative z-10 ${step >= 3 ? "text-[#3498db]" : "text-gry"}`}
                 >
                   <div
                     className={`h-14 w-14 rounded-full flex items-center justify-center transition-all duration-500 ${
                       step === 3
-                        ? "bg-gradient-to-br from-[#3498db]/80 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
+                        ? "bg-gradient-to-br from-[#3498db]/95 to-[#3498db] text-white shadow-lg shadow-[#3498db]/30"
                         : "v7-neu-icon-sm"
                     }`}
                   >
@@ -365,7 +367,7 @@ function Step1Content({ nextStep }: { nextStep: () => void }) {
         setValue={setValue}
       />
       <div className="flex justify-end mt-8">
-        <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db]">التالي</Button>
+        <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db] text-lg px-8 py-4">التالي</Button>
       </div>
     </form>
   )
@@ -444,30 +446,31 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
                 return (
                   <div
                     key={option.value}
-                    className={`
-                      flex-1 max-w-[220px] rounded-2xl p-6 cursor-pointer transition-all
-                      flex flex-col items-start border
+                    className={` v7-neu-card-inner p-4 cursor-pointer
+                      flex-1 max-w-[220px] rounded-2xl  transition-all
+                      flex flex-col items-start 
                       ${selected
-                        ? "bg-blue-50 border-blue-400 shadow-md"
-                        : "bg-white border-gray-200 hover:border-blue-300 hover:shadow"}
+                       ? " bg-gradient-to-br from-[#3498db]/5 to-[#3498db]/10"
+                        : "hover:bg-gradient-to-br hover:from-[#3498db]/5 hover:to-transparent"}
                     `}
                     onClick={() => setValue("paymentMethod", option.sendValue)}
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span
+                    <div className=" flex items-center  gap-2 mb-2">
+                      <span 
                         className={`
                           flex items-center justify-center w-6 h-6 rounded-full border-2
                           ${selected ? "border-blue-500 bg-white" : "border-gray-300 bg-white"}
                           transition-all
-                        `}
+                          `}
                       >
                         {selected ? (
                           <span className="block w-3 h-3 rounded-full bg-blue-500" />
                         ) : null}
                       </span>
-                      <span className={`font-bold text-lg ${selected ? "text-blue-700" : "text-gray-700"}`}> 
-                        {option.label}
-                      </span>
+                          <span className={`  font-bold text-lg ${selected ? "text-blue-700" : "text-gray-700"}`}> 
+                            {option.label}
+                          </span>
+  
                     </div>
                     <span className={`text-sm ${selected ? "text-gray-500" : "text-gray-400"}`}> 
                       {option.desc}
@@ -482,7 +485,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 ">
           {/* الوزن (كجم) */}
           <motion.div variants={fadeIn}>
-            <Label htmlFor="weight" className="text-xl font-bold text-[#3498db] m-0">
+            <Label htmlFor="weight" className="text-xl font-bold text-[#3498db] m-0 flex  items-center gap-4">
               <Scale className="h-5 w-5 text-[#3498db]" />
               الوزن (كجم)
             </Label>
@@ -502,7 +505,7 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
 
           {/* عدد الصناديق */}
           <motion.div variants={fadeIn}>
-            <Label htmlFor="Parcels" className="text-xl font-bold text-[#3498db] m-0">
+            <Label htmlFor="Parcels" className="text-xl font-bold text-[#3498db] m-0 flex  items-center gap-4">
               <Box className="h-5 w-5 text-[#3498db]" />
               عدد الصناديق
             </Label>
@@ -533,19 +536,18 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
 
           {/* وصف محتويات الشحنة */}
           <motion.div variants={fadeIn} className="col-span-1 md:col-span-2">
-            <Label htmlFor="orderDescription" className="text-xl font-bold text-[#3498db] m-0">
+            <Label htmlFor="orderDescription" className="text-xl font-bold text-[#3498db] m-0 flex  items-center gap-4">
               <FileText className="h-5 w-5 text-[#3498db]" />
               وصف محتويات الشحنة
             </Label>
             <div className="v7-neu-input-container mt-2">
               <textarea
-                {...register("orderDescription")}
+
                 placeholder="أدخل وصفاً لمحتويات الشحنة"
                 rows={4}
                 onFocus={() => setDescFocused(true)}
                 onBlur={() => setDescFocused(false)}
-                className="v7-neu-input text-base min-h-[120px]"
-                style={descFocused ? { boxShadow: '0 0 0 2px #3498db' } : {}}
+                className="v7-neu-input text-base min-h-[120px] "
               />
             </div>
               {errors.orderDescription && typeof errors.orderDescription.message === 'string' && <div className="text-red-500 text-sm mt-1">{errors.orderDescription.message}</div>}
@@ -595,11 +597,11 @@ function Step2Content({ nextStep, prevStep }: { nextStep: () => void, prevStep: 
           </div>
         </div>
         <div className="flex justify-between mt-8">
-          <Button type="button" onClick={prevStep} variant="outline" className="border-2 flex items-center gap-2">
+          <Button type="button" onClick={prevStep} variant="outline" className="border-2 flex items-center gap-2 text-lg px-8 py-4">
             <span>السابق</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
           </Button>
-          <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db]">
+          <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white text-lg px-8 py-4 hover:from-[#2980b9] hover:to-[#3498db] ">
             التالي
           </Button>
         </div>
@@ -618,10 +620,10 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
   // Shipment type tabs
   const shipmentTypes = [
     { label: "الشحن العادي", value: "Dry" },
-    { label: "الشحن البارد", value: "Cold" },
-    { label: "الشحن السريع", value: "Express" },
-    { label: "شحن الخزائن", value: "Lockers" },
     { label: "الشحن الدولي", value: "International" },
+    { label: "شحن الخزائن", value: "Lockers" },
+    { label: "الشحن السريع", value: "Express" },
+    { label: "الشحن البارد", value: "Cold" },
   ];
   const [selectedShipmentType, setSelectedShipmentType] = useState(values.shipmentType || "Dry");
   const selectedCompany = watch("company");
@@ -648,7 +650,7 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Shipping Type Tabs First */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-[#1a365d] flex items-center gap-2">
+        <h2 className="text-2xl font-semibold text-[#1a365d] flex items-center gap-2">
           <Package className="w-5 h-5 text-[#3498db]" />
           نوع الشحن
         </h2>
@@ -668,7 +670,7 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
       </div>
       {/* Carrier Cards Second */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-[#1a365d]">اختيار الناقل</h2>
+        <h2 className="text-2xl font-semibold text-[#1a365d]">اختيار الناقل</h2>
         <div className="flex flex-col gap-4">
           {isLoadingCompanies ? (
             <div>جاري التحميل...</div>
@@ -710,8 +712,8 @@ function Step3Content({ prevStep, onSubmit, selectedProvider, handleProviderSele
       <OrderSummaryAndFragileTips values={values} />
 
       <div className="flex justify-between mt-8">
-        <Button type="button" onClick={prevStep} variant="outline" className="border-2">السابق</Button>
-        <Button type="submit" className="bg-gradient-to-r from-[#3498db] to-[#2980b9] text-white hover:from-[#2980b9] hover:to-[#3498db]" disabled={isSubmitting}>
+        <Button type="button" onClick={prevStep} variant="outline" className="border-2 text-lg px-8 py-4">السابق</Button>
+        <Button type="submit" className="bg-gradient-to-r from-[#1e3a6c]  text-white  text-lg px-8 py-4 " disabled={isSubmitting}>
           {isSubmitting ? (
             <span>
               <svg className="inline w-4 h-4 mr-2 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>

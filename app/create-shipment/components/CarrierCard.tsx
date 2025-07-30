@@ -1,6 +1,6 @@
 import React from "react";
 
-export function CarrierCard({ company, selectedCompany, handleCompanySelect, logoSrc, firstType }: any) {
+export default function CarrierCard({ company, selectedCompany, handleCompanySelect, logoSrc, firstType }: any) {
   const isSelected = selectedCompany === company.company;
   return (
     <div

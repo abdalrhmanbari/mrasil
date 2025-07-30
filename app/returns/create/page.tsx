@@ -165,7 +165,7 @@ export default function CreateReturnPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-[#3498db] mb-2">إنشاء طلب رجيع</h1>
-              <p className="text-sm text-[#6d6a67]">قم بإنشاء طلب رجيع لمنتج أو عدة منتجات من طلباتك السابقة</p>
+              <p className="text-sm text-gry">قم بإنشاء طلب رجيع لمنتج أو عدة منتجات من طلباتك السابقة</p>
             </div>
             <button onClick={() => router.push(routes.returns)} className="v7-neu-button-flat flex items-center gap-2">
               <ArrowRight className="h-5 w-5" />
@@ -178,7 +178,7 @@ export default function CreateReturnPage() {
             {/* شريط التقدم */}
             <div className="mb-10">
               <div className="flex justify-between">
-                <div className={`flex flex-col items-center ${step >= 1 ? "text-[#3498db]" : "text-[#6d6a67]"}`}>
+                <div className={`flex flex-col items-center ${step >= 1 ? "text-[#3498db]" : "text-gry"}`}>
                   <div
                     className={`h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                       step > 1
@@ -199,7 +199,7 @@ export default function CreateReturnPage() {
                   ></div>
                 </div>
 
-                <div className={`flex flex-col items-center ${step >= 2 ? "text-[#3498db]" : "text-[#6d6a67]"}`}>
+                <div className={`flex flex-col items-center ${step >= 2 ? "text-[#3498db]" : "text-gry"}`}>
                   <div
                     className={`h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                       step > 2
@@ -220,7 +220,7 @@ export default function CreateReturnPage() {
                   ></div>
                 </div>
 
-                <div className={`flex flex-col items-center ${step >= 3 ? "text-[#3498db]" : "text-[#6d6a67]"}`}>
+                <div className={`flex flex-col items-center ${step >= 3 ? "text-[#3498db]" : "text-gry"}`}>
                   <div
                     className={`h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                       step > 3
@@ -241,7 +241,7 @@ export default function CreateReturnPage() {
                   ></div>
                 </div>
 
-                <div className={`flex flex-col items-center ${step >= 4 ? "text-[#3498db]" : "text-[#6d6a67]"}`}>
+                <div className={`flex flex-col items-center ${step >= 4 ? "text-[#3498db]" : "text-gry"}`}>
                   <div
                     className={`h-12 w-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                       step === 4 ? "v7-neu-icon-active" : "v7-neu-icon-sm"
@@ -288,10 +288,10 @@ export default function CreateReturnPage() {
                           >
                             <div className="flex justify-between items-center">
                               <h3 className="text-lg font-medium">{order.id}</h3>
-                              <span className="text-sm text-[#6d6a67]">{order.date}</span>
+                              <span className="text-sm text-gry">{order.date}</span>
                             </div>
                             <div className="mt-2">
-                              <p className="text-sm text-[#6d6a67]">
+                              <p className="text-sm text-gry">
                                 عدد المنتجات: {order.items.length} | الإجمالي: {order.total.toFixed(2)} ريال
                               </p>
                               <div className="mt-2 space-y-1">
@@ -305,7 +305,7 @@ export default function CreateReturnPage() {
                           </div>
                         ))
                       ) : (
-                        <div className="text-center py-8 text-[#6d6a67]">
+                        <div className="text-center py-8 text-gry">
                           <Package className="mx-auto h-10 w-10 mb-2 opacity-50" />
                           <p>لم يتم العثور على طلبات مطابقة</p>
                         </div>
@@ -360,7 +360,7 @@ export default function CreateReturnPage() {
                                 <Label htmlFor={item.id} className="text-base font-medium block cursor-pointer">
                                   {item.name}
                                 </Label>
-                                <div className="text-sm text-[#6d6a67] mt-1">
+                                <div className="text-sm text-gry mt-1">
                                   <span>
                                     الكمية: {item.quantity} | السعر: {item.price.toFixed(2)} ريال
                                   </span>

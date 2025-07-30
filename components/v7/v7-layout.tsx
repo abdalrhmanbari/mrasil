@@ -37,7 +37,7 @@ const getUserPermissions = () => {
   }
 }
 
-const V7Layout = ({ children, theme = "light" }: V7LayoutProps) => {
+export const V7Layout = ({ children, theme = "light" }: V7LayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">(theme as "light" | "dark")

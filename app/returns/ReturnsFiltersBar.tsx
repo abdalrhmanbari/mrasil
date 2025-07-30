@@ -45,7 +45,7 @@ const ReturnsFiltersBar: React.FC<ReturnsFiltersBarProps> = ({
         <div className="flex flex-wrap items-center gap-2 w-full lg:w-auto">
           {/* Search filter */}
           <div className="relative flex-1 min-w-[200px] v7-neu-input-container">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#6d6a67]" />
+            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gry" />
             <input
               type="text"
               placeholder="بحث عن رقم الرجيع أو المنتج..."

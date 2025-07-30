@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 import { V7AIChat } from "./v7-ai-chat"
 import { Sparkles, Lightbulb, Move, RotateCcw, Cpu, Zap } from "lucide-react"
-
+import Image from "next/image"
+import Ai from "../../public/Ai.png"
 export function V7FloatingAssistant() {
   const [isChatOpen, setIsChatOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
@@ -498,180 +499,11 @@ export function V7FloatingAssistant() {
               alignItems: "center",
               position: "relative",
               transition: "all 0.3s ease",
-              transform: isAnimating ? "translateY(-3px)" : isHovered ? "translateY(-2px)" : "translateY(0)",
+              // transform: isAnimating ? "translateY(-3px)" : isHovered ? "translateY(-2px)" : "translateY(0)",
             }}
           >
             {/* Robot head */}
-            <svg
-              viewBox="0 0 600 600"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{
-                width: "70px",
-                height: "70px",
-              }}
-            >
-              <g>
-                {/* Antenna */}
-                <circle
-                  cx="300"
-                  cy="100"
-                  r="60"
-                  fill={robotColors.main}
-                  className={isAnimating ? "animate-pulse" : ""}
-                />
-                <rect x="280" y="100" width="40" height="80" fill={robotColors.main} />
-
-                {/* Head outer shape */}
-                <path
-                  d="M150 180 C120 180 100 200 100 230 L100 450 C100 480 120 500 150 500 L450 500 C480 500 500 480 500 450 L500 230 C500 200 480 180 450 180 L150 180 Z"
-                  fill={robotColors.main}
-                  stroke={robotColors.white}
-                  strokeWidth="20"
-                  className={isHovered ? "animate-glow-subtle" : ""}
-                />
-
-                {/* Face inner shape */}
-                <rect x="150" y="230" width="300" height="220" rx="30" ry="30" fill={robotColors.main} />
-
-                {/* Ears */}
-                <circle
-                  cx="100"
-                  cy="320"
-                  r="50"
-                  fill={robotColors.main}
-                  className={isChatOpen ? "animate-pulse" : ""}
-                />
-                <circle
-                  cx="500"
-                  cy="320"
-                  r="50"
-                  fill={robotColors.main}
-                  className={isChatOpen ? "animate-pulse" : ""}
-                />
-
-                {/* Eyes - different expressions based on state */}
-                {facialExpression === "happy" || facialExpression === "excited" ? (
-                  // Happy/excited eyes (curved)
-                  <>
-                    <path
-                      d={blinking ? "M190 320 Q230 310 270 320" : "M190 320 Q230 290 270 320"}
-                      stroke={robotColors.white}
-                      strokeWidth="15"
-                      strokeLinecap="round"
-                      fill="transparent"
-                    />
-                    <path
-                      d={blinking ? "M330 320 Q370 310 410 320" : "M330 320 Q370 290 410 320"}
-                      stroke={robotColors.white}
-                      strokeWidth="15"
-                      strokeLinecap="round"
-                      fill="transparent"
-                    />
-                  </>
-                ) : facialExpression === "surprised" ? (
-                  // Surprised eyes (wide circles)
-                  <>
-                    <circle
-                      cx="230"
-                      cy="320"
-                      r="45"
-                      fill={robotColors.white}
-                      stroke={robotColors.main}
-                      strokeWidth="2"
-                    />
-                    <circle
-                      cx="370"
-                      cy="320"
-                      r="45"
-                      fill={robotColors.white}
-                      stroke={robotColors.main}
-                      strokeWidth="2"
-                    />
-                  </>
-                ) : facialExpression === "thinking" ? (
-                  // Thinking eyes (one normal, one squinted)
-                  <>
-                    <circle cx="230" cy="320" r="40" fill={robotColors.white} />
-                    <path
-                      d="M330 320 Q370 310 410 320"
-                      stroke={robotColors.white}
-                      strokeWidth="15"
-                      strokeLinecap="round"
-                      fill="transparent"
-                    />
-                  </>
-                ) : (
-                  // Default eyes (circles)
-                  <>
-                    <circle
-                      cx="230"
-                      cy="320"
-                      r="40"
-                      fill={robotColors.white}
-                      className={blinking ? "animate-blink" : ""}
-                    />
-                    <circle
-                      cx="370"
-                      cy="320"
-                      r="40"
-                      fill={robotColors.white}
-                      className={blinking ? "animate-blink" : ""}
-                    />
-                  </>
-                )}
-
-                {/* Mouth - different expressions based on state */}
-                {facialExpression === "happy" ? (
-                  // Big smile
-                  <path
-                    d="M230 400 Q300 460 370 400"
-                    stroke={robotColors.white}
-                    strokeWidth="20"
-                    strokeLinecap="round"
-                    fill="transparent"
-                  />
-                ) : facialExpression === "excited" || facialExpression === "amazed" ? (
-                  // Open mouth
-                  <circle cx="300" cy="410" r="30" fill={robotColors.white} />
-                ) : facialExpression === "surprised" ? (
-                  // Small O mouth
-                  <circle cx="300" cy="410" r="20" fill={robotColors.white} />
-                ) : facialExpression === "thinking" ? (
-                  // Straight line with slight curve
-                  <path
-                    d="M250 410 Q300 420 350 410"
-                    stroke={robotColors.white}
-                    strokeWidth="15"
-                    strokeLinecap="round"
-                    fill="transparent"
-                  />
-                ) : (
-                  // Default smile
-                  <path
-                    d="M250 400 Q300 440 350 400"
-                    stroke={robotColors.white}
-                    strokeWidth="20"
-                    strokeLinecap="round"
-                    fill="transparent"
-                  />
-                )}
-
-                {/* Microphone/speaker */}
-                <rect
-                  x="270"
-                  y="500"
-                  width="60"
-                  height="30"
-                  rx="15"
-                  ry="15"
-                  fill={robotColors.main}
-                  stroke={robotColors.white}
-                  strokeWidth="10"
-                  className={isChatOpen ? "animate-pulse" : ""}
-                />
-              </g>
-            </svg>
+              <Image alt="ai" src={Ai} className=" bg-none" />
           </div>
 
           {/* Canvas for animation effects */}
@@ -679,9 +511,9 @@ export function V7FloatingAssistant() {
 
           {/* Glow effect around the robot when hovered */}
           <div
-            className={`absolute inset-0 rounded-full transition-opacity duration-300 ${
-              isHovered ? "opacity-70" : "opacity-0"
-            }`}
+            className={`absolute inset-0 rounded-full transition-opacity duration-300  ${ isHovered ? "opacity-70" : "opacity-0"}
+              `
+          }
             style={{
               background: "radial-gradient(circle, rgba(79, 195, 247, 0.2) 0%, rgba(79, 195, 247, 0) 70%)",
               transform: "scale(1.2)",

@@ -75,7 +75,7 @@ export function CustomTrackingContent() {
                       </div>
                       <div>
                         <p className="text-sm font-medium">إظهار الهيدر</p>
-                        <p className="text-xs text-[#6d6a67]">شعار وعنوان الصفحة</p>
+                        <p className="text-xs text-gry">شعار وعنوان الصفحة</p>
                       </div>
                     </div>
                     <Switch
@@ -91,7 +91,7 @@ export function CustomTrackingContent() {
                       </div>
                       <div>
                         <p className="text-sm font-medium">إظهار الفوتر</p>
-                        <p className="text-xs text-[#6d6a67]">معلومات الاتصال والحقوق</p>
+                        <p className="text-xs text-gry">معلومات الاتصال والحقوق</p>
                       </div>
                     </div>
                     <Switch
@@ -107,7 +107,7 @@ export function CustomTrackingContent() {
                       </div>
                       <div>
                         <p className="text-sm font-medium">إظهار الجدول الزمني</p>
-                        <p className="text-xs text-[#6d6a67]">مراحل توصيل الشحنة</p>
+                        <p className="text-xs text-gry">مراحل توصيل الشحنة</p>
                       </div>
                     </div>
                     <Switch
@@ -172,7 +172,7 @@ export function CustomTrackingContent() {
                       value={trackingSettings.logo}
                       onChange={(e) => handleSettingChange("logo", e.target.value)}
                     />
-                    <p className="text-xs text-[#6d6a67] mt-1">أدخل رابط الشعار أو قم بتحميله</p>
+                    <p className="text-xs text-gry mt-1">أدخل رابط الشعار أو قم بتحميله</p>
                   </div>
                   <Button variant="outline" size="sm">
                     تحميل
@@ -195,7 +195,7 @@ export function CustomTrackingContent() {
                   value={trackingSettings.customCss}
                   onChange={(e) => handleSettingChange("customCss", e.target.value)}
                 />
-                <p className="text-xs text-[#6d6a67]">أضف أكواد CSS مخصصة لتخصيص مظهر صفحة التتبع</p>
+                <p className="text-xs text-gry">أضف أكواد CSS مخصصة لتخصيص مظهر صفحة التتبع</p>
               </div>
 
               <div className="space-y-2">
@@ -207,7 +207,7 @@ export function CustomTrackingContent() {
                   value={trackingSettings.customJs}
                   onChange={(e) => handleSettingChange("customJs", e.target.value)}
                 />
-                <p className="text-xs text-[#6d6a67]">أضف أكواد JavaScript مخصصة لإضافة وظائف إضافية</p>
+                <p className="text-xs text-gry">أضف أكواد JavaScript مخصصة لإضافة وظائف إضافية</p>
               </div>
             </div>
           </div>
@@ -227,7 +227,7 @@ export function CustomTrackingContent() {
           <Card className="v7-neu-card overflow-hidden">
             <CardHeader className="border-b bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
               <CardTitle className="text-[#3498db] text-lg md:text-xl">إعدادات التخصيص</CardTitle>
-              <CardDescription className="text-[#6d6a67]">قم بتخصيص مظهر صفحة التتبع لعملائك</CardDescription>
+              <CardDescription className="text-gry">قم بتخصيص مظهر صفحة التتبع لعملائك</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               {/* New Tab Navigation Style */}
@@ -279,7 +279,7 @@ export function CustomTrackingContent() {
             <Card className="v7-neu-card">
               <CardHeader className="border-b bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
                 <CardTitle className="text-[#3498db] text-lg">معاينة</CardTitle>
-                <CardDescription className="text-[#6d6a67]">شكل صفحة التتبع</CardDescription>
+                <CardDescription className="text-gry">شكل صفحة التتبع</CardDescription>
               </CardHeader>
               <CardContent className="p-4 md:p-6">
                 <div className="border rounded-md overflow-hidden">
@@ -289,7 +289,7 @@ export function CustomTrackingContent() {
                       <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
                       <div className="h-2 w-2 rounded-full bg-green-500"></div>
                     </div>
-                    <div className="text-xs text-[#6d6a67]">صفحة التتبع</div>
+                    <div className="text-xs text-gry">صفحة التتبع</div>
                   </div>
                   <div className="p-2 bg-white h-[300px] overflow-hidden">
                     <div className="flex flex-col h-full">
@@ -316,7 +316,7 @@ export function CustomTrackingContent() {
                           <div className="font-medium">
                             رقم التتبع: <span className="text-[#3498db]">SE123456789SA</span>
                           </div>
-                          <div className="text-[#6d6a67] text-[10px]">تم الشحن: 15 أبريل 2023</div>
+                          <div className="text-gry text-[10px]">تم الشحن: 15 أبريل 2023</div>
                         </div>
 
                         {trackingSettings.showTimeline && (
@@ -343,7 +343,7 @@ export function CustomTrackingContent() {
                           className="border-t p-1 flex justify-center"
                           style={{ backgroundColor: trackingSettings.secondaryColor }}
                         >
-                          <div className="text-[10px] text-[#6d6a67]">
+                          <div className="text-[10px] text-gry">
                             © {new Date().getFullYear()} {trackingSettings.companyName}
                           </div>
                         </div>
@@ -372,7 +372,7 @@ export function CustomTrackingContent() {
             <Card className="v7-neu-card">
               <CardHeader className="border-b bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
                 <CardTitle className="text-[#3498db] text-lg">كود التضمين</CardTitle>
-                <CardDescription className="text-[#6d6a67]">أضف كود التتبع إلى موقعك</CardDescription>
+                <CardDescription className="text-gry">أضف كود التتبع إلى موقعك</CardDescription>
               </CardHeader>
               <CardContent className="p-4 md:p-6">
                 <div className="space-y-4">
@@ -383,7 +383,7 @@ export function CustomTrackingContent() {
                     </Button>
                   </div>
 
-                  <p className="text-xs text-[#6d6a67]">
+                  <p className="text-xs text-gry">
                     قم بنسخ هذا الكود وإضافته إلى موقعك لعرض صفحة تتبع الشحنات المخصصة. استبدل{" "}
                     <code className="text-xs bg-[#f8f9fa] px-1 rounded">YOUR_TRACKING_ID</code> برقم التتبع الخاص
                     بالشحنة.

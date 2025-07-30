@@ -29,7 +29,7 @@ export function PaymentLineChart({ data, height = 300, totalDeposits, totalPayme
   if (!mounted) {
     return (
       <div className="flex items-center justify-center bg-[#f0f4f8] rounded-lg" style={{ height: `${height}px` }}>
-        <div className="text-[#6d6a67]">جاري تحميل الرسم البياني...</div>
+        <div className="text-gry">جاري تحميل الرسم البياني...</div>
       </div>
     )
   }

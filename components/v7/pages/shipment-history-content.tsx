@@ -307,7 +307,7 @@ export function ShipmentHistoryContent() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div>
             <h3 className="text-xl font-bold text-[#294D8B]">سجل الشحنات</h3>
-            <p className="text-sm text-[#6d6a67]">عرض وتصفية سجل الشحنات</p>
+            <p className="text-sm text-gry">عرض وتصفية سجل الشحنات</p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" className="v7-neu-button-sm gap-1">

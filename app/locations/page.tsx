@@ -109,7 +109,7 @@ export default function LocationsPage() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-bold text-[#294D8B]">العناوين</h1>
-            <p className="text-sm text-[#6d6a67]">مواقع الإستلام الخاصة بك</p>
+            <p className="text-sm text-gry">مواقع الإستلام الخاصة بك</p>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -132,7 +132,7 @@ export default function LocationsPage() {
         <div className={`v7-neu-card p-6 rounded-xl v7-fade-in ${isLoaded ? "opacity-100" : "opacity-0"}`}>
           <div className="flex flex-col md:flex-row md:items-center justify-start gap-4 mb-6">
             <div className="relative v7-neu-input-container md:w-1/3">
-              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#6d6a67]" />
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
               <input
                 type="search"
                 placeholder="ابحث عن موقع..."
@@ -183,9 +183,9 @@ export default function LocationsPage() {
                 ))
               ) : (
                 <div className="text-center py-12 md:col-span-2 lg:col-span-3">
-                  <MapPin className="mx-auto h-12 w-12 text-[#6d6a67] opacity-20" />
+                  <MapPin className="mx-auto h-12 w-12 text-gry opacity-20" />
                   <h3 className="mt-4 text-lg font-medium">لا توجد مواقع</h3>
-                  <p className="mt-2 text-sm text-[#6d6a67]">لم يتم العثور على مواقع تطابق معايير البحث</p>
+                  <p className="mt-2 text-sm text-gry">لم يتم العثور على مواقع تطابق معايير البحث</p>
                 </div>
               )}
             </div>
@@ -245,21 +245,21 @@ function AddressCard({ address, onEdit, onDelete, isFavorite, onToggleFavorite }
           {isFavorite ? (
             <Star className="h-5 w-5 text-amber-500 fill-amber-500" />
           ) : (
-            <StarOff className="h-5 w-5 text-[#6d6a67]" />
+            <StarOff className="h-5 w-5 text-gry" />
           )}
         </button>
       </div>
       <div className="space-y-3">
         <div className="flex items-start gap-2">
-          <MapPin className="h-4 w-4 text-[#6d6a67] mt-1" />
+          <MapPin className="h-4 w-4 text-gry mt-1" />
           <div className="text-sm">{address.location}</div>
         </div>
         <div className="flex items-center gap-2">
-          <Phone className="h-4 w-4 text-[#6d6a67]" />
+          <Phone className="h-4 w-4 text-gry" />
           <div className="text-sm">{address.phone}</div>
         </div>
         <div className="flex items-start gap-2">
-          <MapPin className="h-4 w-4 text-[#6d6a67] mt-1" />
+          <MapPin className="h-4 w-4 text-gry mt-1" />
           <div className="text-sm">
             <span className="font-medium">المدينة:</span> {address.city}
           </div>

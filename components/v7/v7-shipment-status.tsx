@@ -13,7 +13,7 @@ export function V7ShipmentStatus({ title, count, icon: Icon, color, theme }: V7S
   const getColorClass = () => {
     switch (color) {
       case "primary":
-        return "text-[#294D8B] bg-[#294D8B]/10"
+        return "text-[#294D8B] bg-[#294D8B]/10 "
       case "secondary":
         return "text-[#5791F4] bg-[#5791F4]/10"
       case "success":
@@ -38,7 +38,7 @@ export function V7ShipmentStatus({ title, count, icon: Icon, color, theme }: V7S
           <Icon className="h-4 sm:h-5 md:h-6 w-4 sm:w-5 md:w-6" />
         </div>
         <div className="flex-1">
-          <div className="text-xs sm:text-sm text-[#6d6a67]">{title}</div>
+          <div className="text-xs sm:text-lg text-gry">{title}</div>
           <div className="text-lg sm:text-xl md:text-2xl font-bold">{count}</div>
         </div>
       </div>

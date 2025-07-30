@@ -128,7 +128,7 @@ export default function ProfilePage() {
               <h2 className="text-xl font-bold">{profileData?.data.firstName} {profileData?.data.lastName}</h2>
 
               <div className="flex justify-center gap-2">
-                <div className="v7-neu-badge px-3 py-1 rounded-full text-xs text-[#6d6a67]">
+                <div className="v7-neu-badge px-3 py-1 rounded-full text-xs text-gry">
                   منذ {getMemberSince(profileData?.data.createdAt || '')}
                 </div>
               </div>
@@ -136,15 +136,15 @@ export default function ProfilePage() {
               <div className="pt-4 grid grid-cols-3 gap-2 text-center">
                 <div>
                   <div className="text-lg font-bold text-[#3498db]">{shipmentStats?.deliveredShipments ?? 0}</div>
-                  <div className="text-xs text-[#6d6a67]">شحنة</div>
+                  <div className="text-xs text-gry">شحنة</div>
                 </div>
                 <div>
                   <div className="text-lg font-bold text-[#3498db]">12</div>
-                  <div className="text-xs text-[#6d6a67]">دولة</div>
+                  <div className="text-xs text-gry">دولة</div>
                 </div>
                 <div>
                   <div className="text-lg font-bold text-[#3498db]">{shipmentStats?.totalShipments ? `${Math.round((shipmentStats.pendingShipments / shipmentStats.totalShipments) * 100)}%` : '0%'}</div>
-                  <div className="text-xs text-[#6d6a67]">تقييم</div>
+                  <div className="text-xs text-gry">تقييم</div>
                 </div>
               </div>
             </div>
@@ -463,7 +463,7 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">إشعارات البريد الإلكتروني</p>
-                          <p className="text-sm text-[#6d6a67]">استلام تحديثات الشحنات عبر البريد الإلكتروني</p>
+                          <p className="text-sm text-gry">استلام تحديثات الشحنات عبر البريد الإلكتروني</p>
                         </div>
                         <Switch id="email-notifications" defaultChecked />
                       </div>
@@ -471,7 +471,7 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">إشعارات الهاتف</p>
-                          <p className="text-sm text-[#6d6a67]">استلام تحديثات الشحنات عبر الرسائل النصية</p>
+                          <p className="text-sm text-gry">استلام تحديثات الشحنات عبر الرسائل النصية</p>
                         </div>
                         <Switch id="sms-notifications" />
                       </div>
@@ -479,7 +479,7 @@ export default function ProfilePage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium">إشعارات التطبيق</p>
-                          <p className="text-sm text-[#6d6a67]">استلام إشعارات داخل التطبيق</p>
+                          <p className="text-sm text-gry">استلام إشعارات داخل التطبيق</p>
                         </div>
                         <Switch id="app-notifications" defaultChecked />
                       </div>
@@ -527,7 +527,7 @@ export default function ProfilePage() {
         </div>
 
         {/* حقوق النشر */}
-        <div className="mt-8 text-center text-sm text-[#6d6a67]">© 2025 مراسيل</div>
+        <div className="mt-8 text-center text-sm text-gry">© 2025 مراسيل</div>
       </V7Content>
     </V7Layout>
   )
