@@ -33,6 +33,8 @@ import {
 } from "lucide-react"
 import { routes, isActiveRoute } from "@/lib/routes"
 import { useAuth } from '@/app/providers/AuthProvider'
+import { V7FloatingAssistant } from "./v7-floating-assistant"
+import { V7MobileNav } from "./v7-mobile-nav"
 
 type Language = 'ar' | 'en';
 
@@ -380,11 +382,10 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
     logout(); // This will clear auth state and redirect to login page
     onClose(); // Close the sidebar if it's open
   };
-
   return (
     <>
-      <aside className={`hidden md:block w-64 lg:w-72 flex-shrink-0 v7-neu-sidebar ${sidebarClass}`}>
-        <ScrollArea className="h-[calc(100vh-4rem)]">
+      <aside className={`hidden md:block w-64 lg:w-72 flex-shrink-0 v7-neu-sidebar    ${sidebarClass}`}>
+        <ScrollArea className="h-[calc(100vh-4rem)] ">
           <div className="flex h-full flex-col gap-2 p-4 sm:p-5">
             <div className="mb-3 px-3 text-base font-bold text-[#5791F4] uppercase tracking-wider">
               {currentTranslations.mainMenu}
@@ -559,8 +560,11 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             <span className="text-base">{currentTranslations.signOut}</span>
           </button>
         </div>
+        <div className=" flex justify-center items-center   ">
 
-        <div className="mt-auto">
+              <V7FloatingAssistant/>
+        </div>
+        {/* <div className="mt-auto">
           <div className="mt-6 rounded-xl v7-neu-card-support p-5 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#3498db]/10 to-transparent rounded-full transform translate-x-1/3 -translate-y-1/3"></div>
 
@@ -574,7 +578,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
               {currentTranslations.contactUs}
             </Button>
           </div>
-        </div>
+        </div> */}
       </aside>
       <Sheet open={open} onOpenChange={onClose}>
         <SheetContent side="right" className={`w-64 sm:w-72 flex-shrink-0 p-0 v7-neu-sidebar ${sidebarClass}`}>
@@ -603,7 +607,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
               </div>
 
               {/* تقسيم القائمة الرئيسية إلى مجموعات منطقية */}
-              <div className="space-y-1.5 mb-4">
+              <div className="space-y-1.5 mb-4 ">
                 {/* الصفحات الرئيسية */}
                 {navItems.slice(0, 4).map((item) => (
                   <button

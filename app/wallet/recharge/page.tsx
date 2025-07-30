@@ -2,6 +2,7 @@
 
 import type React from "react"
 
+import { useEffect } from "react";
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,8 +12,9 @@ import { useTheme } from "next-themes"
 import V7Layout from "@/components/v7/v7-layout"
 import { useRechargeWalletMutation, useRechargeWalletByBankMutation } from "@/app/api/walletApi"
 import { toast } from "@/hooks/use-toast"
-import { useEffect } from "react"
 import { AlertDialog, AlertDialogContent, AlertDialogAction } from "@/components/ui/alert-dialog"
+import PaymentForm from "@/app/parcels/components/PaymentForm"
+import MoyasarLoader from "@/app/parcels/components/MoyasarScriptLoader";
 
 export default function WalletRechargePage() {
   const router = useRouter()
@@ -95,6 +97,25 @@ export default function WalletRechargePage() {
       setCardYear(value)
     }
   }
+
+  function MoyasarScriptLoader() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.moyasar.com/mpf/1.8.4/moyasar.js";
+    script.async = true;
+    script.onload = () => {
+      console.log("Moyasar script loaded ✅");
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return null;
+}
+
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -474,8 +495,9 @@ export default function WalletRechargePage() {
             </div>
           )}
 
-
-
+            {/* <PaymentForm amount={2500} description="طلب رقم #302" /> */}
+  <h2>الدفع الإلكتروني</h2>
+      <MoyasarLoader />
           <div className="flex justify-center mt-8">
             <Button
               onClick={handleContinue}

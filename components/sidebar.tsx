@@ -90,7 +90,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <>
-      <aside className="hidden w-64 border-l bg-white shadow-sm md:block">
+      <aside className=" max-h-[20rem] w-64 border-l bg-white shadow-sm md:block">
         <ScrollArea className="h-[calc(100vh-4rem)]">
           <div className="flex h-full flex-col gap-1 p-4">
             {navItems.map((item) => (

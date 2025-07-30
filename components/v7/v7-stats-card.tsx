@@ -175,7 +175,7 @@ export function V7StatsCard({ title, icon: Icon, color, theme = "light", stats, 
               <div key={index} className="flex flex-col flex-1 justify-center">
                 <div className="flex items-center justify-between mb-1">
                   <span className={`text-xl font-medium ${labelTextColor}`}>{stat.label}</span>
-                  <span className={`font-bold text-xl ${isDark ? "text-white" : "text-gray-800"}`}>{stat.value}</span>
+                  <span className={`font-bold text-xl ${isDark ? "text-white" : "text-gray-800"}`}>{stat.value} </span>
                 </div>
                 {stat.progress !== undefined && (
                   <div className={`w-full h-2.5 ${progressBgColor} rounded-full overflow-hidden`}>

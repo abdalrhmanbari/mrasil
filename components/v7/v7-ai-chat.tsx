@@ -663,7 +663,7 @@ export function V7AIChat({ isOpen, onClose }: V7AIChatProps) {
   if (isMinimized) {
     return (
       <div
-        className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex items-center rounded-full shadow-lg cursor-pointer transition-all duration-300 hover:scale-105"
+        className="  bottom-4 right-0 sm:bottom-6 me-auto  justify-start sm:right-2 z-50 flex items-start rounded-full shadow-lg cursor-pointer transition-all duration-300 hover:scale-105"
         style={{
           backgroundColor: isDark ? "#1e293b" : "#e6f7ff",
           boxShadow: isDark
@@ -696,7 +696,7 @@ export function V7AIChat({ isOpen, onClose }: V7AIChatProps) {
   // عرض النافذة الكاملة
   return (
     <div
-      className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex flex-col rounded-2xl shadow-lg overflow-hidden"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col rounded-2xl shadow-lg overflow-hidden"
       style={{
         width: "400px", // زيادة العرض
         maxWidth: "calc(100vw - 32px)",

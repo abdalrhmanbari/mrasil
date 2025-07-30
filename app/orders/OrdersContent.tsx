@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Search,Filter,Package,Clock,CheckCircle,AlertCircle,XCircle,ChevronLeft,ChevronRight,Calendar,Truck,ShoppingBag,Edit,Plus,ArrowUpDown,CreditCard, Send,X,ChevronDown,Printer, Download,} from "lucide-react"
 import {
@@ -47,7 +45,7 @@ interface Order {
   __v: number;
 }
 
-export  function OrdersContent() {
+export default function OrdersContent() {
   const router = useRouter()
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null)
   const { data, isLoading, refetch } = useGetAllOrdersQuery()

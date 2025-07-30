@@ -36,30 +36,30 @@ export function V7FloatingAssistant() {
   }
 
   // استرجاع الموضع المحفوظ عند التحميل
-  useEffect(() => {
-    const savedPosition = localStorage.getItem("assistantPosition")
-    if (savedPosition) {
-      try {
-        const parsedPosition = JSON.parse(savedPosition)
+  // useEffect(() => {
+  //   const savedPosition = localStorage.getItem("assistantPosition")
+  //   if (savedPosition) {
+  //     try {
+  //       const parsedPosition = JSON.parse(savedPosition)
         // التحقق من أن الموضع داخل حدود الشاشة
-        if (isPositionValid(parsedPosition)) {
-          setPosition(parsedPosition)
-        } else {
+        // if (isPositionValid(parsedPosition)) {
+        //   setPosition(parsedPosition)
+        // } else {
           // إذا كان الموضع خارج الحدود، استخدم الموضع الافتراضي
-          resetPosition()
-        }
-      } catch (e) {
-        console.error("خطأ في تحليل موضع المساعد المحفوظ:", e)
-        resetPosition()
-      }
-    }
+    //       resetPosition()
+    //     }
+    //   } catch (e) {
+    //     console.error("خطأ في تحليل موضع المساعد المحفوظ:", e)
+    //     resetPosition()
+    //   }
+    // }
 
     // استمع لتغييرات حجم النافذة لضمان بقاء الأيقونة داخل الشاشة
-    window.addEventListener("resize", handleWindowResize)
-    return () => {
-      window.removeEventListener("resize", handleWindowResize)
-    }
-  }, [])
+  //   window.addEventListener("resize", handleWindowResize)
+  //   return () => {
+  //     window.removeEventListener("resize", handleWindowResize)
+  //   }
+  // }, [])
 
   // تأثير الرمش
   useEffect(() => {
@@ -83,35 +83,35 @@ export function V7FloatingAssistant() {
   }, [])
 
   // التحقق من صلاحية الموضع (داخل حدود الشاشة)
-  const isPositionValid = (pos) => {
-    if (!pos || typeof pos.x !== "number" || typeof pos.y !== "number") return false
+  // const isPositionValid = (pos) => {
+  //   if (!pos || typeof pos.x !== "number" || typeof pos.y !== "number") return false
 
     // الحصول على أبعاد النافذة
-    const windowWidth = typeof window !== "undefined" ? window.innerWidth : 0
-    const windowHeight = typeof window !== "undefined" ? window.innerHeight : 0
+    // const windowWidth = typeof window !== "undefined" ? window.innerWidth : 0
+    // const windowHeight = typeof window !== "undefined" ? window.innerHeight : 0
 
     // التحقق من أن الموضع داخل حدود الشاشة مع هامش
-    const margin = 20
-    return (
-      pos.x >= margin && pos.x <= windowWidth - 75 - margin && pos.y >= margin && pos.y <= windowHeight - 75 - margin
-    )
-  }
+  //   const margin = 20
+  //   return (
+  //     pos.x >= margin && pos.x <= windowWidth - 75 - margin && pos.y >= margin && pos.y <= windowHeight - 75 - margin
+  //   )
+  // }
 
   // معالجة تغيير حجم النافذة
-  const handleWindowResize = () => {
-    if (position.x !== null && position.y !== null) {
+  // const handleWindowResize = () => {
+  //   if (position.x !== null && position.y !== null) {
       // التحقق من أن الموضع لا يزال صالحًا بعد تغيير الحجم
-      if (!isPositionValid(position)) {
-        resetPosition()
-      }
-    }
-  }
+  //     if (!isPositionValid(position)) {
+  //       resetPosition()
+  //     }
+  //   }
+  // }
 
   // إعادة تعيين الموضع إلى الافتراضي
-  const resetPosition = () => {
-    setPosition({ x: null, y: null })
-    localStorage.removeItem("assistantPosition")
-  }
+  // const resetPosition = () => {
+  //   setPosition({ x: null, y: null })
+  //   localStorage.removeItem("assistantPosition")
+  // }
 
   // تأثير بدء الرسوم المتحركة
   useEffect(() => {
@@ -149,70 +149,70 @@ export function V7FloatingAssistant() {
   }, [isChatOpen])
 
   // تأثير الرسوم المتحركة للنجوم
-  useEffect(() => {
-    let frameId
-    const particles = []
-    const canvas = animationRef.current
+  // useEffect(() => {
+  //   let frameId
+  //   const particles = []
+  //   const canvas = animationRef.current
 
-    if (canvas && isHovered) {
-      const ctx = canvas.getContext("2d")
-      const canvasWidth = canvas.width
-      const canvasHeight = canvas.height
+  //   if (canvas && isHovered) {
+  //     const ctx = canvas.getContext("2d")
+  //     const canvasWidth = canvas.width
+  //     const canvasHeight = canvas.height
 
-      // إنشاء جسيمات جديدة
-      for (let i = 0; i < 5; i++) {
-        particles.push({
-          x: Math.random() * canvasWidth,
-          y: Math.random() * canvasHeight,
-          size: Math.random() * 3 + 1,
-          speedX: Math.random() * 2 - 1,
-          speedY: Math.random() * 2 - 1,
-          color: robotColors.main,
-          alpha: Math.random() * 0.5 + 0.5,
-        })
-      }
+  //     // إنشاء جسيمات جديدة
+  //     // for (let i = 0; i < 5; i++) {
+  //     //   particles.push({
+  //     //     x: Math.random() * canvasWidth,
+  //     //     y: Math.random() * canvasHeight,
+  //     //     size: Math.random() * 3 + 1,
+  //     //     speedX: Math.random() * 2 - 1,
+  //     //     speedY: Math.random() * 2 - 1,
+  //     //     color: robotColors.main,
+  //     //     alpha: Math.random() * 0.5 + 0.5,
+  //     //   })
+  //     // }
 
-      const animate = () => {
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+  //     const animate = () => {
+  //       ctx.clearRect(0, 0, canvasWidth, canvasHeight)
 
-        particles.forEach((particle, index) => {
-          ctx.globalAlpha = particle.alpha
-          ctx.fillStyle = particle.color
-          ctx.beginPath()
-          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-          ctx.fill()
+  //       particles.forEach((particle, index) => {
+  //         ctx.globalAlpha = particle.alpha
+  //         ctx.fillStyle = particle.color
+  //         ctx.beginPath()
+  //         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+  //         ctx.fill()
 
-          particle.x += particle.speedX
-          particle.y += particle.speedY
-          particle.alpha -= 0.01
+  //         particle.x += particle.speedX
+  //         particle.y += particle.speedY
+  //         particle.alpha -= 0.01
 
-          if (particle.alpha <= 0) {
-            particles.splice(index, 1)
+  //         if (particle.alpha <= 0) {
+  //           particles.splice(index, 1)
 
-            if (isHovered) {
-              particles.push({
-                x: Math.random() * canvasWidth,
-                y: Math.random() * canvasHeight,
-                size: Math.random() * 3 + 1,
-                speedX: Math.random() * 2 - 1,
-                speedY: Math.random() * 2 - 1,
-                color: robotColors.main,
-                alpha: Math.random() * 0.5 + 0.5,
-              })
-            }
-          }
-        })
+  //           if (isHovered) {
+  //             particles.push({
+  //               x: Math.random() * canvasWidth,
+  //               y: Math.random() * canvasHeight,
+  //               size: Math.random() * 3 + 1,
+  //               speedX: Math.random() * 2 - 1,
+  //               speedY: Math.random() * 2 - 1,
+  //               color: robotColors.main,
+  //               alpha: Math.random() * 0.5 + 0.5,
+  //             })
+  //           }
+  //         }
+  //       })
 
-        frameId = requestAnimationFrame(animate)
-      }
+  //       frameId = requestAnimationFrame(animate)
+  //     }
 
-      animate()
+  //     animate()
 
-      return () => {
-        cancelAnimationFrame(frameId)
-      }
-    }
-  }, [isHovered])
+  //     return () => {
+  //       cancelAnimationFrame(frameId)
+  //     }
+  //   }
+  // }, [isHovered])
 
   // تحديث تعبير الوجه عند تغير الحالة
   useEffect(() => {
@@ -332,20 +332,20 @@ export function V7FloatingAssistant() {
   }, [isDragging, dragOffset])
 
   // معالجة أحداث اللمس
-  const handleTouchStart = (e) => {
-    if (showPositionControls && e.touches && e.touches[0]) {
-      const touch = e.touches[0]
-      const buttonRect = buttonRef.current.getBoundingClientRect()
-      setDragOffset({
-        x: touch.clientX - buttonRect.left,
-        y: touch.clientY - buttonRect.top,
-      })
-      setIsDragging(true)
+  // const handleTouchStart = (e) => {
+  //   if (showPositionControls && e.touches && e.touches[0]) {
+  //     const touch = e.touches[0]
+  //     const buttonRect = buttonRef.current.getBoundingClientRect()
+  //     setDragOffset({
+  //       x: touch.clientX - buttonRect.left,
+  //       y: touch.clientY - buttonRect.top,
+  //     })
+  //     setIsDragging(true)
 
       // منع السلوك الافتراضي
-      e.preventDefault()
-    }
-  }
+  //     e.preventDefault()
+  //   }
+  // }
 
   const handleTouchMove = (e) => {
     if (isDragging && e.touches && e.touches[0]) {
@@ -446,11 +446,11 @@ export function V7FloatingAssistant() {
 
     // الموضع الافتراضي
     return {
-      position: "fixed",
-      right: "auto",
-      bottom: "70px",
-      left: "30px",
-      top: "auto",
+      position: "relative",
+      right: "100",
+      bottom: "0",
+      left: "auto",
+      top: "50",
     }
   }
 
@@ -465,17 +465,17 @@ export function V7FloatingAssistant() {
           cursor: showPositionControls ? "move" : "pointer",
           transition: isDragging ? "none" : "all 0.3s ease",
         }}
-        className={`${isDragging ? "" : "transition-all duration-500"}`}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
+        // className={`${isDragging ? "" : "transition-all duration-500"}`}
+        // onMouseDown={handleMouseDown}
+        // onTouchStart={handleTouchStart}
         
       >
         <div
           onClick={showPositionControls ? undefined : () => setIsChatOpen(true)}
           onMouseEnter={() => !isDragging && setIsHovered(true)}
           onMouseLeave={() => !isDragging && setIsHovered(false)}
-          className={`relative ${isHovered && !showPositionControls ? "scale-110" : "scale-100"} ${
-            isAnimating ? "animate-float" : ""
+          className={`relative  ${isHovered && !showPositionControls ? " " : " "} ${
+            isAnimating ? "" : ""
           }`}
           style={{
             width: "90px",
@@ -514,7 +514,7 @@ export function V7FloatingAssistant() {
 
           {/* Glow effect around the robot when hovered */}
           <div
-            className={`absolute inset-0 rounded-full transition-opacity duration-300  ${ isHovered ? "opacity-70" : "opacity-0"}
+            className={`absolute inset-0 rounded-full transition-opacity duration-300    ${ isHovered ? "opacity-70" : "opacity-0"}
               `
           }
             style={{
@@ -526,7 +526,7 @@ export function V7FloatingAssistant() {
         </div>
 
         {/* أزرار التحكم في الموضع */}
-        {!isDragging && (
+        {/* {!isDragging && (
           <button
             onClick={handlePositionButtonClick}
             className="absolute -top-2 -right-2 bg-white dark:bg-gray-800 rounded-full p-1.5 shadow-lg border border-blue-300 dark:border-blue-700 transition-all duration-300 hover:scale-105 z-50"
@@ -541,10 +541,10 @@ export function V7FloatingAssistant() {
           >
             <Move className={`w-4 h-4 ${showPositionControls ? "text-blue-600" : ""}`} />
           </button>
-        )}
+        )} */}
 
         {/* زر إعادة تعيين الموضع */}
-        {showPositionControls && !isDragging && (
+        {/* {showPositionControls && !isDragging && (
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -559,13 +559,13 @@ export function V7FloatingAssistant() {
           >
             <RotateCcw className="w-4 h-4 text-blue-600" />
           </button>
-        )}
+        )} */}
       </div>
 
       {/* نص توضيحي */}
       {isHovered && !showPositionControls && !isDragging && (
-        <div
-          className="fixed bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-md text-sm font-medium whitespace-nowrap transition-all duration-300 z-40"
+        <div 
+          className=" right-[6rem] -top-[2rem]  bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-md text-sm font-medium whitespace-nowrap transition-all duration-300 z-40"
           style={{
             ...getPositionStyle(),
             transform: "translate(85px, 20px)",
@@ -581,7 +581,7 @@ export function V7FloatingAssistant() {
       )}
 
       {/* تعليمات تغيير الموضع */}
-      {showPositionControls && !isDragging && (
+      {/* {showPositionControls && !isDragging && (
         <div
           className="fixed bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow-md text-sm font-medium whitespace-nowrap transition-all duration-300 z-40"
           style={{
@@ -596,12 +596,13 @@ export function V7FloatingAssistant() {
           <div className="font-bold mb-1">وضع تغيير الموضع</div>
           <div className="text-xs opacity-80">اسحب الأيقونة لتغيير موضعها</div>
         </div>
-      )}
-
+      )} */}
+      <div className="   top-0">
       <V7AIChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
 
+      </div>
       {/* إضافة تعريف للرسوم المتحركة */}
-      <style jsx global>{`
+      {/* <style jsx global>{`
         @keyframes blink {
           0% { opacity: 0.8; }
           50% { opacity: 0.2; }
@@ -729,7 +730,7 @@ export function V7FloatingAssistant() {
         .pulse-border {
           animation: pulse-border 2s infinite;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }

@@ -1657,15 +1657,10 @@ export default function Returns() {
             <h1 className="text-3xl font-bold text-[#294D8B]">إدارة المرتجعات</h1>
             <p className="text-base text-gry">تتبع وإدارة طلبات الرجيع والمرتجعات</p>
           </div>
-            <div className="flex flex-wrap gap-3">
-              <Button
-                className="bg-[#294D8B] hover:bg-[#1e3b6f] text-white shadow-sm transition-all duration-200 dark:bg-blue-600 dark:hover:bg-blue-700 text-base px-6 py-3"
-                onClick={() => window.open("/replacements/verify-email", "_blank")}
-              >
-                تحقق من بريد الكترونى
-              </Button>
-             
-            </div>
+          <Button className="v7-neu-button gap-1 text-base" onClick={() => setShowCustomizeOptions(true)}>
+            <Share2 className="h-5 w-5" />
+            <span className="hidden sm:inline-block">تخصيص صفحة الإرجاع</span>
+          </Button>
           </div>
           <div className="mb-6">
             <div className="mb-8">

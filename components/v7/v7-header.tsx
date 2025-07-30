@@ -12,6 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import { useGetMyNotificationsQuery, useGetUnreadNotificationsCountQuery, useMarkNotificationAsReadMutation } from "@/app/api/notificationsApi"
@@ -133,7 +135,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
   }
 
   return (
-    <header className="  sticky top-0 z-30 flex h-14 sm:h-16 items-center justify-between v7-neu-header px-3 sm:px-4 md:px-6 mt-2 mb-2 sm:mt-4 sm:mb-4">
+    <header className="   sticky top-0 z-30 flex h-14 sm:h-16 items-center justify-between v7-neu-header px-3 sm:px-4 md:px-6 mt-2 mb-2 sm:mt-4 sm:mb-4">
       <div className="flex items-center gap-2 sm:gap-4">
         <Button
           variant="ghost"
@@ -157,24 +159,23 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
       </div>
 
       <div className="hidden max-w-md flex-1 px-4 sm:px-6 lg:block">
-        <div className={`relative transition-all duration-300 ${searchFocused ? "scale-105" : ""}`}
+        <div className="relative v7-neu-input-container flex-1 min-w-[240px]"
           dir={language === 'ar' ? 'rtl' : 'ltr'}>
           {language === 'ar' ? (
-            <Search className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
+                          <Search className="absolute right-4 top-1/2 h-8 w-4 -translate-y-1/2 text-gry"   />
           ) : (
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
+                          <Search className="absolute right-4 top-1/2 h-8 w-4 -translate-y-1/2 text-gry"   />
           )}
-          <input
-            type="search"
-            placeholder={language === 'ar' ? "البحث عن شحناتك..." : "Search your shipments..."}
-            className={`v7-neu-input w-full ${language === 'ar' ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-sm sm:text-base text-center`}
-            onFocus={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
-            aria-label={language === 'ar' ? "البحث عن شحناتك" : "Search your shipments"}
-            style={{textAlign: 'center'}}
-          />
+                       <input
+                            dir="rtl"
+                              type="search"
+                  placeholder={language === 'ar' ? "البحث عن شحناتك..." : "Search your shipments..."}                              className="v7-neu-input w-full pr-12 pe-4 text-gry  text-base "
+                                    onFocus={() => setSearchFocused(true)}
+                                          onBlur={() => setSearchFocused(false)}
+                                                                              aria-label={language === 'ar' ? "البحث عن شحناتك" : "Search your shipments"}
+                            />
+                            </div>
         </div>
-      </div>
 
       <div className="flex items-center gap-1 sm:gap-3 md:gap-4">
         <DropdownMenu>
@@ -404,6 +405,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
                   aria-label="البحث عن شحناتك"
                 />
               </div>
+              
               <Button variant="ghost" size="sm" onClick={() => setMobileSearchOpen(false)} className="text-gry">
                 إلغاء
               </Button>

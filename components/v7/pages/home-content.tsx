@@ -289,21 +289,55 @@ export function HomeContent({ theme = "light" }: { theme?: "light" | "dark" }) {
           stats={[
             {
               label: "طلبات اليوم",
-              value: ordersLoading ? "..." : todayOrders.length.toString(),
               type: "طلب",
+              value:shipmentStatsLoading ? (
+                "..."
+              ) : (
+                <span className="flex items-center justify-end gap-1">
+                  <span>
+                    {todayOrders?.length?.toString()}
+                  </span>
+                  <span>طلب</span>
+                  {/* <MdOutlinePendingActions className='w-6 h-6 text-yellow-500' /> */}
+                </span>
+              )
+              
             },
             {
               label: "جميع الطلبات",
-              value: ordersLoading
-                ? "..."
-                : ordersData?.data.length?.toString() ?? "-",
               type: "طلب",
+              value:shipmentStatsLoading ? (
+                "..."
+              ) : (
+                <span className="flex items-center justify-end gap-1">
+                  <span>
+                    {ordersData?.data?.length?.toString()}
+                  </span>
+                  <span>طلب</span>
+                  {/* <MdOutlinePendingActions className='w-6 h-6 text-yellow-500' /> */}
+                </span>
+              )
+              
+              
+              
+    
             },
             {
               label: "الطلبات المعلقة",
-              value: ordersLoading ? "..." : pendingOrdersCount.toString(),
               type: "طلب",
+              value: shipmentStatsLoading ? (
+                "..."
+              ) : (
+                <span className="flex items-center justify-end gap-1">
+                  <span>
+                    {ordersLoading?.pendingOrdersCount?.toString()}
+                  </span>
+                  <span>طلب</span>
+                  {/* <MdOutlinePendingActions className='w-6 h-6 text-yellow-500' /> */}
+                </span>
+              )
               // progress: 85,
+              
             },
           ]}
         />

@@ -56,26 +56,27 @@ export function CustomTrackingContent() {
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="companyName">اسم الشركة</Label>
+                  <Label htmlFor="companyName" className="text-lg text-black/90">اسم الشركة</Label>
                   <Input
                     id="companyName"
                     value={trackingSettings.companyName}
                     onChange={(e) => handleSettingChange("companyName", e.target.value)}
+                    className=" text-black/90 text-lg"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>عناصر الصفحة</Label>
+                <Label className=" text-black/90 text-xl">عناصر الصفحة</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center justify-between p-3 border rounded-md">
+                  <div className="flex items-center justify-between p-3  rounded-md">
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <div className="h-8 w-8 rounded-md bg-[#3498db]/10 flex items-center justify-center">
                         <Monitor className="h-4 w-4 text-[#3498db]" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">إظهار الهيدر</p>
-                        <p className="text-xs text-gry">شعار وعنوان الصفحة</p>
+                        <p className="font-medium text-black/90 text-xl">إظهار الهيدر</p>
+                        <p className="text-sm text-gry">شعار وعنوان الصفحة</p>
                       </div>
                     </div>
                     <Switch
@@ -84,14 +85,14 @@ export function CustomTrackingContent() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between p-3 border rounded-md">
+                  <div className="flex items-center justify-between p-3  rounded-md">
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <div className="h-8 w-8 rounded-md bg-[#3498db]/10 flex items-center justify-center">
                         <Monitor className="h-4 w-4 text-[#3498db]" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">إظهار الفوتر</p>
-                        <p className="text-xs text-gry">معلومات الاتصال والحقوق</p>
+                        <p className="font-medium text-black/90 text-xl">إظهار الفوتر</p>
+                        <p className="text-sm text-gry">معلومات الاتصال والحقوق</p>
                       </div>
                     </div>
                     <Switch
@@ -100,14 +101,14 @@ export function CustomTrackingContent() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between p-3 border rounded-md">
+                  <div className="flex items-center justify-between p-3  rounded-md">
                     <div className="flex items-center space-x-2 space-x-reverse">
                       <div className="h-8 w-8 rounded-md bg-[#3498db]/10 flex items-center justify-center">
                         <Truck className="h-4 w-4 text-[#3498db]" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">إظهار الجدول الزمني</p>
-                        <p className="text-xs text-gry">مراحل توصيل الشحنة</p>
+                        <p className="font-medium text-black/90 text-xl">إظهار الجدول الزمني</p>
+                        <p className="text-sm text-gry">مراحل توصيل الشحنة</p>
                       </div>
                     </div>
                     <Switch
@@ -224,10 +225,10 @@ export function CustomTrackingContent() {
     >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <Card className="v7-neu-card overflow-hidden">
-            <CardHeader className="border-b bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
-              <CardTitle className="text-[#3498db] text-lg md:text-xl">إعدادات التخصيص</CardTitle>
-              <CardDescription className="text-gry">قم بتخصيص مظهر صفحة التتبع لعملائك</CardDescription>
+          <Card className="v7-neu-card overflow-hidden border-none">
+            <CardHeader className=" bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
+              <CardTitle className="text-[#3498db] text-lg md:text-2xl font-extralight">إعدادات التخصيص</CardTitle>
+              <CardDescription className="text-gry text-xl">قم بتخصيص مظهر صفحة التتبع لعملائك</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               {/* New Tab Navigation Style */}
@@ -235,9 +236,9 @@ export function CustomTrackingContent() {
                 <div className="flex justify-between items-center rounded-full overflow-hidden">
                   <button
                     onClick={() => setActiveTab("general")}
-                    className={`flex-1 py-3 px-4 text-center font-medium text-sm transition-all ${
+                    className={`flex-1 py-3 px-4 text-center font-medium text-sm transition-all  ${
                       activeTab === "general"
-                        ? "bg-white text-[#3498db] rounded-full shadow-sm"
+                        ? "bg-[#eaf4fb] text-[#3498db] rounded-full shadow-sm"
                         : "text-gray-500 hover:text-gray-700"
                     }`}
                   >
@@ -248,24 +249,14 @@ export function CustomTrackingContent() {
                     onClick={() => setActiveTab("appearance")}
                     className={`flex-1 py-3 px-4 text-center font-medium text-sm transition-all ${
                       activeTab === "appearance"
-                        ? "bg-white text-[#3498db] rounded-full shadow-sm"
+                        ? "bg-[#eaf4fb] text-[#3498db] rounded-full shadow-sm"
                         : "text-gray-500 hover:text-gray-700"
                     }`}
                   >
                     <Palette className="h-4 w-4 mx-auto mb-1" />
                     المظهر
                   </button>
-                  <button
-                    onClick={() => setActiveTab("advanced")}
-                    className={`flex-1 py-3 px-4 text-center font-medium text-sm transition-all ${
-                      activeTab === "advanced"
-                        ? "bg-white text-[#3498db] rounded-full shadow-sm"
-                        : "text-gray-500 hover:text-gray-700"
-                    }`}
-                  >
-                    <Code className="h-4 w-4 mx-auto mb-1" />
-                    متقدم
-                  </button>
+                
                 </div>
               </div>
 
@@ -276,14 +267,14 @@ export function CustomTrackingContent() {
 
         <div className="lg:col-span-1">
           <div className="space-y-6">
-            <Card className="v7-neu-card">
-              <CardHeader className="border-b bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
-                <CardTitle className="text-[#3498db] text-lg">معاينة</CardTitle>
-                <CardDescription className="text-gry">شكل صفحة التتبع</CardDescription>
+            <Card className="v7-neu-card border-none">
+              <CardHeader className=" bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
+                <CardTitle className="text-[#3498db] text-2xl">معاينة</CardTitle>
+                <CardDescription className="text-gry text-lg">شكل صفحة التتبع</CardDescription>
               </CardHeader>
               <CardContent className="p-4 md:p-6">
-                <div className="border rounded-md overflow-hidden">
-                  <div className="bg-[#f8f9fa] p-2 border-b flex items-center justify-between">
+                <div className="border-none rounded-md overflow-hidden">
+                  <div className="bg-[#f8f9fa] p-2 border-none flex items-center justify-between">
                     <div className="flex items-center space-x-1 space-x-reverse">
                       <div className="h-2 w-2 rounded-full bg-red-500"></div>
                       <div className="h-2 w-2 rounded-full bg-yellow-500"></div>
@@ -295,7 +286,7 @@ export function CustomTrackingContent() {
                     <div className="flex flex-col h-full">
                       {trackingSettings.showHeader && (
                         <div
-                          className="border-b p-2 flex items-center justify-between"
+                          className=" p-2 flex items-center justify-between"
                           style={{ backgroundColor: trackingSettings.secondaryColor }}
                         >
                           <div className="flex items-center space-x-2 space-x-reverse">
@@ -306,17 +297,17 @@ export function CustomTrackingContent() {
                                 className="w-full h-full object-contain"
                               />
                             </div>
-                            <div className="text-xs font-medium">{trackingSettings.companyName}</div>
+                            <div className="text-lg text-black/90 font-medium">{trackingSettings.companyName}</div>
                           </div>
                         </div>
                       )}
 
                       <div className="flex-1 p-2 flex flex-col space-y-2 overflow-hidden">
                         <div className="bg-[#f8f9fa] rounded p-2 text-xs">
-                          <div className="font-medium">
+                          <div className="font-normal text-base text-black/90">
                             رقم التتبع: <span className="text-[#3498db]">SE123456789SA</span>
                           </div>
-                          <div className="text-gry text-[10px]">تم الشحن: 15 أبريل 2023</div>
+                          <div className="text-gry text-base">تم الشحن: 15 أبريل 2023</div>
                         </div>
 
                         {trackingSettings.showTimeline && (
@@ -340,7 +331,7 @@ export function CustomTrackingContent() {
 
                       {trackingSettings.showFooter && (
                         <div
-                          className="border-t p-1 flex justify-center"
+                          className=" p-1 flex justify-center"
                           style={{ backgroundColor: trackingSettings.secondaryColor }}
                         >
                           <div className="text-[10px] text-gry">
@@ -353,15 +344,15 @@ export function CustomTrackingContent() {
                 </div>
 
                 <div className="mt-4 flex justify-between">
-                  <Button variant="outline" size="sm" className="text-xs">
+                  <Button variant="outline" size="sm" className="text-xs border-none v7-neu-card">
                     <Smartphone className="h-3 w-3 mr-1" />
                     موبايل
                   </Button>
-                  <Button variant="outline" size="sm" className="text-xs">
+                  <Button variant="outline" size="sm" className="text-xs border-none v7-neu-card">
                     <Monitor className="h-3 w-3 mr-1" />
                     ديسكتوب
                   </Button>
-                  <Button variant="outline" size="sm" className="text-xs">
+                  <Button variant="outline" size="sm" className="text-xs border-none v7-neu-card">
                     <ExternalLink className="h-3 w-3 mr-1" />
                     معاينة كاملة
                   </Button>
@@ -369,14 +360,14 @@ export function CustomTrackingContent() {
               </CardContent>
             </Card>
 
-            <Card className="v7-neu-card">
-              <CardHeader className="border-b bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
+            <Card className="v7-neu-card border-none">
+              <CardHeader className=" bg-[#EFF2F7] dark:bg-gray-900 p-4 md:p-6">
                 <CardTitle className="text-[#3498db] text-lg">كود التضمين</CardTitle>
                 <CardDescription className="text-gry">أضف كود التتبع إلى موقعك</CardDescription>
               </CardHeader>
               <CardContent className="p-4 md:p-6">
-                <div className="space-y-4">
-                  <div className="relative">
+                <div className="space-y-4 ">
+                  <div className="relative ">
                     <Textarea value={trackingSettings.embedCode} readOnly className="font-mono text-xs h-24 pr-2" />
                     <Button size="sm" variant="ghost" className="absolute top-2 left-2" onClick={handleCopyCode}>
                       {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
@@ -389,7 +380,7 @@ export function CustomTrackingContent() {
                     بالشحنة.
                   </p>
 
-                  <Button className="w-full" onClick={handleCopyCode}>
+                  <Button className="w-full text-white " onClick={handleCopyCode}>
                     {copied ? <Check className="h-4 w-4 mr-2" /> : <Copy className="h-4 w-4 mr-2" />}
                     نسخ الكود
                   </Button>

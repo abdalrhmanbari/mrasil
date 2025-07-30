@@ -77,7 +77,7 @@ export function WebhooksContent() {
   const webhook = { active: webhookStatus?.isEnabled ?? false }
 
   return (
-    <div className="space-y-6 rtl">     
+    <div className="space-y-6 rtl ">     
         <h1 className="text-3xl font-bold tracking-tight">توصيل المتاجر</h1>
         <p className="text-muted-foreground text-lg">
           قم بتوصيل متجرك الإلكتروني بمنصة الشحن لإدارة الطلبات والشحنات بشكل تلقائي
@@ -86,15 +86,12 @@ export function WebhooksContent() {
 
       
 
-      <Card className="v7-neu-card dark:bg-gray-800/50 ">
-        <CardHeader>
-          {/* <CardTitle className="text-xl dark:text-gray-200">متاجر أخرى</CardTitle>
-          <CardDescription className="dark:text-gray-400 text-lg">قم بتوصيل منصات التجارة الإلكترونية الأخرى بمنصة الشحن</CardDescription> */}
-        </CardHeader>
+      <Card className="v7-neu-card dark:bg-gray-800/50  border-none">
+        
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
             <div className="flex-1">
-              <Card className="v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
+              <Card className="border-none  v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
                     <Image src="/shopify-logo.png" alt="Shopify" width={40} height={40} className="dark:invert" />
@@ -145,7 +142,7 @@ export function WebhooksContent() {
             </div>
 
             <div className="flex-1">
-              <Card className="v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
+              <Card className=" border-none v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
                     <Image src="/woocommerce-logo.png" alt="WooCommerce" width={40} height={40} className="dark:invert" />
@@ -158,7 +155,7 @@ export function WebhooksContent() {
             </div>
 
             <div className="flex-1">
-              <Card className="v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
+              <Card className="border-none v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
                     <Image src="/Zid.svg" alt="زد" width={40} height={40} className="dark:invert" />
@@ -180,54 +177,13 @@ export function WebhooksContent() {
               </Card>
             </div>
             <div className="flex-1">
-             <Card className=" v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
-        <CardContent className="flex flex-col items-center justify-center p-6">
-                  <div className=" flex flex-col rounded-full bg-gray-100 dark:bg-gray-700  gap-4 items-center justify-center mb-4">
-            <div className="flex items-center gap-3 mb-auto ">
-              <Switch 
-                checked={webhook.active} 
-                onCheckedChange={async (checked) => {
-                  try {
-                    await updateWebhook({
-                      webhookUrl,
-                      isEnabled: checked,
-                    }).unwrap()
-                    toast.success(checked ? "تم تفعيل الويب هوك" : "تم إيقاف الويب هوك")
-                  } catch (error) {
-                    toast.error("حدث خطأ أثناء تحديث حالة الويب هوك")
-                  }
-                }} 
-                className="scale-150"
-                disabled={isUpdating || isLoadingStatus}
-              />
-              <Badge
-                variant="outline"
-                className={`text-base ${
-                  webhook.active
-                    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                    : "bg-slate-50 text-slate-700 border-slate-200"
-                }`}
-              >
-                {webhook.active ? "نشط" : "غير نشط"}
-              </Badge>
-            </div>
-            
-            <div className="flex-1 w-full">
-              <div className="flex items-center justify-center mb-6">
-                <div className="flex items-center gap-6">
-                  <h2 className="text-lg ">الربط مع سلة</h2>
-                  <div className="w-20 h-20 relative">
-                    <div className="v7-neu-card-inner rounded-xl flex items-center justify-center w-full h-full">
-                      <Image src="/salla.svg" alt="سلة" width={50} height={50} />
-                    </div>
+             <Card className="border-none v7-neu-card-inner h-full dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-600 transition-colors">
+            <CardContent className="flex flex-col items-center justify-center p-6">
+                  <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4">
+                    <Image src="/salla.svg" alt="سلة" width={60} height={60} className="dark:invert" />
                   </div>
-                </div>
-              </div>
-              
-              <p className="mb-6 leading-relaxed text-lg">
-               
-              </p>
-              <div className="mb-6 flex justify-center">
+                  <h3 className="font-medium dark:text-gray-200 text-2xl">زد</h3>
+                  <p className="text-base text-gray-500 dark:text-gray-400 text-center mt-2">قم بتوصيل متجر سلة الخاص بك</p>
                 <Button
                   type="button"
                   onClick={handleManualGetAuthUrl}
@@ -236,54 +192,8 @@ export function WebhooksContent() {
                 >
                   {isAuthLoading ? (
                     <Loader2 className="animate-spin h-6 w-6 ml-2" />
-                  ) : (
-                    <Image src="/salla.svg" alt="سلة" width={20} height={15} className="ml-2" />
-                  )}
-                  ربط مع سلة
+                  ) :  " توصيل"}
                 </Button>
-              </div>
-
-              <div className="space-y-4 w-full">
-                <div className="space-y-2">
-                  <label className="block font-medium ">رابط سلة</label>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={copyToken}
-                      className="h-12 w-12"
-                    >
-                      <FileText className="h-6 w-6" />
-                    </Button>
-                    <Input value={sallaToken} readOnly className="font-mono text-base border-gray-200 " />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block font-medium text-sm">Webhook URL</label>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      onClick={handleUpdateWebhook}
-                      className="bg-[#e74c3c] hover:bg-[#c0392b] text-white flex-shrink-0 text-sm py-3 px-6"
-                      disabled={isUpdating || isLoadingStatus}
-                    >
-                      {isUpdating ? <Loader2 className="animate-spin h-5 w-5 mr-2" /> : null}
-                      تحديث
-                    </Button>
-                    <Input
-                      value={webhookUrl}
-                      onChange={(e) => setWebhookUrl(e.target.value)}
-                      className="font-mono border-gray-200 text-sm h-12"
-                      placeholder="أدخل رابط الويب هوك هنا"
-                      disabled={isLoadingStatus}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
             </div>

@@ -215,8 +215,8 @@ export const V7Layout = ({ children, theme = "light" }: V7LayoutProps) => {
       } transition-all duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
     >
       <V7Header onMenuClick={() => setSidebarOpen(true)} onThemeToggle={handleThemeToggle} theme={currentTheme} />
-      <div className="flex flex-1 w-full overflow-x-hidden">
-        <V7Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} theme={currentTheme} />
+      <div className="flex flex-1 w-full  overflow-x-hidden">
+        <V7Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} theme={currentTheme}  />
         <main className={`flex-1 w-0 min-w-0 transition-all duration-300 ${isDarkMode ? "v7-dark" : "v7-light"}`}>
           {!isHomePage && (
             <div className={`border-b ${isDarkMode ? "border-gray-800" : "border-gray-200"}`}>
@@ -319,8 +319,8 @@ export const V7Layout = ({ children, theme = "light" }: V7LayoutProps) => {
           </div>
         </main>
       </div>
-      <V7MobileNav theme={currentTheme} />
-      <V7FloatingAssistant />
+      {/* <V7MobileNav theme={currentTheme} /> */}
+      {/* <V7FloatingAssistant /> */}
     </div>
   )
 }

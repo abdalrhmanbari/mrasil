@@ -14,6 +14,7 @@ import { TransactionsTable } from "./transactions-table"
 import { useGetMyWalletQuery, useGetPaymentStatusQuery } from "@/app/api/walletApi"
 import { useGetMyTransactionsQuery } from "@/app/api/transicationApi"
 import RechargeWalletDialog from "./RechargeWalletDialog"
+import PaymentForm from "../parcels/components/PaymentForm"
 
 // تحديث ألوان الحالات في payments-content
 const getStatusBadgeClass = (status: string) => {
@@ -136,35 +137,35 @@ export function PaymentsContent() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3 mb-6">
-          <Card className="v7-neu-card-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <CardHeader className="pb-2 bg-white dark:bg-gray-800">
+          <Card className="v7-neu-card dark:bg-gray-800  border-none ">
+            <CardHeader className="pb-2  dark:bg-gray-800 w-full">
               <CardTitle className="text-gray-900 dark:text-gray-100">الرصيد الحالي</CardTitle>
             </CardHeader>
-            <CardContent className="bg-white dark:bg-gray-800">
+            <CardContent className=" dark:bg-gray-800">
               <WalletBalanceCard />
             </CardContent>
           </Card>
 
-          <Card className="v7-neu-card-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <CardHeader className="pb-2 bg-white dark:bg-gray-800">
+          <Card className="v7-neu-card  dark:bg-gray-800 border-none">
+            <CardHeader className="pb-2  dark:bg-gray-800">
               <CardTitle className="text-gray-900 dark:text-gray-100">إجمالي الإيداعات</CardTitle>
             </CardHeader>
-            <CardContent className="bg-white dark:bg-gray-800">
+            <CardContent className=" dark:bg-gray-800">
               <DepositsCard />
             </CardContent>
           </Card>
 
-          <Card className="v7-neu-card-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <CardHeader className="pb-2 bg-white dark:bg-gray-800">
+          <Card className="v7-neu-card  dark:bg-gray-800 border-none">
+            <CardHeader className="pb-2  dark:bg-gray-800">
               <CardTitle className="text-gray-900 dark:text-gray-100">إجمالي المدفوعات</CardTitle>
             </CardHeader>
-            <CardContent className="bg-white dark:bg-gray-800">
+            <CardContent className=" dark:bg-gray-800">
               <PaymentsCard />
             </CardContent>
           </Card>
         </div>
 
-        <Card className="v7-neu-card mb-6 dark:bg-gray-800">
+        <Card className="v7-neu-card mb-6 dark:bg-gray-800 border-none">
           <CardHeader className="bg-[#EFF2F7] dark:bg-gray-700">
             <CardTitle className="dark:text-gray-200">تحليل المدفوعات</CardTitle>
             <CardDescription className="dark:text-gray-400">الإيرادات والمصروفات خلال العام الحالي</CardDescription>
@@ -175,7 +176,7 @@ export function PaymentsContent() {
         </Card>
 
         {/* Payment Status Search Card */}
-        <Card className="mb-6 w-full">
+        <Card className="mb-6 w-full border-none">
           <CardHeader>
             <CardTitle>بحث عن حالة الدفع</CardTitle>
             <CardDescription>أدخل رقم العملية (ID) لعرض حالة الدفع</CardDescription>
@@ -190,7 +191,7 @@ export function PaymentsContent() {
               />
               <Button
                 type="submit"
-                className="w-full md:w-auto bg-[#294D8B] hover:bg-[#1e3766] text-white font-bold rounded-lg px-6 py-2 transition-colors duration-200"
+                className="w-full md:w-auto bg-[#294D8B] hover:bg-[#1e3766] hover:border-none text-white font-bold rounded-lg px-6 py-2 transition-colors duration-200"
               >
                 بحث
               </Button>
@@ -210,7 +211,7 @@ export function PaymentsContent() {
                   <CardDescription>تفاصيل العملية</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                     <div><span className="font-semibold">رقم العملية (ID):</span> {paymentStatusData.payment.id}</div>
                     <div><span className="font-semibold">المبلغ:</span> {paymentStatusData.payment.amount_format}</div>
                     <div><span className="font-semibold">العملة:</span> {paymentStatusData.payment.currency}</div>
@@ -239,7 +240,6 @@ export function PaymentsContent() {
                 المعاملات المالية
               </TabsTrigger>
             </TabsList>
-
             <TabsContent value="transactions" className="mt-6">
               <TransactionsTable />
             </TabsContent>

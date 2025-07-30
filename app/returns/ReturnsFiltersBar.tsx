@@ -87,10 +87,7 @@ const ReturnsFiltersBar: React.FC<ReturnsFiltersBarProps> = ({
             <span className="hidden sm:inline-block">تصدير</span>
           </Button>
           {/* Customize returns page button */}
-          <Button className="v7-neu-button gap-1 text-base" onClick={() => setShowCustomizeOptions(true)}>
-            <Share2 className="h-5 w-5" />
-            <span className="hidden sm:inline-block">تخصيص صفحة الإرجاع</span>
-          </Button>
+
         </div>
       </div>
       {selectedReturns.length > 0 && (
