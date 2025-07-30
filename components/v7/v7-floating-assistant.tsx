@@ -406,14 +406,14 @@ export function V7FloatingAssistant() {
       const notification = document.createElement("div")
       notification.textContent = "تم حفظ الموضع"
       notification.style.position = "fixed"
-      notification.style.bottom = "20px"
+      notification.style.top = "0"
       notification.style.left = "50%"
       notification.style.transform = "translateX(-50%)"
       notification.style.backgroundColor = "#1C2C4E"
       notification.style.color = "white"
       notification.style.padding = "8px 16px"
       notification.style.borderRadius = "8px"
-      notification.style.zIndex = "9999"
+      notification.style.zIndex = "999"
       notification.style.opacity = "0"
       notification.style.transition = "opacity 0.3s ease"
 
@@ -447,16 +447,17 @@ export function V7FloatingAssistant() {
     // الموضع الافتراضي
     return {
       position: "fixed",
-      right: "24px",
-      bottom: "24px",
-      left: "auto",
+      right: "auto",
+      bottom: "70px",
+      left: "30px",
       top: "auto",
     }
   }
 
   return (
-    <>
+    <div className=" ">
       <div
+      
         ref={buttonRef}
         style={{
           ...getPositionStyle(),
@@ -467,6 +468,7 @@ export function V7FloatingAssistant() {
         className={`${isDragging ? "" : "transition-all duration-500"}`}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
+        
       >
         <div
           onClick={showPositionControls ? undefined : () => setIsChatOpen(true)}
@@ -491,15 +493,16 @@ export function V7FloatingAssistant() {
               backgroundColor: "transparent",
               borderRadius: "16px",
               overflow: "hidden",
-              zIndex: 1,
+              zIndex: 99,
               top: "0",
+
               left: "0",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
               transition: "all 0.3s ease",
-              // transform: isAnimating ? "translateY(-3px)" : isHovered ? "translateY(-2px)" : "translateY(0)",
+              transform: isAnimating ? "translateY(-3px)" : isHovered ? "translateY(-2px)" : "translateY(0)",
             }}
           >
             {/* Robot head */}
@@ -727,6 +730,6 @@ export function V7FloatingAssistant() {
           animation: pulse-border 2s infinite;
         }
       `}</style>
-    </>
+    </div>
   )
 }

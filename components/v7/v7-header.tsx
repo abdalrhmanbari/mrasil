@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation"
 import { useGetMyNotificationsQuery, useGetUnreadNotificationsCountQuery, useMarkNotificationAsReadMutation } from "@/app/api/notificationsApi"
 import { useGetProfileQuery } from "@/app/api/profileApi"
 import { useAuth } from "@/app/providers/AuthProvider"
+import { V7FloatingAssistant } from "./v7-floating-assistant"
 
 interface V7HeaderProps {
   onMenuClick: () => void
@@ -132,7 +133,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 sm:h-16 items-center justify-between v7-neu-header px-3 sm:px-4 md:px-6 mt-2 mb-2 sm:mt-4 sm:mb-4">
+    <header className="  sticky top-0 z-30 flex h-14 sm:h-16 items-center justify-between v7-neu-header px-3 sm:px-4 md:px-6 mt-2 mb-2 sm:mt-4 sm:mb-4">
       <div className="flex items-center gap-2 sm:gap-4">
         <Button
           variant="ghost"
@@ -222,7 +223,7 @@ export function V7Header({ onMenuClick, onThemeToggle, theme: propTheme }: V7Hea
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
+               
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
