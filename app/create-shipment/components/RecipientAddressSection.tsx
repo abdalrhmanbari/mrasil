@@ -125,7 +125,7 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
   const displayedRecipientCards = showAllRecipients ? filteredRecipientCards : filteredRecipientCards.slice(0, 6);
 
   return (
-    <motion.div variants={staggerChildren}>
+    <motion.div variants={staggerChildren} >
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-semibold text-[#1a365d]">اختر المستلم</h2>
       </div>
@@ -143,13 +143,13 @@ export function RecipientAddressSection({ selectedRecipient, setSelectedRecipien
             style={{ direction: 'rtl', fontFamily: 'inherit' }}
           />
         </div>
-        <Button
+        <button
           type="button"
           onClick={() => setOpenRecipientModal(true)}
-          className="v7-neu-button-accent bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-8 py-2 rounded-lg text-white font-bold flex items-center gap-2"
+          className="v7-neu-button-accent  bg-gradient-to-r from-[#3498db] to-[#2980b9] hover:from-[#2980b9] hover:to-[#3498db] transition-all duration-300 px-8 py-2 rounded-lg text-white font-bold flex items-center gap-2"
         >
            + عنوان  مستلم جديد
-        </Button>
+        </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {displayedRecipientCards.map(card => (

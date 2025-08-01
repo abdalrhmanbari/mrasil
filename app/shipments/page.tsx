@@ -34,11 +34,10 @@ import V7Layout from "@/components/v7/v7-layout"
 
 import { V7ShipmentStatus } from "@/components/v7/v7-shipment-status"
 import { V7Content } from "@/components/v7/v7-content"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { useGetMyShipmentsQuery } from "@/app/api/shipmentApi"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { ShipmentsGrid } from "./components/ShipmentsGrid";
+import { ShipmentsGrid } from "./components/ShipmentsGrid"
 
 type ShipmentStatus = "delivered" | "transit" | "processing" | "ready"
 type ShipmentPriority = "فائق السرعة" | "سريع" | "عادي"

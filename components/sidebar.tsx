@@ -90,9 +90,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
 
   return (
     <>
-      <aside className=" max-h-[20rem] w-64 border-l bg-white shadow-sm md:block">
-        <ScrollArea className="h-[calc(100vh-4rem)]">
-          <div className="flex h-full flex-col gap-1 p-4">
+<aside className="w-64 max-h-screen border-l bg-white shadow-sm md:block">
+  <div className="flex flex-col h-full p-4">
+            <ScrollArea className=" flex-1">
+          <div className="flex  flex-col gap-1 p-4">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -109,7 +110,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               </Link>
             ))}
 
-            <div className="mt-auto">
+           
               <div className="mt-6 rounded-lg bg-accent p-4">
                 <div className="mb-2 text-sm font-medium">تحتاج مساعدة؟</div>
                 <p className="mb-3 text-xs text-muted-foreground">فريق الدعم الفني متاح على مدار الساعة لمساعدتك</p>
@@ -117,10 +118,11 @@ export function Sidebar({ open, onClose }: SidebarProps) {
                   <Headphones className="mr-2 h-4 w-4" />
                   تواصل معنا
                 </Button>
-              </div>
+              
             </div>
           </div>
         </ScrollArea>
+        </div>
       </aside>
       <Sheet open={open} onOpenChange={onClose}>
         <SheetContent side="right" className="w-64 p-0">
@@ -161,6 +163,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           </ScrollArea>
         </SheetContent>
       </Sheet>
+      
     </>
   )
 }

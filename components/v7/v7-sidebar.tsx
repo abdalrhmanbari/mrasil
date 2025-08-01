@@ -744,6 +744,8 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
                 ))}
               </div>
             </div>
+
+              <V7FloatingAssistant/>
             <div className="mt-6 border-t border-gray-200 dark:border-[#2a3349] pt-4 px-3">
               <button
                 onClick={handleSignOut}

@@ -3,7 +3,7 @@ import { FileText, Package, Shield } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 
-export function OrderSummaryAndFragileTips({ values }: { values: any }) {
+export default function OrderSummaryAndFragileTips({ values }: { values: any }) {
   return (
     <>
 

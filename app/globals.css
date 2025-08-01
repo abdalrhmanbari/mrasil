@@ -1255,7 +1255,7 @@ textarea {
 [dir="rtl"] .v7-neu-card,
 [dir="rtl"] .v7-neu-button,
 [dir="rtl"] .v7-neu-input {
-  box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.1), 4px -4px 8px rgba(255, 255, 255, 0.8);
+  box-shadow: -4px -4px 4px rgba(0, 0, 0, 0.1), -4px 4px 8px rgba(255, 255, 255, 0.8);
 }
 
 [dir="rtl"] .v7-icon-container {

@@ -101,7 +101,7 @@ export function V7ShipmentCard({ shipment,allSelected, selectedShipmentId}: {shi
   const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (!shipment || !shipment._id) {
+  if (!shipment || !shipment._id || typeof shipment !== 'object') {
     return null;
   }
 
@@ -162,7 +162,7 @@ export function V7ShipmentCard({ shipment,allSelected, selectedShipmentId}: {shi
     return shipment.trackingNumber || shipment._id || "";
   };
   const trackingNumber = getTrackingNumber();
-  console.log("data:", shipment);
+  // console.log("data:", shipment);
 
   return (
     <div

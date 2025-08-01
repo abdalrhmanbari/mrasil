@@ -15,7 +15,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex max-h-screen flex-col">
       <Header onMenuClick={() => setSidebarOpen(true)} />
       <div className="flex flex-1  ">
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />

@@ -29,7 +29,7 @@ import { SenderAddressSection } from "./SenderAddressSection"
 import { RecipientAddressSection } from "./RecipientAddressSection"
 import { ParcelSizeSection } from "./ParcelSizeSection"
 import  CarrierCard  from "./CarrierCard";
-import  {OrderSummaryAndFragileTips}  from "./OrderSummaryAndFragileTips";
+import OrderSummaryAndFragileTips from "./OrderSummaryAndFragileTips";
 
 const cities = [
   "الرياض", "جدة", "مكة", "المدينة", "الدمام", "الخبر", "الطائف", "تبوك", "بريدة", "خميس مشيط", "الهفوف", "المبرز", "حفر الباطن", "حائل", "نجران", "الجبيل", "أبها", "ينبع", "عرعر", "عنيزة", "سكاكا", "جازان", "القطيف", "الباحة", "بيشة", "الرس",

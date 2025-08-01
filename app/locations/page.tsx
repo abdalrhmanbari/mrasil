@@ -306,8 +306,8 @@ function AddAddressDialog({ isOpen, onClose, onSave, isSaving }: Omit<AddressDia
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) { onClose(); reset(); }}}>
-      <DialogContent>
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) { onClose(); reset(); }}} >
+      <DialogContent >
         <DialogHeader>
           <DialogTitle>اضافة عنوان جديد</DialogTitle>
           <DialogDescription>
