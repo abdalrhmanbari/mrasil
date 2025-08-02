@@ -560,7 +560,7 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
             <span className="text-base">{currentTranslations.signOut}</span>
           </button>
         </div>
-        <div className=" flex justify-center items-center   ">
+        <div className=" flex justify-center items-center    border-t  border-[#5791F4]/50  ">
 
               <V7FloatingAssistant/>
         </div>
@@ -745,19 +745,21 @@ export function V7Sidebar({ open, onClose, theme }: SidebarProps) {
               </div>
             </div>
 
-              <V7FloatingAssistant/>
             <div className="mt-6 border-t border-gray-200 dark:border-[#2a3349] pt-4 px-3">
               <button
                 onClick={handleSignOut}
                 className={`v7-sidebar-item flex w-full items-center gap-2 sm:gap-3 rounded-xl px-3 py-2.5 sm:py-3 text-sm sm:text-base transition-all ${
                   theme === "dark" ? "hover:bg-[#2a3349] text-[#e05d34]" : "hover:bg-gray-100 text-[#e05d34]"
                 }`}
-              >
+                >
                 <div className="v7-icon-container">
                   <LogOut className="h-6 sm:h-7 w-6 sm:w-7 text-[#e05d34]" />
                 </div>
                 <span className="text-base">{currentTranslations.signOut}</span>
               </button>
+            </div>
+            <div className="  flex items-center justify-center  border-t  border-[#5791F4]/50">
+                <V7FloatingAssistant/>
             </div>
           </ScrollArea>
         </SheetContent>

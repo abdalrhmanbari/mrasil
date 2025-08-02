@@ -56,7 +56,7 @@ export function ParcelSizeSection({ parcelsData, setValue, errors }: ParcelSizeS
   const [customParcel, setCustomParcel] = useState({ title: '', length: '', width: '', height: '', maxWeight: '', price: '', description: '' });
   const [createParcel, { isLoading: isCreatingParcel }] = useCreateParcelMutation();
 
-  const handleCustomParcelFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCustomParcelFormSubmit = async (e: any) => {
     e.preventDefault();
     try {
       await createParcel({
@@ -171,22 +171,78 @@ export function ParcelSizeSection({ parcelsData, setValue, errors }: ParcelSizeS
         );
       })()}
       {/* Custom Parcel Modal */}
-      <Dialog open={customModalOpen} onOpenChange={setCustomModalOpen} >
-        <DialogContent  className=" flex  flex-col gap-8  sm:h-[16rem] w-[40rem]">
-          <DialogHeader>
-            <DialogTitle className=" text-start pt-5">إضافة حجم طرد مخصص</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleCustomParcelFormSubmit} className="space-y-2  grid grid-cols-3 gap-4 ">
-            <Input placeholder="الطول (سم)" type="number" value={customParcel.length} onChange={e => setCustomParcel({ ...customParcel, length: e.target.value })} required />
-            <Input placeholder="العرض (سم)" type="number" value={customParcel.width} onChange={e => setCustomParcel({ ...customParcel, width: e.target.value })} required />
-            <Input placeholder="الارتفاع (سم)" type="number" value={customParcel.height} onChange={e => setCustomParcel({ ...customParcel, height: e.target.value })} required />
-          
-            <DialogFooter className="   ">
-              <Button type="submit" className="bg-blue-500 text-white  w-[20rem]" disabled={isCreatingParcel}>{isCreatingParcel ? 'جاري الإضافة...' : 'إضافة'}</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <Dialog open={customModalOpen} onOpenChange={setCustomModalOpen}>
+  <DialogContent className="flex flex-col gap-8 sm:h-[16rem] w-[40rem]">
+    <DialogHeader>
+      <DialogTitle className="text-start pt-5">إضافة حجم طرد مخصص</DialogTitle>
+    </DialogHeader>
+
+    <div className="space-y-2 grid grid-cols-3 gap-4">
+      <Input
+        placeholder="الطول (سم)"
+        type="number"
+        value={customParcel.length}
+        onChange={(e) => setCustomParcel({ ...customParcel, length: e.target.value })}
+        required
+      />
+      <Input
+        placeholder="العرض (سم)"
+        type="number"
+        value={customParcel.width}
+        onChange={(e) => setCustomParcel({ ...customParcel, width: e.target.value })}
+        required
+      />
+      <Input
+        placeholder="الارتفاع (سم)"
+        type="number"
+        value={customParcel.height}
+        onChange={(e) => setCustomParcel({ ...customParcel, height: e.target.value })}
+        required
+      />
+
+      {/* زر الإرسال بدون فورم */}
+      <div className="col-span-3 flex justify-end mt-4 w-32">
+        <Button 
+          type="button"
+          className="bg-blue-500 text-white w-full text-lg"
+          disabled={isCreatingParcel}
+          onClick={async () => {
+            try {
+              await createParcel({
+                title: customParcel.title,
+                dimensions: {
+                  length: Number(customParcel.length),
+                  width: Number(customParcel.width),
+                  height: Number(customParcel.height),
+                },
+                maxWeight: customParcel.maxWeight ? Number(customParcel.maxWeight) : undefined,
+                price: customParcel.price ? Number(customParcel.price) : undefined,
+                description: customParcel.description,
+                isPublic: false,
+              }).unwrap();
+
+              setCustomModalOpen(false);
+              setCustomParcel({
+                title: '',
+                length: '',
+                width: '',
+                height: '',
+                maxWeight: '',
+                price: '',
+                description: '',
+              });
+            } catch (err) {
+              console.error("فشل إنشاء الطرد:", err);
+            }
+          }}
+        >
+          {isCreatingParcel ? 'جاري الإضافة...' : 'إضافة'}
+        </Button>
+      </div>
+    </div>
+  </DialogContent>
+</Dialog>
+
     </>
   );
 } 

@@ -253,7 +253,7 @@ export function AddRecipientForm({
                                     <span className=" text-red-500">*</span>
             </Label>
             <Select onValueChange={handleCityChange} value={form.city} >
-              <SelectTrigger id="city" className={cn(" v7-neu-input text-[#1A5889] bg-transparent border-none shadow-none outline-none text-base w-full") } >
+              <SelectTrigger id="city" className={cn(" v7-neu-input-input text-[#1A5889] bg-transparent border-none  outline-none text-base w-full") } >
                 <SelectValue placeholder="اختر الدولة" className="  "/>
               </SelectTrigger>
               <SelectContent className=" bg-white max-h-48 overflow-y-auto border border-gray-200 shadow-lg rounded-lg custom-scrollbar ">
@@ -295,7 +295,7 @@ export function AddRecipientForm({
                                     <span className=" text-red-500">*</span>
             </Label>
             <Select onValueChange={handleCityChange} value={form.city} >
-              <SelectTrigger id="city" className={cn(" v7-neu-input text-[#1A5889] bg-transparent border-none shadow-none outline-none text-base w-full") } >
+              <SelectTrigger id="city" className={cn(" v7-neu-input-input text-[#1A5889] bg-transparent border-none  outline-none text-base w-full") } >
                 <SelectValue placeholder="اختر المدينة" className=" text-[#1A5889] "/>
               </SelectTrigger>
               <SelectContent className="bg-white max-h-48 overflow-y-auto border border-gray-200 shadow-lg rounded-lg custom-scrollbar ">

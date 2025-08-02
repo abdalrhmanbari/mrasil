@@ -244,10 +244,10 @@ const [weightFocusedAA, setWeightFocusedAA] = useState(false);
 
                   </Label>
                   <Select onValueChange={handleCityChange} value={form.city} required >
-                    <SelectTrigger id="city" className={cn(" v7-neu-input text-[#1A5889] bg-transparent border-none shadow-none outline-none text-base w-full") } >
+                    <SelectTrigger id="city" className={cn(" v7-neu-input-input  text-[#1A5889] bg-transparent border-none shadow-md outline-none text-base w-full") } >
                       <SelectValue placeholder="اختر الدولة" className="  "/>
                     </SelectTrigger>
-                    <SelectContent className=" bg-white max-h-48 overflow-y-auto border border-gray-200 shadow-lg rounded-lg custom-scrollbar ">
+                    <SelectContent className="  bg-white max-h-48 overflow-y-auto border border-gray-200 shadow-lg rounded-lg custom-scrollbar ">
                                     <div className= " mt-2 relative flex-1">
                 <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gry" />
                 <input
@@ -286,7 +286,7 @@ const [weightFocusedAA, setWeightFocusedAA] = useState(false);
                                           <span className=" text-red-500">*</span>
                   </Label>
                   <Select onValueChange={handleCityChange} value={form.city} >
-                    <SelectTrigger id="city" className={cn(" v7-neu-input text-[#1A5889] bg-transparent border-none shadow-none outline-none text-base w-full") } >
+                    <SelectTrigger id="city" className={cn(" v7-neu-input-input  text-[#1A5889] bg-transparent border-none shadow-none outline-none text-base w-full") } >
                       <SelectValue placeholder="اختر المدينة" className=" text-[#1A5889] "/>
                     </SelectTrigger>
                     <SelectContent className="bg-white max-h-48 overflow-y-auto border border-gray-200 shadow-lg rounded-lg custom-scrollbar ">
@@ -295,7 +295,7 @@ const [weightFocusedAA, setWeightFocusedAA] = useState(false);
                                       <input
                                       dir="rtl"
                                         type="search"
-                                        className="v7-neu-input w-full  py-2 text-sm"
+                                        className=" v7-neu-input w-full  py-2 text-sm"
                                         autoFocus
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
